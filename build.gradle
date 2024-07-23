@@ -23,6 +23,8 @@ dependencies {
 
     // Lombok
     implementation 'org.projectlombok:lombok'
+    annotationProcessor     'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -45,7 +47,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     // MySQL
-//    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

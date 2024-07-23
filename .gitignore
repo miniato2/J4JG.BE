@@ -2,6 +2,9 @@
 application.yml
 HELP.md
 
+### ENV ###
+.env
+
 ### GRADLE ###
 .gradle/
 build/
