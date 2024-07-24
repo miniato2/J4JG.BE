@@ -7,10 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
 import ott.j4jg_be.application.port.in.SampleUseCase;
-import ott.j4jg_be.adapter.out.persistence.entity.SampleEntity;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor

@@ -1,0 +1,4 @@
+육사오,645
+나이트,night,knight
+포켓몬스터,pokemon,pocketmonster
+에브리띵,에브리씽,everything
