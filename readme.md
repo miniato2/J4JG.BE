@@ -5,7 +5,7 @@ mysql 실행
 ```text
 mysql
 
-docoker-compose up -d
+docker-compose up -d
 
 ```
 
