@@ -2,7 +2,7 @@ package ott.j4jg_be.application.service;
 
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
-import ott.j4jg_be.adapter.out.persistence.entity.SampleEntity;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 import ott.j4jg_be.application.port.in.SampleUseCase;
 import ott.j4jg_be.application.port.out.SamplePort;
 import ott.j4jg_be.config.framework.db.ReadOnly;

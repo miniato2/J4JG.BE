@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.out.persistence.entity;
+package ott.j4jg_be.adapter.out.persistence.entity.jpa;
 
 
 import jakarta.persistence.Entity;

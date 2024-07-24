@@ -1,9 +1,9 @@
-package ott.j4jg_be.adapter.out.persistence.adapter;
+package ott.j4jg_be.adapter.out.persistence.adapter.jpa;
 
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
-import ott.j4jg_be.adapter.out.persistence.entity.SampleEntity;
-import ott.j4jg_be.adapter.out.persistence.repository.SampleRepository;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
+import ott.j4jg_be.adapter.out.persistence.repository.jpa.SampleRepository;
 import ott.j4jg_be.application.port.out.SamplePort;
 
 import java.util.List;
