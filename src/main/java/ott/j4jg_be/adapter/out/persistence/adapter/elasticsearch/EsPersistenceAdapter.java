@@ -23,6 +23,7 @@ public class EsPersistenceAdapter implements EsSamplePort {
                 .field2(entity.getField2())
                 .build();
         return EsSampleDTO.convertToDTO(esSampleRepository.save(sampleEntity));
+
     }
 
     @Override
