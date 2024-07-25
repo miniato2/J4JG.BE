@@ -22,8 +22,4 @@ public class ElasticsearchSampleController {
         return sampleUseCase.saveEntity(entity);
     }
 
-    @GetMapping("/search")
-    public List<EsSampleDTO> searchByField1(@RequestParam String field1) {
-        return sampleUseCase.findByField1(field1);
-    }
 }

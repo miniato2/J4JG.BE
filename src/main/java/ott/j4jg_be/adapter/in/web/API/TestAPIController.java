@@ -7,7 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import ott.j4jg_be.adapter.in.web.dto.EsSampleDTO;
 import ott.j4jg_be.adapter.in.web.dto.JobinfoDTO;
+import ott.j4jg_be.application.service.EsSampleService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class TestAPIController {
 
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
-    private final JsonToDTOMapper jsonToDTOMapper;
+    private final EsSampleService esSampleService;
 
     private String[] jobIds = {
             "10110", "873", "872", "669", "660", "900", "899", "1634",
@@ -28,11 +30,9 @@ public class TestAPIController {
             "898", "10112", "795", "1022", "894", "793"
     };
 
-
     @GetMapping("/api")
     public void callExternalApi() {
-
-        List<JobinfoDTO> jobinfoDTOList = new ArrayList<>();
+        List<EsSampleDTO> esSampleDTOList = new ArrayList<>();
 
         for(String jobId: jobIds) {
             for (int i = 0; i < 1; i++) {
@@ -44,15 +44,15 @@ public class TestAPIController {
                     JsonNode dataNode = rootNode.path("data");
                     if (dataNode.isArray()) {
                         for (JsonNode jobNode : dataNode) {
-                            jobinfoDTOList.add(jsonToDTOMapper.mapper(jobNode));
+                            EsSampleDTO esSampleDTO = objectMapper.treeToValue(jobNode, EsSampleDTO.class);
+                            esSampleDTOList.add(esSampleService.saveEntity(esSampleDTO));
                         }
                     }
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to map JSON to DTO", e);
                 }
-
             }
         }
-        System.out.println(jobinfoDTOList);
+        System.out.println(esSampleDTOList);
     }
 }

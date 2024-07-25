@@ -8,5 +8,5 @@ import java.util.List;
 public interface EsSamplePort {
     EsSampleDTO saveEntity(EsSampleDTO entity);
 
-    List<EsSampleDTO> findByField1(String field1);
+    List<EsSampleDTO> findByCompanyName(String companyName);
 }
