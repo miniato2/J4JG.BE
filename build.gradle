@@ -23,6 +23,8 @@ dependencies {
 
     // Lombok
     implementation 'org.projectlombok:lombok'
+    annotationProcessor     'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -30,6 +32,9 @@ dependencies {
     // Security
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
+
+    //elasticsearch
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // Web
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,7 +50,10 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
 
     // MySQL
-//    runtimeOnly 'com.mysql:mysql-connector-j'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -54,3 +62,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
