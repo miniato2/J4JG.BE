@@ -2,23 +2,26 @@ package ott.j4jg_be.adapter.in.web.API;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-import ott.j4jg_be.adapter.in.web.dto.JobinfoDTO;
+import ott.j4jg_be.adapter.in.web.dto.JobInfoDTO;
+import ott.j4jg_be.application.port.in.ApiSaveTestUsecase;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class TestAPIController {
 
     private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
-    private final JsonToDTOMapper jsonToDTOMapper;
+    private final JobInfoMapper jsonToDTOMapper;
+
+    private final ApiSaveTestUsecase apiSaveTestUsecase;
 
     private String[] jobIds = {
             "10110", "873", "872", "669", "660", "900", "899", "1634",
@@ -32,19 +35,18 @@ public class TestAPIController {
     @GetMapping("/api")
     public void callExternalApi() {
 
-        List<JobinfoDTO> jobinfoDTOList = new ArrayList<>();
+        List<JobInfoDTO> jobinfoDTOList = new ArrayList<>();
 
         for(String jobId: jobIds) {
             for (int i = 0; i < 1; i++) {
                 String url = "https://www.wanted.co.kr/api/chaos/navigation/v1/results?job_group_id=518&job_ids=" + jobId + "&country=kr&job_sort=job.recommend_order&years=-1&locations=all&limit=2&offset=" + i;
                 JsonNode rootNode = restTemplate.getForObject(url, JsonNode.class);
-                System.out.println(rootNode);
-
+                log.info(rootNode.toString());
                 try {
                     JsonNode dataNode = rootNode.path("data");
                     if (dataNode.isArray()) {
                         for (JsonNode jobNode : dataNode) {
-                            jobinfoDTOList.add(jsonToDTOMapper.mapper(jobNode));
+                            jobinfoDTOList.add(jsonToDTOMapper.mapToDTO(jobNode));
                         }
                     }
                 } catch (Exception e) {
@@ -53,6 +55,11 @@ public class TestAPIController {
 
             }
         }
-        System.out.println(jobinfoDTOList);
+        log.info(jobinfoDTOList.toString());
+
+        apiSaveTestUsecase.apiSave(jobinfoDTOList);
+
+        log.info("ok");
     }
+
 }

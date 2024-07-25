@@ -4,17 +4,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ott.j4jg_be.adapter.in.web.dto.JobinfoDTO;
+import ott.j4jg_be.adapter.in.web.dto.JobInfoDTO;
 
 @Component
 @RequiredArgsConstructor
-public class JsonToDTOMapper {
+public class JobInfoMapper {
 
     private final ObjectMapper objectMapper;
 
-    public JobinfoDTO mapper(JsonNode jobNode){
+    public JobInfoDTO mapToDTO(JsonNode jobNode){
 
-        JobinfoDTO jobDTO = new JobinfoDTO();
+        JobInfoDTO jobDTO = new JobInfoDTO();
         jobDTO.setId(jobNode.path("id").asInt());
 
         JsonNode companyNode = jobNode.path("company");

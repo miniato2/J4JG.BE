@@ -1,13 +1,18 @@
-package ott.j4jg_be.domain;
+package ott.j4jg_be.adapter.out.persistence.entity.elasticsearch;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.elasticsearch.annotations.Document;
 
+@Document(indexName = "jobinfo")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class JobInfo {
+public class JobInfoEntity {
+    @Id
     private int id; //채용정보 id
 
     // 기업은 묶자
@@ -30,7 +35,4 @@ public class JobInfo {
     private int annualFrom; //연차 최소
     private int annualTo; //연차
     private boolean isNewbie; //신입가능
-
-
-    //도메인 로직 추가 필요
 }
