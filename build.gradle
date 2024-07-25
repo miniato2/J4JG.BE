@@ -57,6 +57,9 @@ dependencies {
 
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // ChromeDriver
+    implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
 }
 
 tasks.named('test') {
