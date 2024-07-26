@@ -14,10 +14,10 @@ public class GetCompanyAdapter implements GetCompanyPort {
     private final JobInfoEntityRepository jobInfoEntityRepository;
     @Override
     public void getCompany() {
-        List<JobInfoEntity> jobInfoEntityList = jobInfoEntityRepository.findCompany();
-        for(JobInfoEntity jobInfoEntity : jobInfoEntityList){
-            System.out.println(jobInfoEntity);
-        }
+//        List<JobInfoEntity> jobInfoEntityList = jobInfoEntityRepository.findCompany();
+//        for(JobInfoEntity jobInfoEntity : jobInfoEntityList){
+//            System.out.println(jobInfoEntity);
+//        }
 
     }
 }
