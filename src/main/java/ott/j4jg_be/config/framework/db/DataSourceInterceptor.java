@@ -36,7 +36,6 @@ public class DataSourceInterceptor {
                 DataSourceContextHolder.setDataSourceType("MASTER");
             }
         } else {
-            // 트랜잭션 설정이 없는 경우 기본 데이터 소스 사용
             log.info("Using MASTER data source transaction on method: {}", joinPoint.getSignature());
             DataSourceContextHolder.setDataSourceType("MASTER");
         }

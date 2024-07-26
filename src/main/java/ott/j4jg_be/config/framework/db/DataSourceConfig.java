@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -48,7 +47,7 @@ public class DataSourceConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource routingDataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(routingDataSource);
-        em.setPackagesToScan("ott.j4jg_be.adapter.out.persistence");  // 실제 패키지명으로 변경하세요.
+        em.setPackagesToScan("ott.j4jg_be.adapter.out.persistence");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         return em;
     }
