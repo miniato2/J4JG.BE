@@ -1,6 +1,5 @@
 package ott.j4jg_be.adapter.in.web.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
@@ -8,7 +7,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class JobinfoDTO {
+public class JobInfoDTO {
+
+    private String action_index;
+    private String action;
 
     private int id; //채용정보 id
 
@@ -16,7 +18,6 @@ public class JobinfoDTO {
     private int companyId;  //기업 id
     private String companyName; //기업이름
     private String companyImg; //기업 이미지
-
     private String companyAvgRate; //기업 평가
     private String companyLvl; //레벨
     //
