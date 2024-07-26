@@ -15,6 +15,9 @@ public class JobInfoMapper {
     public JobInfoDTO mapToDTO(JsonNode jobNode){
 
         JobInfoDTO jobDTO = new JobInfoDTO();
+
+        jobDTO.setAction_index("jobinfo");
+        jobDTO.setAction("insert");
         jobDTO.setId(jobNode.path("id").asInt());
 
         JsonNode companyNode = jobNode.path("company");

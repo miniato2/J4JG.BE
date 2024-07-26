@@ -2,6 +2,7 @@ package ott.j4jg_be.adapter.in.web.API;
 
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,10 @@ import java.util.List;
 public class TestAPIController {
 
     private final RestTemplate restTemplate;
-    private final JobInfoMapper jsonToDTOMapper;
+    private final JobInfoMapper jobInfoMapper;
 
     private final ApiSaveTestUsecase apiSaveTestUsecase;
+    private final ObjectMapper objectMapper;
 
     private String[] jobIds = {
             "10110", "873", "872", "669", "660", "900", "899", "1634",
@@ -41,12 +43,15 @@ public class TestAPIController {
             for (int i = 0; i < 1; i++) {
                 String url = "https://www.wanted.co.kr/api/chaos/navigation/v1/results?job_group_id=518&job_ids=" + jobId + "&country=kr&job_sort=job.recommend_order&years=-1&locations=all&limit=2&offset=" + i;
                 JsonNode rootNode = restTemplate.getForObject(url, JsonNode.class);
-                log.info(rootNode.toString());
                 try {
                     JsonNode dataNode = rootNode.path("data");
                     if (dataNode.isArray()) {
                         for (JsonNode jobNode : dataNode) {
-                            jobinfoDTOList.add(jsonToDTOMapper.mapToDTO(jobNode));
+                            JobInfoDTO jobInfoDTO = jobInfoMapper.mapToDTO(jobNode);
+                            jobinfoDTOList.add(jobInfoDTO);
+
+                            //로그
+                            log.info(objectMapper.writeValueAsString(jobInfoDTO));
                         }
                     }
                 } catch (Exception e) {
@@ -55,11 +60,10 @@ public class TestAPIController {
 
             }
         }
-        log.info(jobinfoDTOList.toString());
 
-        apiSaveTestUsecase.apiSave(jobinfoDTOList);
+//        apiSaveTestUsecase.apiSave(jobinfoDTOList);
 
-        log.info("ok");
+        System.out.println("ok");
     }
 
 }

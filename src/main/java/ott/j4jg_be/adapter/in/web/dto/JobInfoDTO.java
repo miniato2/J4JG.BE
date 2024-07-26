@@ -9,6 +9,9 @@ import lombok.*;
 @ToString
 public class JobInfoDTO {
 
+    private String action_index;
+    private String action;
+
     private int id; //채용정보 id
 
     // 기업은 묶자
