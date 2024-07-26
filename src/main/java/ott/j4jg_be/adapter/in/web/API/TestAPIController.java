@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import ott.j4jg_be.adapter.in.web.dto.JobInfoDTO;
-import ott.j4jg_be.application.port.in.ApiSaveTestUsecase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,6 @@ public class TestAPIController {
     private final RestTemplate restTemplate;
     private final JobInfoMapper jobInfoMapper;
 
-    private final ApiSaveTestUsecase apiSaveTestUsecase;
     private final ObjectMapper objectMapper;
 
     private String[] jobIds = {
@@ -36,9 +34,6 @@ public class TestAPIController {
 
     @GetMapping("/api")
     public void callExternalApi() {
-
-        List<JobInfoDTO> jobinfoDTOList = new ArrayList<>();
-
         for(String jobId: jobIds) {
             for (int i = 0; i < 1; i++) {
                 String url = "https://www.wanted.co.kr/api/chaos/navigation/v1/results?job_group_id=518&job_ids=" + jobId + "&country=kr&job_sort=job.recommend_order&years=-1&locations=all&limit=2&offset=" + i;
@@ -48,8 +43,6 @@ public class TestAPIController {
                     if (dataNode.isArray()) {
                         for (JsonNode jobNode : dataNode) {
                             JobInfoDTO jobInfoDTO = jobInfoMapper.mapToDTO(jobNode);
-                            jobinfoDTOList.add(jobInfoDTO);
-
                             //로그
                             log.info(objectMapper.writeValueAsString(jobInfoDTO));
                         }
@@ -57,12 +50,8 @@ public class TestAPIController {
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to map JSON to DTO", e);
                 }
-
             }
         }
-
-//        apiSaveTestUsecase.apiSave(jobinfoDTOList);
-
         System.out.println("ok");
     }
 
