@@ -37,12 +37,17 @@ public class J4JGBeApplication implements CommandLineRunner {
             List<String> companyNames = companyNameExtractor.extractCompanyNames(logData);
 
             for (String companyName : companyNames) {
-                List<String> newsArticles = crawlingNewsController.crawl(companyName);
-                for (String article : newsArticles) {
-                    String logEntry = String.format("companyName: %s, news: %s%n", companyName, article);
-                    Files.write(Paths.get(outputFilePath), logEntry.getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
-                    // 로그
-                    System.out.println(logEntry);
+                try {
+                    List<CrawlingNewsController.NewsArticle> newsArticles = crawlingNewsController.crawl(companyName);
+                    for (CrawlingNewsController.NewsArticle article : newsArticles) {
+                        String logEntry = String.format("companyName: %s, news: %s, url: %s%n", companyName, article.getTitle(), article.getUrl());
+                        Files.write(Paths.get(outputFilePath), logEntry.getBytes(), StandardOpenOption.APPEND, StandardOpenOption.CREATE);
+                        // 로그
+                        System.out.println(logEntry);
+                    }
+                } catch (Exception e) {
+                    System.err.println("Error crawling news for company: " + companyName);
+                    e.printStackTrace();
                 }
             }
         } catch (IOException e) {

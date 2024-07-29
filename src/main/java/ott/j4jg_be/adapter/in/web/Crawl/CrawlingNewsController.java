@@ -21,8 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CrawlingNewsController {
 
-    public List<String> crawl(String companyName) {
-        List<String> newsArticles = new ArrayList<>();
+    public List<NewsArticle> crawl(String companyName) {
+        List<NewsArticle> newsArticles = new ArrayList<>();
 
         // WebDriver 설정
         System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe"); // 크롬 드라이버 경로 설정
@@ -39,7 +39,9 @@ public class CrawlingNewsController {
 
             List<WebElement> titles = driver.findElements(By.cssSelector("a.news_tit"));
             for (WebElement title : titles) {
-                newsArticles.add(title.getText());
+                String newsTitle = title.getText();
+                String newsUrl = title.getAttribute("href");
+                newsArticles.add(new NewsArticle(newsTitle, newsUrl));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,5 +50,23 @@ public class CrawlingNewsController {
         }
 
         return newsArticles;
+    }
+
+    public static class NewsArticle {
+        private String title;
+        private String url;
+
+        public NewsArticle(String title, String url) {
+            this.title = title;
+            this.url = url;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public String getUrl() {
+            return url;
+        }
     }
 }
