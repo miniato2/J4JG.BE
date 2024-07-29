@@ -1,9 +1,7 @@
 ### SETTINGS ###
+.env
 application.yml
 HELP.md
-
-### ENV ###
-.env
 
 ### GRADLE ###
 .gradle/
