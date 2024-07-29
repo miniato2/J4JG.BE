@@ -10,14 +10,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ott.j4jg_be.application.port.in.CrawlingNewsUsecase;
-import ott.j4jg_be.domain.NewsArticle;
 
+
+import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,8 +29,18 @@ public class CrawlingNewsController {
 
     private final CompanyNameExtractor companyNameExtractor;
 
+
     @GetMapping("/api/news")
     public void crawl() {
+        try {
+            // 로그를 파일에 저장하도록 설정
+            FileHandler fileHandler = new FileHandler("C:\\Project\\Final-Project\\J4JG_Backend\\logstash\\logdata\\crawling_news.log", true);
+            fileHandler.setFormatter(new SimpleFormatter());
+            logger.addHandler(fileHandler);
+        } catch (IOException e) {
+            logger.severe("Failed to set up logger file handler: " + e.getMessage());
+        }
+
         Set<String> companyNames = companyNameExtractor.extractCompanyNames();
 
         System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe");
