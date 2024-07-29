@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -29,18 +30,8 @@ public class CrawlingNewsController {
 
     private final CompanyNameExtractor companyNameExtractor;
 
-
     @GetMapping("/api/news")
     public void crawl() {
-        try {
-            // 로그를 파일에 저장하도록 설정
-            FileHandler fileHandler = new FileHandler("C:\\Project\\Final-Project\\J4JG_Backend\\logstash\\logdata\\crawling_news.log", true);
-            fileHandler.setFormatter(new SimpleFormatter());
-            logger.addHandler(fileHandler);
-        } catch (IOException e) {
-            logger.severe("Failed to set up logger file handler: " + e.getMessage());
-        }
-
         Set<String> companyNames = companyNameExtractor.extractCompanyNames();
 
         System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe");
@@ -49,26 +40,33 @@ public class CrawlingNewsController {
 
         WebDriver driver = new ChromeDriver(options);
 
-        for (String companyName : companyNames) {
-            String url = "https://search.naver.com/search.naver?where=news&query=" + companyName;
-            driver.get(url);
+        try (FileWriter fileWriter = new FileWriter("C:\\Project\\Final-Project\\J4JG_Backend\\logstash\\logdata\\crawling_news.log", true)) {
+            for (String companyName : companyNames) {
+                String url = "https://search.naver.com/search.naver?where=news&query=" + companyName;
+                driver.get(url);
 
-            try {
-                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.news_tit")));
+                try {
+                    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+                    wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.news_tit")));
 
-                List<WebElement> titles = driver.findElements(By.cssSelector("a.news_tit"));
-                List<WebElement> urls = driver.findElements(By.cssSelector("a.news_tit"));
+                    List<WebElement> titles = driver.findElements(By.cssSelector("a.news_tit"));
+                    List<WebElement> urls = driver.findElements(By.cssSelector("a.news_tit"));
 
-                for (int i = 0; i < titles.size(); i++) {
-                    String title = titles.get(i).getText();
-                    String articleUrl = urls.get(i).getAttribute("href");
-                    logger.info("companyName: " + companyName + ", news: " + title + ", url: " + articleUrl);
+                    for (int i = 0; i < titles.size(); i++) {
+                        String title = titles.get(i).getText();
+                        String articleUrl = urls.get(i).getAttribute("href");
+                        logger.info("companyName: " + companyName + ", news: " + title + ", url: " + articleUrl);
+                        String logEntry = String.format("{\"action_index\":\"news\",\"action\":\"insert\",\"companyName\":\"%s\",\"title\":\"%s\",\"url\":\"%s\"}", companyName, title, articleUrl);
+                        fileWriter.write(logEntry + "\n");
+                    }
+                } catch (Exception e) {
+                    logger.warning("Failed to fetch news for company: " + companyName + ", error: " + e.getMessage());
                 }
-            } catch (Exception e) {
-                logger.warning("Failed to fetch news for company: " + companyName + ", error: " + e.getMessage());
             }
+        } catch (IOException e) {
+            logger.severe("Failed to write to log file: " + e.getMessage());
+        } finally {
+            driver.quit();
         }
-        driver.quit();
     }
 }
