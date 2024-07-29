@@ -25,6 +25,9 @@ dependencies {
     // JPA
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+    // Oauth2
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
     // Lombok
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
@@ -48,7 +51,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // H2 Database
     runtimeOnly 'com.h2database:h2'
