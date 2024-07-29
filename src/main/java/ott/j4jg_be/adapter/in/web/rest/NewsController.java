@@ -19,9 +19,9 @@ public class NewsController {
         this.newsUsecase = newsUsecase;
     }
 
-    @GetMapping("/api/news")
-    public String fetchNews(@RequestParam String companyName) {
-        newsUsecase.fetchAndSaveNews(companyName);
-        return "News fetched and saved successfully";
-    }
+//    @GetMapping("/api/news")
+//    public String fetchNews(@RequestParam String companyName) {
+//        newsUsecase.fetchAndSaveNews(companyName);
+//        return "News fetched and saved successfully";
+//    }
 }

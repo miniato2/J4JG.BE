@@ -16,57 +16,47 @@ import ott.j4jg_be.domain.NewsArticle;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.logging.Logger;
 
 @RestController
 @RequiredArgsConstructor
 public class CrawlingNewsController {
 
-    public List<NewsArticle> crawl(String companyName) {
-        List<NewsArticle> newsArticles = new ArrayList<>();
+    private static final Logger logger = Logger.getLogger(CrawlingNewsController.class.getName());
 
-        // WebDriver 설정
-        System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe"); // 크롬 드라이버 경로 설정
+    private final CompanyNameExtractor companyNameExtractor;
+
+    @GetMapping("/api/news")
+    public void crawl() {
+        Set<String> companyNames = companyNameExtractor.extractCompanyNames();
+
+        System.setProperty("webdriver.chrome.driver", "C:\\drivers\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless"); // 브라우저 창을 띄우지 않고 실행
+        options.addArguments("--headless");
+
         WebDriver driver = new ChromeDriver(options);
 
-        try {
+        for (String companyName : companyNames) {
             String url = "https://search.naver.com/search.naver?where=news&query=" + companyName;
             driver.get(url);
 
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.news_tit"))); // 변경된 선택자 사용
+            try {
+                WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+                wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("a.news_tit")));
 
-            List<WebElement> titles = driver.findElements(By.cssSelector("a.news_tit"));
-            for (WebElement title : titles) {
-                String newsTitle = title.getText();
-                String newsUrl = title.getAttribute("href");
-                newsArticles.add(new NewsArticle(newsTitle, newsUrl));
+                List<WebElement> titles = driver.findElements(By.cssSelector("a.news_tit"));
+                List<WebElement> urls = driver.findElements(By.cssSelector("a.news_tit"));
+
+                for (int i = 0; i < titles.size(); i++) {
+                    String title = titles.get(i).getText();
+                    String articleUrl = urls.get(i).getAttribute("href");
+                    logger.info("companyName: " + companyName + ", news: " + title + ", url: " + articleUrl);
+                }
+            } catch (Exception e) {
+                logger.warning("Failed to fetch news for company: " + companyName + ", error: " + e.getMessage());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            driver.quit();
         }
-
-        return newsArticles;
-    }
-
-    public static class NewsArticle {
-        private String title;
-        private String url;
-
-        public NewsArticle(String title, String url) {
-            this.title = title;
-            this.url = url;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getUrl() {
-            return url;
-        }
+        driver.quit();
     }
 }
