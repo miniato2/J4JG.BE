@@ -4,6 +4,10 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
 }
 
+ext {
+    springCloudVersion = "2023.0.3"
+}
+
 group = 'ott'
 version = '0.0.1-SNAPSHOT'
 
@@ -23,7 +27,7 @@ dependencies {
 
     // Lombok
     implementation 'org.projectlombok:lombok'
-    annotationProcessor     'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
 
     // Validation
@@ -33,7 +37,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    //elasticsearch
+    // Elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // Web
@@ -55,6 +59,9 @@ dependencies {
     // AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
 
+    // Feign Client
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
     //log
     implementation 'org.springframework.boot:spring-boot-starter-logging'
 
@@ -63,6 +70,12 @@ dependencies {
 
     // ChromeDriver
     implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+    }
 }
 
 tasks.named('test') {
