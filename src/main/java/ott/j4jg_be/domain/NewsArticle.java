@@ -5,13 +5,13 @@ import java.time.LocalDate;
 public class NewsArticle {
     private String title;
     private String content;
-    private String url;
+    private String articleUrl;
     private LocalDate date;
 
     public NewsArticle(String title, String articleUrl, String content, LocalDate date) {
         this.title = this.title;
         this.content = this.content;
-        this.url = url;
+        this.articleUrl = this.articleUrl;
         this.date = this.date;
     }
 
@@ -31,12 +31,12 @@ public class NewsArticle {
         this.content = content;
     }
 
-    public String getUrl() {
-        return url;
+    public String getArticleUrl() {
+        return articleUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setArticleUrl(String articleUrl) {
+        this.articleUrl = articleUrl;
     }
 
     public LocalDate getDate() {
