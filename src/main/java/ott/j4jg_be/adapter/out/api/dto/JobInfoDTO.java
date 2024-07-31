@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.dto;
+package ott.j4jg_be.adapter.out.api.dto;
 
 import lombok.*;
 
