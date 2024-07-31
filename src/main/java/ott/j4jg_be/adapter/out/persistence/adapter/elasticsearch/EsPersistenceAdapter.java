@@ -16,21 +16,17 @@ public class EsPersistenceAdapter implements EsSamplePort {
     private final EsSampleRepository esSampleRepository;
 
     @Override
-    public EsSampleDTO saveEntity(EsSampleDTO entity) {
-        SampleEntity sampleEntity = SampleEntity.builder()
-                .id(entity.getId())
-                .field1(entity.getField1())
-                .field2(entity.getField2())
-                .build();
-        return EsSampleDTO.convertToDTO(esSampleRepository.save(sampleEntity));
-
+    public EsSampleDTO saveEntity(EsSampleDTO dto) {
+        SampleEntity entity = dto.toEntity();
+        SampleEntity savedEntity = esSampleRepository.save(entity);
+        return EsSampleDTO.fromEntity(savedEntity);
     }
 
     @Override
-    public List<EsSampleDTO> findByField1(String field1) {
-        return esSampleRepository.findAllByField1(field1)
+    public List<EsSampleDTO> findByCompanyName(String companyName) {
+        return esSampleRepository.findAllByCompanyName(companyName)
                 .stream()
-                .map(EsSampleDTO::convertToDTO)
+                .map((Object entity) -> EsSampleDTO.fromEntity((SampleEntity) entity))
                 .toList();
     }
 }
