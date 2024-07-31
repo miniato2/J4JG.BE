@@ -1,6 +1,7 @@
 ---
 name: J4JG_BE Issue Template
 title: ''
+about: Suggest an idea for this project
 labels: ''
 assignees: ''
 
