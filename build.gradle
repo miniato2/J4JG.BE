@@ -70,6 +70,11 @@ dependencies {
 
     // ChromeDriver
     implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
+
+    // AWS
+    implementation 'software.amazon.awssdk:sns:2.20.12' // AWS SDK for SNS
+    implementation 'software.amazon.awssdk:core:2.20.12' // AWS SDK Core
+
 }
 
 dependencyManagement {
