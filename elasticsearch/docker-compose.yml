@@ -3,11 +3,7 @@ version: '3.8'
 services:
   elasticsearch-master:
     container_name: elasticsearch-master
-    #image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-    build:
-      context: elasticsearch/
-      args:
-        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     environment:
       - node.name=elasticsearch-master
       - cluster.name=elasticsearch-cluster
@@ -15,8 +11,7 @@ services:
       - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=multi-node
-      - logger.org.elasticsearch=DEBUG
+      - discovery.type=zen
     ulimits:
       memlock:
         soft: -1
@@ -24,9 +19,6 @@ services:
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
       - elasticsearch-master:/usr/share/elasticsearch/data:z
-      - ./elasticsearch/config/jobinfo.json:/usr/share/elasticsearch/config/jobinfo.json:ro,z
-      - ./elasticsearch/config/newsinfo.json:/usr/share/elasticsearch/config/newsinfo.json:ro,z
-      - ./elasticsearch/config/initialize-templates.sh:/usr/share/elasticsearch/config/initialize-templates.sh:ro,z
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -35,11 +27,7 @@ services:
 
   elasticsearch-node1:
     container_name: elasticsearch-node1
-    #image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-    build:
-      context: elasticsearch/
-      args:
-        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     environment:
       - node.name=elasticsearch-node1
       - cluster.name=elasticsearch-cluster
@@ -47,7 +35,7 @@ services:
       - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=multi-node
+      - discovery.type=zen
     ulimits:
       memlock:
         soft: -1
@@ -63,11 +51,7 @@ services:
 
   elasticsearch-node2:
     container_name: elasticsearch-node2
-    #image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
-    build:
-      context: elasticsearch/
-      args:
-        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.13.4
     environment:
       - node.name=elasticsearch-node2
       - cluster.name=elasticsearch-cluster
@@ -75,7 +59,7 @@ services:
       - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - discovery.type=multi-node
+      - discovery.type=zen
     ulimits:
       memlock:
         soft: -1
@@ -95,7 +79,8 @@ services:
     volumes:
       - ../logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ../logstash/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
-      - /absolute/path/to/your/logfile.log:/usr/share/logstash/logdata/logfile.log:ro
+      - ${LOGSTASH_JOBINFO_LOGFILE}:/usr/share/logstash/logdata/jobinfo/jobinfo.log:ro
+      - ${LOGSTASH_NEWS_LOGFILE}:/usr/share/logstash/logdata/news/news.log:ro
     environment:
       - ELASTICSEARCH_HOST=elasticsearch-master
       - ELASTICSEARCH_PORT=9200
