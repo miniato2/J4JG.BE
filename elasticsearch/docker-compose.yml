@@ -72,18 +72,18 @@ services:
       - "9302:9300"
     networks:
       - elk
-      
+
   logstash:
     image: docker.elastic.co/logstash/logstash:8.14.1
     container_name: logstash
     volumes:
       - ../logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ../logstash/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
-      - ${LOG_FILE_PATH}:/usr/share/logstash/logdata/logfile.log:ro
+      - ${LOGSTASH_JOBINFO_LOGFILE}:/usr/share/logstash/logdata/jobinfo/jobinfo.log:ro
+      - ${LOGSTASH_NEWS_LOGFILE}:/usr/share/logstash/logdata/news/news.log:ro
     environment:
       - ELASTICSEARCH_HOST=elasticsearch-master
       - ELASTICSEARCH_PORT=9200
-      - LOG_FILE_PATH=/usr/share/logstash/logdata/logfile.log
     ports:
       - "9600:9600"
     networks:
