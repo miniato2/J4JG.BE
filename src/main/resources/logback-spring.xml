@@ -7,23 +7,51 @@
         </encoder>
     </appender>
 
-    <!-- 파일에 로그 출력 (JSON 형식) -->
-    <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>logstash/logdata/logfile.log</file>
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- 매일 새로운 파일 생성 -->
-            <fileNamePattern>logstash/logdata/logfile-%d{yyyy-MM-dd}.log</fileNamePattern>
+    <!--채용정보-->
+    <appender name="jobinfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logstash/logdata/jobinfo/jobinfo.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 파일 크기 및 날짜 기반 롤오버 설정 -->
+            <fileNamePattern>logstash/logdata/jobinfo/jobinfo-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 최대 파일 크기 설정 (예: 10MB) -->
+            <maxFileSize>10MB</maxFileSize>
             <!-- 로그 파일 보관 기간 설정 (30일) -->
             <maxHistory>30</maxHistory>
+            <!-- 로그 파일 보관 공간 설정 (예: 1GB) -->
+            <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>
-        <encoder><pattern>%msg%n</pattern></encoder>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
     </appender>
 
-    <!-- 특정 패키지의 로그 설정 -->
-    <logger name="ott.j4jg_be.adapter.in.web.API" level="info" additivity="false">
-        <appender-ref ref="file"/>
+    <!--뉴스-->
+    <appender name="news" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logstash/logdata/news/news.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 파일 크기 및 날짜 기반 롤오버 설정 -->
+            <fileNamePattern>logstash/logdata/news/news-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 최대 파일 크기 설정 (예: 10MB) -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 로그 파일 보관 기간 설정 (30일) -->
+            <maxHistory>30</maxHistory>
+            <!-- 로그 파일 보관 공간 설정 (예: 1GB) -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 채용정보 -->
+    <logger name="ott.j4jg_be.application.service.SaveJobInfoService" level="info" additivity="false">
+        <appender-ref ref="jobinfo"/>
     </logger>
 
+    <!-- 뉴스 -->
+    <logger name="ott.j4jg_be.application.service.CrawlingNewsService" level="info" additivity="false">
+        <appender-ref ref="news"/>
+    </logger>
 
     <!-- 루트 로거 설정: 콘솔에만 로그 기록 -->
     <root level="info">
