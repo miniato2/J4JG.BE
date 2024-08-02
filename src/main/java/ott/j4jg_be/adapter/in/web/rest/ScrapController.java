@@ -15,7 +15,7 @@ public class ScrapController {
     private final CancelScrapUsecase cancelScrapUsecase;
 
     @PostMapping("/scrap")
-    public void scrapJobInfo(String userId,
+    public void scrapJobInfo(Long userId,
                              int jobInfoId) {
         scrapUsecase.scrapJobInfo(userId, jobInfoId);
     }

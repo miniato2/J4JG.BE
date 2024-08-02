@@ -4,6 +4,6 @@ import ott.j4jg_be.domain.Scrap;
 
 public interface GetScrapPort {
 
-    Scrap getScrapByUserAndJobInfo(String userId, int jobInfoId);
+    Scrap getScrapByUserAndJobInfo(Long userId, int jobInfoId);
 
 }

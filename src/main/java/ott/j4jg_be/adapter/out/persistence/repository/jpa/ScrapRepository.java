@@ -5,5 +5,5 @@ import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
 
 public interface ScrapRepository extends JpaRepository<ScrapEntity, Integer> {
 
-    ScrapEntity findByUserIdAndJobInfoId(String userId, int jobInfoId);
+    ScrapEntity findByUserIdAndJobInfoId(Long userId, int jobInfoId);
 }

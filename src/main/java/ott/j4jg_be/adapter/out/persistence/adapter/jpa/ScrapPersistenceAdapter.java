@@ -24,7 +24,7 @@ public class ScrapPersistenceAdapter implements
 
 
     @Override
-    public Scrap getScrapByUserAndJobInfo(String userId, int jobInfoId) {
+    public Scrap getScrapByUserAndJobInfo(Long userId, int jobInfoId) {
 
         ScrapEntity scrapEntity = scrapRepository.findByUserIdAndJobInfoId(userId, jobInfoId);
 

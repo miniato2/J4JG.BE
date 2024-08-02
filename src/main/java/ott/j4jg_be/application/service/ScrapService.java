@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ott.j4jg_be.application.port.in.CancelScrapUsecase;
+import ott.j4jg_be.application.port.in.PointUseCase;
 import ott.j4jg_be.application.port.in.ScrapUsecase;
 import ott.j4jg_be.application.port.out.CreateScrapPort;
 import ott.j4jg_be.application.port.out.GetScrapPort;
@@ -17,10 +18,11 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
     private final CreateScrapPort createScrapPort;
     private final GetScrapPort getScrapPort;
     private final updateScrapPort cancelScrapPort;
+    private final PointUseCase pointUseCase;
 
     @Transactional
     @Override
-    public void scrapJobInfo(String userId,
+    public void scrapJobInfo(Long userId,
                              int jobInfoId) {
 
         Scrap scrap = getScrapPort.getScrapByUserAndJobInfo(userId, jobInfoId);
@@ -30,6 +32,7 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
 
         } else if(scrap == null){
             createScrapPort.createScrap(new Scrap(userId, jobInfoId, true));
+            pointUseCase.addPoints(userId, 500, "스크랩");
         }
     }
 
