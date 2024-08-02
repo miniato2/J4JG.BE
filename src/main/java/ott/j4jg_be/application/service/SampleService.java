@@ -1,12 +1,11 @@
 package ott.j4jg_be.application.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 import ott.j4jg_be.application.port.in.SampleUseCase;
 import ott.j4jg_be.application.port.out.SamplePort;
-import ott.j4jg_be.config.framework.db.ReadOnly;
-import ott.j4jg_be.config.framework.db.WriteOnly;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ public class SampleService implements SampleUseCase {
     }
 
     @Override
-    @ReadOnly
+    @Transactional(readOnly = true)
     public List<SampleDTO> getSamples() {
         return samplePort.findSamples().stream()
                 .map(SampleDTO::convertToDTO)
@@ -29,7 +28,7 @@ public class SampleService implements SampleUseCase {
     }
 
     @Override
-    @WriteOnly
+    @Transactional(readOnly = false, rollbackFor = Throwable.class)
     public SampleEntity saveSample(SampleDTO sampleDTO) {
         return samplePort.saveSample(sampleDTO);
     }

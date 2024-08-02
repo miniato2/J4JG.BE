@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManagerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -13,7 +12,6 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
@@ -24,57 +22,41 @@ import java.util.Map;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(
-        basePackages = "ott.j4jg_be.adapter.out.persistence.repository",
+        basePackages = "ott.j4jg_be.adapter.out.persistence",
         entityManagerFactoryRef = "entityManagerFactory",
         transactionManagerRef = "transactionManager"
 )
 public class DataSourceConfig {
 
-    @Primary
-    @Bean(name = "jpaVendorAdapter")
-    public HibernateJpaVendorAdapter jpaVendorAdapter() {
-        return new HibernateJpaVendorAdapter();
-    }
-
-    @Primary
-    @Bean(name = "routingDataSource")
+    @Bean
     public DataSource routingDataSource(
             @Qualifier("masterDataSource") DataSource masterDataSource,
             @Qualifier("slaveDataSource") DataSource slaveDataSource) {
 
-        AbstractRoutingDataSource routingDataSource = new RoutingDataSource();
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put("master", masterDataSource);
-        targetDataSources.put("slave", slaveDataSource);
-        routingDataSource.setTargetDataSources(targetDataSources);
-        routingDataSource.setDefaultTargetDataSource(masterDataSource);
+        targetDataSources.put("MASTER", masterDataSource);
+        targetDataSources.put("SLAVE", slaveDataSource);
 
+        AbstractRoutingDataSource routingDataSource = new RoutingDataSource();
+        routingDataSource.setDefaultTargetDataSource(masterDataSource);
+        routingDataSource.setTargetDataSources(targetDataSources);
         return routingDataSource;
     }
 
-    @Primary
-    @Bean(name = "entityManagerFactory")
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(
-            @Qualifier("jpaVendorAdapter") HibernateJpaVendorAdapter jpaVendorAdapter,
-            @Qualifier("routingDataSource") DataSource dataSource) {
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "update");
-        properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-
-        LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(dataSource);
-        factoryBean.setPackagesToScan("ott.j4jg_be.adapter.out.persistence.entity");
-        factoryBean.setJpaVendorAdapter(jpaVendorAdapter);
-        factoryBean.setJpaPropertyMap(properties);
-        return factoryBean;
+    @Bean
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource routingDataSource) {
+        LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+        em.setDataSource(routingDataSource);
+        em.setPackagesToScan("ott.j4jg_be.adapter.out.persistence");
+        em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+        return em;
     }
 
-    @Primary
-    @Bean(name = "transactionManager")
-    public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory entityManagerFactory) {
+    @Bean
+    public JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
         return new JpaTransactionManager(entityManagerFactory);
     }
+
 
     @Bean(name = "masterDataSourceProperties")
     @Primary

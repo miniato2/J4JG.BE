@@ -21,6 +21,24 @@ services:
       --log-bin=mysql-bin
       --binlog-do-db=${MYSQL_DATABASE}
       --bind-address=0.0.0.0
+      --max_connections=1000
+      --innodb_buffer_pool_size=4G
+      --innodb_log_file_size=256M
+      --innodb_flush_log_at_trx_commit=1
+      --innodb_thread_concurrency=8
+      --innodb_lock_wait_timeout=50
+      --tmp_table_size=64M
+      --max_heap_table_size=64M
+      --table_open_cache=500
+      --table_definition_cache=500
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'  # 최대 2 CPU 사용
+          memory: 8G   # 최대 4GB 메모리 사용
+        reservations:
+          cpus: '1.0'  # 최소 1 CPU 예약
+          memory: 2G   # 최소 2GB 메모리 예약
     networks:
       - mysql_cluster
 
@@ -47,6 +65,25 @@ services:
       --log-bin=mysql-bin
       --read-only=1
       --bind-address=0.0.0.0
+      --bind-address=0.0.0.0
+      --max_connections=1000
+      --innodb_buffer_pool_size=4G
+      --innodb_log_file_size=256M
+      --innodb_flush_log_at_trx_commit=1
+      --innodb_thread_concurrency=8
+      --innodb_lock_wait_timeout=50
+      --tmp_table_size=64M
+      --max_heap_table_size=64M
+      --table_open_cache=500
+      --table_definition_cache=500
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'  # 최대 2 CPU 사용
+          memory: 8G   # 최대 4GB 메모리 사용
+        reservations:
+          cpus: '1.0'  # 최소 1 CPU 예약
+          memory: 2G   # 최소 2GB 메모리 예약
     networks:
       - mysql_cluster
   redis:
