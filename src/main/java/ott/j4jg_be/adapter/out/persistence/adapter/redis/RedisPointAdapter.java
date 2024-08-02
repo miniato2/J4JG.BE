@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.out.persistence.adapter.jpa;
+package ott.j4jg_be.adapter.out.persistence.adapter.redis;
 
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -10,7 +10,7 @@ import ott.j4jg_be.domain.Point;
 
 @Service
 @RequiredArgsConstructor
-public class PointPersistenceAdapter implements PointPersistencePort {
+public class RedisPointAdapter implements PointPersistencePort {
 
   private final RedisTemplate<String, Object> redisTemplate;
 
@@ -49,25 +49,4 @@ public class PointPersistenceAdapter implements PointPersistencePort {
     String key = "points:" + userId;
     redisTemplate.delete(key);
   }
-
-
-//  @Cacheable(value = "points", key = "#userId")
-//  @Override
-//  public Optional<Point> findByUserId(Long userId) {
-//    Optional<UserEntity> userEntity = userRepository.findById(userId);
-//    if (userEntity.isPresent()) {
-//      Optional<PointEntity> pointEntity = pointRepository.findByUser(userEntity.get());
-//      return pointEntity.map(pointEntityMapper::mapToDomain);
-//    }
-//    return Optional.empty();
-//  }
-//
-//  @CacheEvict(value = "points", key = "#userId")
-//  @Override
-//  public void save(Long userId, Point point) {
-//    UserEntity userEntity = userRepository.findById(userId)
-//        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-//    PointEntity pointEntity = pointEntityMapper.mapToEntity(point, userEntity);
-//    pointRepository.save(pointEntity);
-//  }
 }
