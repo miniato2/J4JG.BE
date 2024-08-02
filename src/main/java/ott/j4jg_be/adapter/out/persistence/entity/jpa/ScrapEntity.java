@@ -3,7 +3,6 @@ package ott.j4jg_be.adapter.out.persistence.entity.jpa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 

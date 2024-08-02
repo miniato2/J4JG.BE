@@ -50,14 +50,18 @@ public class ScrapPersistenceAdapter implements
             ScrapEntity entity = scrapEntity.get();
 
             entity.updateStatus(false);
-
-            scrapRepository.save(entity);
         }
     }
 
     @Override
     public void updateScrap(Scrap scrap, boolean status) {
-        ScrapEntity scrapEntity = scrapRepository.findById(scrap.getScrapId()).get();
-        scrapEntity.updateStatus(true);
+
+        Optional<ScrapEntity> scrapEntity = scrapRepository.findById(scrap.getScrapId());
+
+        if (scrapEntity.isPresent()) {
+            ScrapEntity entity = scrapEntity.get();
+
+            entity.updateStatus(true);
+        }
     }
 }
