@@ -39,24 +39,19 @@ public class PointService implements PointUseCase {
     Point point = pointPersistencePort.findByUserId(userId)
         .orElseThrow(() -> new EntityNotFoundException("User points not found"));
 
-    try {
-      switch (type) {
-        case USE:
-          point.usePoints(points, reason);
-          break;
-        case REFUND:
-          point.refundPoints(points, reason);
-          break;
-        case ADD:
-          point.addPoints(points, reason);
-          break;
-      }
-
-      pointHistoryPersistencePort.saveHistory(userId, point.getCurrentHistory());
-      pointPersistencePort.save(userId, point); // 트랜잭션 성공 시 최종 저장
-    } catch (Exception e) {
-      pointPersistencePort.deleteByUserId(userId); // 임시 데이터 삭제
-      throw e; // 에러 재발생 시켜 트랜잭션 롤백
+    switch (type) {
+      case USE:
+        point.usePoints(points, reason);
+        break;
+      case REFUND:
+        point.refundPoints(points, reason);
+        break;
+      case ADD:
+        point.addPoints(points, reason);
+        break;
     }
+
+    pointHistoryPersistencePort.saveHistory(userId, point.getCurrentHistory());
+    pointPersistencePort.save(userId, point); // 트랜잭션 성공 시 최종 저장
   }
 }
