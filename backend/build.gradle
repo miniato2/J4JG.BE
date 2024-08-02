@@ -1,25 +1,26 @@
 plugins {
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
     id 'java'
-    id 'io.spring.dependency-management' version '1.1.6' apply false
 }
 
-allprojects {
-    group = 'ott'
-    version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '17'
-
-    repositories {
-        mavenCentral()
-    }
+ext {
+    springCloudVersion = "2023.0.3"
 }
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'io.spring.dependency-management'
+jar {
+    archiveBaseName = 'backend'
+    archiveVersion = '0.0.1-SNAPSHOT'
+}
 
-    ext {
-        springCloudVersion = "2023.0.3"
-    }
+group = 'ott'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+targetCompatibility = '17'
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     // JPA
@@ -47,12 +48,6 @@ dependencies {
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // Redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-
-    // H2 Database
-    runtimeOnly 'com.h2database:h2'
-
     // MySQL
     runtimeOnly 'com.mysql:mysql-connector-j'
 
@@ -62,17 +57,27 @@ dependencies {
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    // Dotenv 라이브러리 제거
+    // implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-    dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
-        }
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
     }
+}
 
-    tasks.named('test') {
-        useJUnitPlatform()
-    }
+tasks.named('bootJar') {
+    archiveFileName.set("backend.jar")
+}
+
+springBoot {
+    mainClass.set('ott.j4jg_be.J4jgBeApplication')
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }
