@@ -1,5 +1,6 @@
 package ott.j4jg_be.domain;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

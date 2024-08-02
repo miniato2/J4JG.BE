@@ -4,6 +4,8 @@ import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ott.j4jg_be.application.port.out.PointPersistencePort;
@@ -26,7 +28,7 @@ public class RedisPointAdapter implements PointPersistencePort {
   @Override
   public void save(Long userId, Point point) {
     String key = "points:" + userId;
-    redisTemplate.opsForValue().set(key, point, 1, TimeUnit.HOURS); // 최종 저장소에 저장
+    redisTemplate.opsForValue().set(key, point);
   }
 
   @Transactional

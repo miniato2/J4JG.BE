@@ -52,6 +52,6 @@ public class PointService implements PointUseCase {
     }
 
     pointHistoryPersistencePort.saveHistory(userId, point.getCurrentHistory());
-    pointPersistencePort.save(userId, point); // 트랜잭션 성공 시 최종 저장
+    pointPersistencePort.save(userId, point);
   }
 }
