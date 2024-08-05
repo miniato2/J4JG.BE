@@ -13,7 +13,7 @@ public class NotificationService implements NotificationUsecase {
 
 
     @Override
-    public void sendNotification(String phoneNumber, String message) {
+    public void sendSMSNotification(String phoneNumber, String message) {
         snsPort.publish(phoneNumber, message);
     }
 }

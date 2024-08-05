@@ -24,7 +24,7 @@ public class NotificationController {
 
         logger.info("Sending notification to {}: {}", phoneNumber, message);
 
-        notificationUseCase.sendNotification(phoneNumber, message);
+        notificationUseCase.sendSMSNotification(phoneNumber, message);
 
         logger.info("Notification sent to {}", phoneNumber);
 
