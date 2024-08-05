@@ -3,7 +3,6 @@ package ott.j4jg_be.adapter.out.persistence.entity.jpa;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 
@@ -21,7 +20,6 @@ public class ScrapEntity {
     @Column(name = "jobinfo_id")
     private int jobInfoId;
     @Column(name = "created_at")
-    @CreatedDate
     private LocalDateTime createdAt;
     @Column(name = "status")
     private Boolean status;
@@ -34,6 +32,7 @@ public class ScrapEntity {
         this.userId = userId;
         this.jobInfoId = jobInfoId;
         this.status = status;
+        this.createdAt = LocalDateTime.now();
     }
 
     public void updateStatus(boolean newStatus){

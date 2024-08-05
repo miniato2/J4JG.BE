@@ -32,7 +32,7 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
 
         } else if(scrap == null){
             createScrapPort.createScrap(new Scrap(userId, jobInfoId, true));
-            pointUseCase.addPoints(userId, 500, "스크랩");
+            pointUseCase.addPoints(userId, 50, "스크랩");
         }
     }
 

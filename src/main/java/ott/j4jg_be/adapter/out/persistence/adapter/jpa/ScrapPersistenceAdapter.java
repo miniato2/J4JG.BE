@@ -10,6 +10,8 @@ import ott.j4jg_be.application.port.out.CreateScrapPort;
 import ott.j4jg_be.application.port.out.GetScrapPort;
 import ott.j4jg_be.domain.Scrap;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -33,6 +35,18 @@ public class ScrapPersistenceAdapter implements
         }else{
             return null;
         }
+    }
+
+    @Override
+    public List<Scrap> getScrapList(Long userId) {
+
+        List<ScrapEntity> entityList = scrapRepository.findByUserIdAndStatus(userId, true);
+
+        List<Scrap> scrapList = new ArrayList<>();
+        for (ScrapEntity entity : entityList) {
+            scrapList.add(scrapEntityMapper.mapToDomain(entity));
+        }
+        return scrapList;
     }
 
     @Override

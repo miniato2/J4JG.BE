@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 
 @Configuration
@@ -49,6 +50,10 @@ public class DataSourceConfig {
         em.setDataSource(routingDataSource);
         em.setPackagesToScan("ott.j4jg_be.adapter.out.persistence");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+
+        Properties jpaProperties = new Properties();
+        jpaProperties.put("hibernate.hbm2ddl.auto", "create-drop");
+        em.setJpaProperties(jpaProperties);
         return em;
     }
 
