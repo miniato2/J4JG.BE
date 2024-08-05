@@ -1,5 +1,6 @@
 package ott.j4jg_be.adapter.out.persistence.adapter.redis;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,13 @@ import ott.j4jg_be.domain.Point;
 public class RedisPointAdapter implements PointPersistencePort {
 
   private final RedisTemplate<String, Object> redisTemplate;
+  private final ObjectMapper objectMapper;
 
   @Override
   public Optional<Point> findByUserId(Long userId) {
     String key = "points:" + userId;
-    Point point = (Point) redisTemplate.opsForValue().get(key);
+    Object pointValue = redisTemplate.opsForValue().get(key);
+    Point point = objectMapper.convertValue(pointValue, Point.class);
     return Optional.ofNullable(point);
   }
 
