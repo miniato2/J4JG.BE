@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.in.web.dto.EsSampleDTO;
 import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.SampleEntity;
 import ott.j4jg_be.adapter.out.persistence.repository.elasticsearch.EsSampleRepository;
-import ott.j4jg_be.application.port.out.EsSamplePort;
+import ott.j4jg_be.application.port.out.test.EsSamplePort;
 
 import java.util.List;
 

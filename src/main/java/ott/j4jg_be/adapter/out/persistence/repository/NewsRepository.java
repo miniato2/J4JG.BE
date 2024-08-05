@@ -1,8 +1,8 @@
 package ott.j4jg_be.adapter.out.persistence.repository;
 
 import org.springframework.stereotype.Repository;
-import ott.j4jg_be.application.port.out.NewsPort;
-import ott.j4jg_be.domain.NewsArticle;
+import ott.j4jg_be.application.port.out.collection.NewsPort;
+import ott.j4jg_be.domain.collection.NewsArticle;
 
 import java.util.List;
 

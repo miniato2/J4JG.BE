@@ -2,7 +2,7 @@ package ott.j4jg_be.adapter.out.persistence.mapper;
 
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.JobInfoEntity;
-import ott.j4jg_be.domain.JobInfo;
+import ott.j4jg_be.domain.collection.JobInfo;
 
 @Component
 public class JobInfoEntityMapper {

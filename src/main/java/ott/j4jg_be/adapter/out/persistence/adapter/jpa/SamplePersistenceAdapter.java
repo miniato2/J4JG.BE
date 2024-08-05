@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 import ott.j4jg_be.adapter.out.persistence.repository.jpa.SampleRepository;
-import ott.j4jg_be.application.port.out.SamplePort;
+import ott.j4jg_be.application.port.out.test.SamplePort;
 
 import java.util.List;
 

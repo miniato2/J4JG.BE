@@ -44,12 +44,12 @@
     </appender>
 
     <!-- 채용정보 -->
-    <logger name="ott.j4jg_be.application.service.SaveJobInfoService" level="info" additivity="false">
+    <logger name="ott.j4jg_be.application.service.collection.SaveJobInfoService" level="info" additivity="false">
         <appender-ref ref="jobinfo"/>
     </logger>
 
     <!-- 뉴스 -->
-    <logger name="ott.j4jg_be.application.service.CrawlingNewsService" level="info" additivity="false">
+    <logger name="ott.j4jg_be.application.service.collection.CrawlingNewsService" level="info" additivity="false">
         <appender-ref ref="news"/>
     </logger>
 

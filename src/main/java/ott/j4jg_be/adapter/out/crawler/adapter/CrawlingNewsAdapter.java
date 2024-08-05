@@ -4,15 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.crawler.dto.NewsDTO;
-import ott.j4jg_be.application.port.out.CrawlingNewsPort;
+import ott.j4jg_be.application.port.out.collection.CrawlingNewsPort;
 
 import java.time.Duration;
 import java.util.ArrayList;
