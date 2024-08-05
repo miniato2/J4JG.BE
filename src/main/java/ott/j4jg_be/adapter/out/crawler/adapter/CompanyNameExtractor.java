@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.Crawl;
+package ott.j4jg_be.adapter.out.crawler.adapter;
 
 import org.springframework.stereotype.Component;
 
@@ -14,16 +14,17 @@ import java.util.regex.Pattern;
 
 @Component
 public class CompanyNameExtractor {
-    private static final String LOG_FILE_PATH = "C:\\Project\\Final-Project\\J4JG_Backend\\logstash\\logdata\\logfile-2024-07-26.log";
+    private static final String LOG_FILE_PATH = "logstash/logdata/logfile.log";
+//    private static final String LOG_FILE_PATH = "logstash/logdata/jobinfo/jobinfo.log";
+    private static final Pattern COMP_NAME_PATTERN = Pattern.compile("\"companyName\":\"([^\"]+)\"");
 
     public Set<String> extractCompanyNames() {
         Set<String> companyNames = new HashSet<>();
         try {
             List<String> lines = Files.readAllLines(Paths.get(LOG_FILE_PATH));
-            Pattern pattern = Pattern.compile("\"companyName\":\"([^\"]+)\"");
 
             for (String line : lines) {
-                Matcher matcher = pattern.matcher(line);
+                Matcher matcher = COMP_NAME_PATTERN.matcher(line);
                 if (matcher.find()) {
                     companyNames.add(matcher.group(1));
                 }
@@ -31,6 +32,8 @@ public class CompanyNameExtractor {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        System.out.println(companyNames);
         return companyNames;
     }
 }
