@@ -1,17 +1,25 @@
 plugins {
     id 'java'
-    id 'io.spring.dependency-management' version '1.1.6' apply false
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
-allprojects {
-    group = 'ott'
-    version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '17'
+ext {
+    springCloudVersion = "2023.0.3"
+}
+
+group = 'ott'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
     repositories {
         mavenCentral()
     }
-}
 
 subprojects {
     apply plugin: 'java'
@@ -48,7 +56,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
 
     // H2 Database
     runtimeOnly 'com.h2database:h2'
@@ -62,8 +71,14 @@ dependencies {
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    //log
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // ChromeDriver
+    implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
 }
 
     dependencyManagement {

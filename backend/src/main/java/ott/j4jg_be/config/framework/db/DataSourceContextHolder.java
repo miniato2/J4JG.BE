@@ -2,25 +2,17 @@ package ott.j4jg_be.config.framework.db;
 
 
 public class DataSourceContextHolder {
-    private static final ThreadLocal<String> contextHolder = new ThreadLocal<>();
+    private static final ThreadLocal<String> CONTEXT_HOLDER = new ThreadLocal<>();
 
     public static void setDataSourceType(String dataSourceType) {
-        contextHolder.set(dataSourceType);
+        CONTEXT_HOLDER.set(dataSourceType);
     }
 
     public static String getDataSourceType() {
-        return contextHolder.get();
+        return CONTEXT_HOLDER.get();
     }
 
     public static void clearDataSourceType() {
-        contextHolder.remove();
-    }
-
-    public static void useMaster() {
-        setDataSourceType("master");
-    }
-
-    public static void useSlave() {
-        setDataSourceType("slave");
+        CONTEXT_HOLDER.remove();
     }
 }

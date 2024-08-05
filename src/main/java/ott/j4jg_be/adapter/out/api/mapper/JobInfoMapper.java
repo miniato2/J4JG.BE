@@ -1,10 +1,10 @@
-package ott.j4jg_be.adapter.in.web.API;
+package ott.j4jg_be.adapter.out.api.mapper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ott.j4jg_be.adapter.in.web.dto.JobInfoDTO;
+import ott.j4jg_be.adapter.out.api.dto.JobInfoDTO;
 
 @Component
 @RequiredArgsConstructor
