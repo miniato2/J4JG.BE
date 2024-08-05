@@ -25,8 +25,8 @@ public class RedisConfig {
   public RedisTemplate<String, Object> redisTemplate() {
     RedisTemplate<String, Object> template = new RedisTemplate<>();
     ObjectMapper objectMapper = Jackson2ObjectMapperBuilder.json()
-        .modules(new JavaTimeModule())
-        .build();
+            .modules(new JavaTimeModule())
+            .build();
     template.setConnectionFactory(redisConnectionFactory());
     template.setKeySerializer(new StringRedisSerializer());
     template.setValueSerializer(new GenericJackson2JsonRedisSerializer(objectMapper));
@@ -36,8 +36,8 @@ public class RedisConfig {
   @Bean
   public ObjectMapper objectMapper() {
     return Jackson2ObjectMapperBuilder.json()
-        .modules(new JavaTimeModule())
-        .build();
+            .modules(new JavaTimeModule())
+            .build();
   }
 }
 

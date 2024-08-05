@@ -2,11 +2,8 @@ package ott.j4jg_be.adapter.out.persistence.adapter.redis;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ott.j4jg_be.application.port.out.PointPersistencePort;

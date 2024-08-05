@@ -20,7 +20,7 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
     private final updateScrapPort cancelScrapPort;
     private final PointUseCase pointUseCase;
 
-    @Transactional
+    @Transactional(readOnly = false, rollbackFor = Throwable.class)
     @Override
     public void scrapJobInfo(Long userId,
                              int jobInfoId) {
