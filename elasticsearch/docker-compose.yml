@@ -79,7 +79,8 @@ services:
     volumes:
       - ../logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ../logstash/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
-      - /absolute/path/to/your/logfile.log:/usr/share/logstash/logdata/logfile.log:ro
+      - ${LOGSTASH_JOBINFO_LOGFILE}:/usr/share/logstash/logdata/jobinfo/jobinfo.log:ro
+      - ${LOGSTASH_NEWS_LOGFILE}:/usr/share/logstash/logdata/news/news.log:ro
     environment:
       - ELASTICSEARCH_HOST=elasticsearch-master
       - ELASTICSEARCH_PORT=9200

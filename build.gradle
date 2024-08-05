@@ -1,12 +1,21 @@
 plugins {
     id 'java'
-    id 'io.spring.dependency-management' version '1.1.6' apply false
+    id 'org.springframework.boot' version '3.3.2'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
-allprojects {
-    group = 'ott'
-    version = '0.0.1-SNAPSHOT'
-    sourceCompatibility = '17'
+ext {
+    springCloudVersion = "2023.0.3"
+}
+
+group = 'ott'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
     repositories {
         mavenCentral()
@@ -62,8 +71,19 @@ dependencies {
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
+    //log
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+
     // Testing
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // ChromeDriver
+    implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
+
+    // AWS
+    implementation 'software.amazon.awssdk:sns:2.20.12' // AWS SDK for SNS
+    implementation 'software.amazon.awssdk:core:2.20.12' // AWS SDK Core
+
 }
 
     dependencyManagement {
@@ -76,3 +96,4 @@ dependencies {
         useJUnitPlatform()
     }
 }
+
