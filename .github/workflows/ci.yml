@@ -24,8 +24,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew clean build
+      - name: Set up .env file
+        run: |
+          echo MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} >> .env
+          echo MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} >> .env
+          echo MYSQL_USER=${{ secrets.MYSQL_USER }} >> .env
+          echo MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} >> .env
+          echo MYSQL_MASTER_PORT=${{ secrets.MYSQL_MASTER_PORT }} >> .env
+          echo MYSQL_SLAVE_PORT=${{ secrets.MYSQL_SLAVE_PORT }} >> .env
+          echo MYSQL_REPLICATION_USER=${{ secrets.MYSQL_REPLICATION_USER }} >> .env
+          echo MYSQL_REPLICATION_PASSWORD=${{ secrets.MYSQL_REPLICATION_PASSWORD }} >> .env
+          echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
+          echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
 
       - name: Cache Gradle packages
         uses: actions/cache@v3
@@ -33,3 +43,6 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+
+      - name: Build with Gradle
+        run: ./gradlew clean build
