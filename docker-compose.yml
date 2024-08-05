@@ -86,6 +86,11 @@ services:
           memory: 2G   # 최소 2GB 메모리 예약
     networks:
       - mysql_cluster
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
 
   redis:
     image: redis:latest

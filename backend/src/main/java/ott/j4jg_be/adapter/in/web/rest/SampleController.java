@@ -25,7 +25,6 @@ public class SampleController {
 
     @PostMapping("/samples")
     public SampleEntity saveSample(@RequestBody SampleDTO sampleDTO) {
-        System.out.println(sampleDTO.getName());
         return sampleUseCase.saveSample(sampleDTO);
     }
 }
