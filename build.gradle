@@ -48,7 +48,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Redis
-//    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3'
 
     // H2 Database
     runtimeOnly 'com.h2database:h2'
@@ -62,7 +63,7 @@ dependencies {
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
-    //log
+    // Log
     implementation 'org.springframework.boot:spring-boot-starter-logging'
 
     // Testing
@@ -86,4 +87,3 @@ dependencyManagement {
 tasks.named('test') {
     useJUnitPlatform()
 }
-

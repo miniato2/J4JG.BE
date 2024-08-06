@@ -7,7 +7,7 @@
         </encoder>
     </appender>
 
-    <!-- 채용정보 -->
+    <!--채용정보-->
     <appender name="jobinfo" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logstash/logdata/jobinfo/jobinfo.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -25,7 +25,7 @@
         </encoder>
     </appender>
 
-    <!-- 뉴스 -->
+    <!--뉴스-->
     <appender name="news" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>logstash/logdata/news/news.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -66,6 +66,8 @@
         <appender-ref ref="jobinfo"/>
     </logger>
 
+    <!-- 뉴스 -->
+    <logger name="ott.j4jg_be.application.service.collection.CrawlingNewsService" level="info" additivity="false">
     <!-- 뉴스 서비스 -->
     <logger name="ott.j4jg_be.application.service.CrawlingNewsService" level="info" additivity="false">
         <appender-ref ref="news"/>
