@@ -26,4 +26,9 @@ public class Mentoring {
     private int currentPerson; //현재 참여인원
     private boolean status;
 
+    public boolean isNotFull(int maxPerson, int currentPerson) {
+        return currentPerson < maxPerson;
+    }
+
+
 }

@@ -8,19 +8,18 @@ import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
-public class Matching {
+public class MentoringApplication {
+    //멘토링 신청
     private int applicationId;
-    private int mentoringId;
     private Long userId;
     private String userName;
     private String surveyResponse;
     private LocalDateTime createdAt;
     private boolean status;
 
-    public Matching(int applicationId, int mentoringId, Long userId,
+    public MentoringApplication(int applicationId, Long userId,
                                 LocalDateTime createdAt, boolean status){
         this.applicationId = applicationId;
-        this.mentoringId = mentoringId;
         this.userId = userId;
         this.createdAt = createdAt;
         this.status = status;

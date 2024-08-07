@@ -9,7 +9,7 @@ import ott.j4jg_be.application.port.in.mentoring.GetMentoringQuery;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping
 @RequiredArgsConstructor
 public class MentoringController {
     private final CreateMentoringUsecase createMentoringUsecase;

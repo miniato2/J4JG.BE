@@ -1,29 +1,28 @@
-package ott.j4jg_be.domain.mentoring;
+package ott.j4jg_be.adapter.in.web.dto.mentoring;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
-public class Matching {
+public class MentoringApplicationDTO {
     private int applicationId;
-    private int mentoringId;
     private Long userId;
     private String userName;
     private String surveyResponse;
     private LocalDateTime createdAt;
-    private boolean status;
+//    private boolean status;
 
-    public Matching(int applicationId, int mentoringId, Long userId,
-                                LocalDateTime createdAt, boolean status){
+    public MentoringApplicationDTO(int applicationId, Long userId, LocalDateTime createdAt){
         this.applicationId = applicationId;
-        this.mentoringId = mentoringId;
         this.userId = userId;
         this.createdAt = createdAt;
-        this.status = status;
     }
+
 
 }

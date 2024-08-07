@@ -39,4 +39,8 @@ public class MentoringEntity {
     private boolean status;
 
     protected MentoringEntity(){}
+
+    public void updateCurrentPerson(){
+        this.currentPerson += 1;
+    }
 }
