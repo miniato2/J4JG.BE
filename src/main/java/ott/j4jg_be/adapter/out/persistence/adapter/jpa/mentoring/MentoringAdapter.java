@@ -1,6 +1,5 @@
 package ott.j4jg_be.adapter.out.persistence.adapter.jpa.mentoring;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringEntity;

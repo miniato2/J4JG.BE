@@ -1,6 +1,5 @@
 package ott.j4jg_be.adapter.out.persistence.mapper.mentoring;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringApplicationEntity;
 import ott.j4jg_be.domain.mentoring.MentoringApplication;
