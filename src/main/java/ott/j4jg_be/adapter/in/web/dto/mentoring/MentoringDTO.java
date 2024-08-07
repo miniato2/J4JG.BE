@@ -1,14 +1,15 @@
-package ott.j4jg_be.domain.mentoring;
+package ott.j4jg_be.adapter.in.web.dto.mentoring;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @AllArgsConstructor
-public class Mentoring {
-
+@NoArgsConstructor
+@ToString
+public class MentoringDTO {
     private int mentoringId;
     private Long userId;
     private String description;
@@ -22,8 +23,7 @@ public class Mentoring {
     private String[] skillStack; //코드로 or 문자로
     private String[] week; //요일
     private String type; //one, team, any
-    private int maxPerson;  // 최대 인원
-    private int currentPerson; //현재 참여인원
+    private int maxPerson;
+    private int currentPerson;
     private boolean status;
-
 }
