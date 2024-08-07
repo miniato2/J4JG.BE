@@ -76,6 +76,9 @@ dependencies {
     implementation 'software.amazon.awssdk:sns:2.20.12' // AWS SDK for SNS
     implementation 'software.amazon.awssdk:core:2.20.12' // AWS SDK Core
 
+    // Email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
 }
 
 dependencyManagement {

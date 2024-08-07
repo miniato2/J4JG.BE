@@ -68,6 +68,9 @@
 
     <!-- 뉴스 -->
     <logger name="ott.j4jg_be.application.service.collection.CrawlingNewsService" level="info" additivity="false">
+        <appender-ref ref="news"/>
+    </logger>
+
     <!-- 뉴스 서비스 -->
     <logger name="ott.j4jg_be.application.service.CrawlingNewsService" level="info" additivity="false">
         <appender-ref ref="news"/>
