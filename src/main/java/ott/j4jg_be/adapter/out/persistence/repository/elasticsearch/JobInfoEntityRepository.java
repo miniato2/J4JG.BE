@@ -8,6 +8,4 @@ import java.util.List;
 
 public interface JobInfoEntityRepository extends ElasticsearchRepository<JobInfoEntity, Integer> {
 
-//    @Query("{\"source\": [\"companyName\"], \"query\": {\"match_all\": {}}}")
-//    List<JobInfoEntity> findCompany();
 }

@@ -8,9 +8,15 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.crawler.dto.NewsDTO;
+import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.JobInfoEntity;
+import ott.j4jg_be.adapter.out.persistence.repository.elasticsearch.JobInfoEntityRepository;
 import ott.j4jg_be.application.port.out.collection.CrawlingNewsPort;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -22,11 +28,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CrawlingNewsAdapter implements CrawlingNewsPort {
 
-    private final CompanyNameExtractor companyNameExtractor;
-
     @Override
-    public List<NewsDTO> crawlingNews() {
-        Set<String> companyNames = companyNameExtractor.extractCompanyNames();
+    public List<NewsDTO> crawlingNews(List<String> companyNames) {
 
         System.setProperty("webdriver.gecko.driver", "/Users/seung/Downloads/geckodriver");
         FirefoxOptions options = new FirefoxOptions();
@@ -65,7 +68,7 @@ public class CrawlingNewsAdapter implements CrawlingNewsPort {
                         }
                         break;
                     }catch (Exception e){
-                        System.out.println(count);
+//                        System.out.println(count);
                         count ++;
                     }
                 }
