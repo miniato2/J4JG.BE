@@ -29,20 +29,53 @@ dependencies {
     // Feign Client
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
-    // Spring Boot starter for WebFlux
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // Spring Boot starter for Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // Spring Boot starter for Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Spring Boot starter for OAuth2 Client
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // Spring Boot starter for JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MySQL Connector
+    runtimeOnly 'com.mysql:mysql-connector-j'
 
     // Actuator and Tracing
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // AWS
+    implementation 'software.amazon.awssdk:sns:2.17.89'
+    implementation 'software.amazon.awssdk:auth:2.17.89'
+
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
     // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.springframework.security:spring-security-test'
+    testRuntimeOnly 'com.mysql:mysql-connector-j'
 }
 
 dependencyManagement {
