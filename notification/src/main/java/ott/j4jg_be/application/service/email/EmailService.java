@@ -24,17 +24,28 @@ public class EmailService implements SendEmailUsecase {
         this.emailServicePort = emailServicePort;
     }
 
-    @Async
+    @Async("taskExecutor")
     @Override
-    public CompletableFuture<Void> sendEmail(Email email) {
-        return CompletableFuture.runAsync(() -> {
+    public CompletableFuture<String> sendEmail(Email email) {
+        return CompletableFuture.supplyAsync(() -> {
+            String startTime = LocalDateTime.now().format(formatter);
+            System.out.println("Start sending email: " + startTime);
+
             String timestamp = LocalDateTime.now().format(formatter);
             try {
                 emailServicePort.sendEmail(email);
+                String successTime = LocalDateTime.now().format(formatter);
+                System.out.println("Email sent: " + successTime);
                 logger.info("[{}] Email sent successfully to: {}", timestamp, email.getRecipient());
+                return "Email sent successfully to: " + email.getRecipient() + " at " + successTime;
             } catch (Exception e) {
+                String failureTime = LocalDateTime.now().format(formatter);
+                System.out.println("Failed to send email: " + failureTime);
                 logger.error("[{}] Failed to send email to: {}", timestamp, email.getRecipient(), e);
                 throw new RuntimeException("Email sending failed", e);
+            } finally {
+                String endTime = LocalDateTime.now().format(formatter);
+                System.out.println("End of email process: " + endTime);
             }
         });
     }

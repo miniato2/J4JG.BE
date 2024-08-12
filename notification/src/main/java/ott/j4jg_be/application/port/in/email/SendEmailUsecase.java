@@ -6,5 +6,5 @@ import ott.j4jg_be.domain.email.Email;
 import java.util.concurrent.CompletableFuture;
 
 public interface SendEmailUsecase {
-    CompletableFuture<Void> sendEmail(Email email);
+    CompletableFuture<String> sendEmail(Email email);
 }
