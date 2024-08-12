@@ -12,9 +12,6 @@ import ott.j4jg_be.adapter.out.persistence.repository.jpa.mentoring.MentoringApp
 import ott.j4jg_be.application.port.out.mentoring.GetMentoringApplicationPort;
 import ott.j4jg_be.domain.mentoring.MentoringApplication;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 public class GetMentoringApplicationAdapter implements GetMentoringApplicationPort {

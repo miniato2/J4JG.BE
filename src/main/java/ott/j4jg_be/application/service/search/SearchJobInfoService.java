@@ -3,7 +3,6 @@ package ott.j4jg_be.application.service.search;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.in.web.dto.search.JobInfoResponse;
-import ott.j4jg_be.adapter.out.api.dto.JobInfoDTO;
 import ott.j4jg_be.adapter.out.persistence.mapper.JobInfoEntityMapper;
 import ott.j4jg_be.application.port.in.search.SearchJobInfoQuery;
 import ott.j4jg_be.application.port.out.search.SearchJobInfoPort;

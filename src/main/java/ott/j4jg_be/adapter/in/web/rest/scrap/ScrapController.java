@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapDTO;
 import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapRequestDTO;
-import ott.j4jg_be.adapter.in.web.mapper.scrap.ScrapMapper;
 import ott.j4jg_be.application.port.in.scrap.CancelScrapUsecase;
 import ott.j4jg_be.application.port.in.scrap.GetScrapQuery;
 import ott.j4jg_be.application.port.in.scrap.ScrapUsecase;
