@@ -49,19 +49,25 @@ public class JWTFilter implements WebFilter {
                             email, null, jwtUtil.getAuthorities(role));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
-                    // 요청 속성에 클레임 정보 저장
-                    exchange.getAttributes().put("provider", provider);
-                    exchange.getAttributes().put("phoneNumber", phoneNumber);
-                    exchange.getAttributes().put("providerId", providerId);
+                    // null 값이 아닌 경우에만 요청 속성에 클레임 정보 저장
+                    if (provider != null) {
+                        exchange.getAttributes().put("provider", provider);
+                    }
+                    if (phoneNumber != null) {
+                        exchange.getAttributes().put("phoneNumber", phoneNumber);
+                    }
+                    if (providerId != null) {
+                        exchange.getAttributes().put("providerId", providerId);
+                    }
                 }
             } catch (JwtException e) {
                 // JWT 관련 예외 처리
-                logger.warning("JWT Exception: " + e.getMessage());
+                logger.warning("JWT 예외 발생: " + e.getMessage());
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             } catch (Exception e) {
                 // 기타 예외 처리
-                logger.severe("Exception: " + e.getMessage());
+                logger.severe("기타 예외 발생: " + e.getMessage());
                 exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);
                 return exchange.getResponse().setComplete();
             }
