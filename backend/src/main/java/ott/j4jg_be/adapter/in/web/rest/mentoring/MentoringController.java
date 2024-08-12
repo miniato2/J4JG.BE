@@ -1,6 +1,7 @@
 package ott.j4jg_be.adapter.in.web.rest.mentoring;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringDTO;
 import ott.j4jg_be.application.port.in.mentoring.CreateMentoringUsecase;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringQuery;

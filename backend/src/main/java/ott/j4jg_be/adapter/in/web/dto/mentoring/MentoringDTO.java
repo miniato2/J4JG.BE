@@ -1,5 +1,7 @@
 package ott.j4jg_be.adapter.in.web.dto.mentoring;
 
+import lombok.*;
+
 import java.time.LocalDateTime;
 
 @Getter

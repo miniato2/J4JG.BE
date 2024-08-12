@@ -1,5 +1,7 @@
 package ott.j4jg_be.adapter.out.api.dto;
 
+import lombok.*;
+
 @Getter
 @Setter
 @AllArgsConstructor

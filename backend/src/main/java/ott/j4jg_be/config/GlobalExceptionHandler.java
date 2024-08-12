@@ -1,4 +1,4 @@
-package ott.j4jg_be.config;//package ott.j4jg_be.config;
+//package ott.j4jg_be.config;//package ott.j4jg_be.config;
 //
 //import org.springframework.http.HttpStatus;
 //import org.springframework.web.bind.annotation.ExceptionHandler;
