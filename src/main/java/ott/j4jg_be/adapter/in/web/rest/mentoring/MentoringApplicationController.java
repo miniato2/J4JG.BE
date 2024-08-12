@@ -10,7 +10,6 @@ import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringApplicationDTO;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringApplicationQuery;
 import ott.j4jg_be.application.port.in.mentoring.MentoringApplicationUsecase;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

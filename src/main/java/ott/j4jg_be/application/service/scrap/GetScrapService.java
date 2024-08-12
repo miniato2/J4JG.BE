@@ -6,7 +6,6 @@ import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapDTO;
 import ott.j4jg_be.adapter.in.web.mapper.scrap.ScrapMapper;
 import ott.j4jg_be.application.port.in.scrap.GetScrapQuery;
 import ott.j4jg_be.application.port.out.scrap.GetScrapPort;
-import ott.j4jg_be.domain.scrap.Scrap;
 
 import java.util.List;
 import java.util.stream.Collectors;

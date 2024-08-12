@@ -9,9 +9,6 @@ import ott.j4jg_be.application.port.in.mentoring.GetMentoringApplicationQuery;
 import ott.j4jg_be.application.port.out.mentoring.GetMentoringApplicationPort;
 import ott.j4jg_be.domain.mentoring.MentoringApplication;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class GetMentoringApplicationService implements GetMentoringApplicationQuery {

@@ -1,7 +1,6 @@
 package ott.j4jg_be.application.port.in.search;
 
 import ott.j4jg_be.adapter.in.web.dto.search.JobInfoResponse;
-import ott.j4jg_be.adapter.out.api.dto.JobInfoDTO;
 
 import java.util.List;
 
