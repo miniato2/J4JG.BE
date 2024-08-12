@@ -4,25 +4,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
-import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryReactiveClientRegistrationRepository;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import ott.j4jg_gateway.jwt.JWTFilter;
 import ott.j4jg_gateway.oauth2.CustomLogoutSuccessHandler;
 import ott.j4jg_gateway.oauth2.CustomSuccessHandler;
 import ott.j4jg_gateway.service.CustomOAuth2UserService;
 
 @Configuration
+@EnableWebFluxSecurity
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
     private final CustomLogoutSuccessHandler customLogoutSuccessHandler;
     private final CustomSuccessHandler customSuccessHandler;
     private final JWTFilter jwtFilter;
@@ -36,82 +35,96 @@ public class SecurityConfig {
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String googleRedirectUri;
 
+    @Value("${spring.security.oauth2.client.provider.google.authorization-uri}")
+    private String googleAuthorizationUri;
+
+    @Value("${spring.security.oauth2.client.provider.google.token-uri}")
+    private String googleTokenUri;
+
+    @Value("${spring.security.oauth2.client.provider.google.user-info-uri}")
+    private String googleUserInfoUri;
+
+    @Value("${spring.security.oauth2.client.provider.google.user-name-attribute}")
+    private String googleUserNameAttribute;
+
     @Value("${spring.security.oauth2.client.registration.kakao.client-id}")
     private String kakaoClientId;
-
-    @Value("${spring.security.oauth2.client.registration.kakao.client-secret}")
-    private String kakaoClientSecret;
 
     @Value("${spring.security.oauth2.client.registration.kakao.redirect-uri}")
     private String kakaoRedirectUri;
 
+    @Value("${spring.security.oauth2.client.provider.kakao.authorization-uri}")
+    private String kakaoAuthorizationUri;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.token-uri}")
+    private String kakaoTokenUri;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.user-info-uri}")
+    private String kakaoUserInfoUri;
+
+    @Value("${spring.security.oauth2.client.provider.kakao.user-name-attribute}")
+    private String kakaoUserNameAttribute;
+
     @Autowired
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService,
-                          CustomLogoutSuccessHandler customLogoutSuccessHandler,
-                          CustomSuccessHandler customSuccessHandler,
-                          JWTFilter jwtFilter) {
-        this.customOAuth2UserService = customOAuth2UserService;
+    public SecurityConfig(CustomLogoutSuccessHandler customLogoutSuccessHandler, CustomSuccessHandler customSuccessHandler, JWTFilter jwtFilter) {
         this.customLogoutSuccessHandler = customLogoutSuccessHandler;
         this.customSuccessHandler = customSuccessHandler;
         this.jwtFilter = jwtFilter;
     }
 
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())
-                .formLogin(formLogin -> formLogin.disable())
-                .httpBasic(httpBasic -> httpBasic.disable())
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler))
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll())
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                        .authenticationSuccessHandler(customSuccessHandler)
+                        .clientRegistrationRepository(clientRegistrationRepository()))
+                .authorizeExchange(authorize -> authorize
+                        .pathMatchers("/**").permitAll()
+                        .anyExchange().authenticated())
+                .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessHandler(customLogoutSuccessHandler)
-                        .deleteCookies("JSESSIONID", "refreshToken")
-                        .invalidateHttpSession(true))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                        .logoutSuccessHandler(customLogoutSuccessHandler))
+                .securityContextRepository(securityContextRepository());
 
         return http.build();
     }
 
     @Bean
-    public ClientRegistrationRepository clientRegistrationRepository() {
-        return new InMemoryClientRegistrationRepository(
-                googleClientRegistration(),
-                kakaoClientRegistration()
-        );
-    }
-
-    private ClientRegistration googleClientRegistration() {
-        return ClientRegistration.withRegistrationId("google")
+    public ReactiveClientRegistrationRepository clientRegistrationRepository() {
+        ClientRegistration googleClientRegistration = ClientRegistration.withRegistrationId("google")
                 .clientId(googleClientId)
                 .clientSecret(googleClientSecret)
-                .scope("profile", "email")
-                .authorizationUri("https://accounts.google.com/o/oauth2/auth")
-                .tokenUri("https://oauth2.googleapis.com/token")
-                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
-                .userNameAttributeName("sub")
-                .clientName("Google")
                 .redirectUri(googleRedirectUri)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .scope("profile", "email")
+                .authorizationUri(googleAuthorizationUri)
+                .tokenUri(googleTokenUri)
+                .userInfoUri(googleUserInfoUri)
+                .userNameAttributeName(googleUserNameAttribute)
+                .clientName("Google")
                 .build();
-    }
 
-    private ClientRegistration kakaoClientRegistration() {
-        return ClientRegistration.withRegistrationId("kakao")
+        ClientRegistration kakaoClientRegistration = ClientRegistration.withRegistrationId("kakao")
                 .clientId(kakaoClientId)
-                .clientSecret(kakaoClientSecret)
-                .scope("profile_nickname", "account_email", "phone_number")
-                .authorizationUri("https://kauth.kakao.com/oauth/authorize")
-                .tokenUri("https://kauth.kakao.com/oauth/token")
-                .userInfoUri("https://kapi.kakao.com/v2/user/me")
-                .userNameAttributeName("id")
-                .clientName("Kakao")
                 .redirectUri(kakaoRedirectUri)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .scope("account_email", "phone_number")
+                .authorizationUri(kakaoAuthorizationUri)
+                .tokenUri(kakaoTokenUri)
+                .userInfoUri(kakaoUserInfoUri)
+                .userNameAttributeName(kakaoUserNameAttribute)
+                .clientName("Kakao")
                 .build();
+
+        return new InMemoryReactiveClientRegistrationRepository(googleClientRegistration, kakaoClientRegistration);
+    }
+
+    @Bean
+    public WebSessionServerSecurityContextRepository securityContextRepository() {
+        return new WebSessionServerSecurityContextRepository();
     }
 }
