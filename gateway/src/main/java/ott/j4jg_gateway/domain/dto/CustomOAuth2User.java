@@ -47,7 +47,7 @@ public class CustomOAuth2User extends DefaultOAuth2User {
         }
         if (this.phoneNumber == null) {
             logger.warn("PhoneNumber is null");
-            this.phoneNumber = "N/A"; // Set default value if needed
+            this.phoneNumber = "N/A";
         }
     }
 
