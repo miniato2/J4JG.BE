@@ -1,6 +1,7 @@
 package ott.j4jg_be.application.service.mentoring;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringApplicationDTO;
 import ott.j4jg_be.adapter.in.web.mapper.Mentoring.MentoringApplicationMapper;
@@ -19,9 +20,9 @@ public class GetMentoringApplicationService implements GetMentoringApplicationQu
     private final MentoringApplicationMapper mapper;
 
     @Override
-    public List<MentoringApplicationDTO> getApplicationList() {
+    public Page<MentoringApplicationDTO> getApplicationList(int page) {
 
-        List<MentoringApplication> applicationList = getMentoringApplicationPort.getApplicationList();
-        return applicationList.stream().map(mapper::mapToDTO).collect(Collectors.toList());
+        Page<MentoringApplication> applicationList = getMentoringApplicationPort.getApplicationList(page);
+        return applicationList.map(mapper::mapToDTO);
     }
 }
