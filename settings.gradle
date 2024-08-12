@@ -1,2 +1,2 @@
 rootProject.name = 'J4JG_Backend'
-include 'src', 'notification'
+include 'backend', 'notification'
