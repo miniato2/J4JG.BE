@@ -1,6 +1,10 @@
 package ott.j4jg_be.adapter.out.persistence.adapter.jpa.mentoring;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringApplicationEntity;
 import ott.j4jg_be.adapter.out.persistence.mapper.mentoring.MentoringApplicationEntityMapper;
@@ -20,9 +24,12 @@ public class GetMentoringApplicationAdapter implements GetMentoringApplicationPo
 
 
     @Override
-    public List<MentoringApplication> getApplicationList() {
+    public Page<MentoringApplication> getApplicationList(int page) {
 
-        List<MentoringApplicationEntity> entities = mentoringApplicationRepository.findByStatus(false);
-        return entities.stream().map(mapper::mapToDomain).collect(Collectors.toList());
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createAt"));
+
+        Page<MentoringApplicationEntity> entities = mentoringApplicationRepository.findByStatus(false, pageable);
+        return entities.map(mapper::mapToDomain);
     }
 }
