@@ -5,7 +5,7 @@ import ott.j4jg_be.domain.email.Email;
 
 public class EmailMapper {
 
-    public static Email toDomail(EmailDTO emailDTO) {
+    public static Email toDomain(EmailDTO emailDTO) {
         return new Email(emailDTO.getRecipient(), emailDTO.getSubject(), emailDTO.getBody());
     }
 

@@ -10,6 +10,9 @@ import ott.j4jg_be.adapter.in.web.dto.EmailDTO;
 import ott.j4jg_be.adapter.in.web.mapper.EmailMapper;
 import ott.j4jg_be.application.port.in.email.SendEmailUsecase;
 
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
+
 @RestController
 @RequestMapping("/test/email")
 public class EmailController {
@@ -21,9 +24,9 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> sendEmail(@RequestBody EmailDTO emailDTO) {
-
-        sendEmailUsecase.sendEmail(EmailMapper.toDomail(emailDTO));
-        return new ResponseEntity<>(HttpStatus.OK);
+    public CompletableFuture<ResponseEntity<Void>> sendEmail(@RequestBody EmailDTO emailDTO) {
+        return sendEmailUsecase.sendEmail(EmailMapper.toDomain(emailDTO))
+                .thenApply(result -> new ResponseEntity<Void>(HttpStatus.OK))
+                .exceptionally(ex -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }
