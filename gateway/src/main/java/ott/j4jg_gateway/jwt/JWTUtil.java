@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Component("jwtUtilBean")
+@Component
 public class JWTUtil {
 
     private final SecretKey secretKey;
@@ -35,19 +35,44 @@ public class JWTUtil {
 
     // 토큰에서 모든 클레임을 추출하는 메서드
     public Claims getAllClaimsFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (ExpiredJwtException e) {
+            logger.warning("토큰이 만료되었습니다: " + e.getMessage());
+            throw e;
+        } catch (UnsupportedJwtException e) {
+            logger.warning("지원되지 않는 JWT입니다: " + e.getMessage());
+            throw e;
+        } catch (MalformedJwtException e) {
+            logger.warning("잘못된 JWT 형식입니다: " + e.getMessage());
+            throw e;
+        } catch (SignatureException e) {
+            logger.warning("유효하지 않은 서명입니다: " + e.getMessage());
+            throw e;
+        } catch (IllegalArgumentException e) {
+            logger.warning("잘못된 클레임입니다: " + e.getMessage());
+            throw e;
+        } catch (JwtException e) {
+            logger.warning("JWT 예외 발생: " + e.getMessage());
+            throw e;
+        }
     }
 
     // 토큰에서 클레임을 파싱하는 메서드
     public Jws<Claims> parseClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token);
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (JwtException e) {
+            logger.warning("JWT 예외 발생: " + e.getMessage());
+            throw e;
+        }
     }
 
     // 권한을 리스트로 반환하는 메서드
@@ -97,24 +122,22 @@ public class JWTUtil {
             Jws<Claims> claims = parseClaims(token);
             return !claims.getBody().getExpiration().before(new Date());
         } catch (ExpiredJwtException e) {
-            // 토큰이 만료됨
-            logger.warning("Token expired: " + e.getMessage());
+            logger.warning("토큰이 만료되었습니다: " + e.getMessage());
             return false;
         } catch (UnsupportedJwtException e) {
-            // 지원되지 않는 JWT
-            logger.warning("Unsupported JWT: " + e.getMessage());
+            logger.warning("지원되지 않는 JWT입니다: " + e.getMessage());
             return false;
         } catch (MalformedJwtException e) {
-            // 잘못된 JWT 형식
-            logger.warning("Malformed JWT: " + e.getMessage());
+            logger.warning("잘못된 JWT 형식입니다: " + e.getMessage());
             return false;
         } catch (SignatureException e) {
-            // 서명 불일치
-            logger.warning("Invalid signature: " + e.getMessage());
+            logger.warning("유효하지 않은 서명입니다: " + e.getMessage());
             return false;
         } catch (IllegalArgumentException e) {
-            // 잘못된 클레임
-            logger.warning("Illegal argument: " + e.getMessage());
+            logger.warning("잘못된 클레임입니다: " + e.getMessage());
+            return false;
+        } catch (JwtException e) {
+            logger.warning("JWT 예외 발생: " + e.getMessage());
             return false;
         }
     }
