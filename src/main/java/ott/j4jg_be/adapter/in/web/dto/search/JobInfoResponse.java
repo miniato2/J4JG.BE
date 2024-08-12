@@ -1,16 +1,13 @@
-package ott.j4jg_be.adapter.out.persistence.entity.elasticsearch;
+package ott.j4jg_be.adapter.in.web.dto.search;
 
-import jakarta.persistence.Id;
 import lombok.*;
-import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "jobinfo")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class JobInfoEntity {
-    @Id
+public class JobInfoResponse {
     private int id; //채용정보 id
 
     // 기업은 묶자
@@ -33,4 +30,5 @@ public class JobInfoEntity {
     private int annualFrom; //연차 최소
     private int annualTo; //연차
     private boolean isNewbie; //신입가능
+
 }
