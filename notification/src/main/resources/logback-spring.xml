@@ -61,6 +61,29 @@
         </encoder>
     </appender>
 
+    <!-- 이메일 전송 비동기 로그 -->
+    <appender name="asyncEmail" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="email"/>
+    </appender>
+
+    <!-- 이메일 전송 -->
+    <appender name="email" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logstash/logdata/email/email.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 파일 크기 및 날짜 기반 롤오버 설정 -->
+            <fileNamePattern>logstash/logdata/email/email-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 최대 파일 크기 설정 (예: 10MB) -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 로그 파일 보관 기간 설정 (30일) -->
+            <maxHistory>30</maxHistory>
+            <!-- 로그 파일 보관 공간 설정 (예: 1GB) -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
     <!-- 채용정보 서비스 -->
     <logger name="ott.j4jg_be.application.service.SaveJobInfoService" level="info" additivity="false">
         <appender-ref ref="jobinfo"/>
@@ -79,6 +102,12 @@
     <!-- SMS 전송 로그 -->
     <logger name="ott.j4jg_be.application.service.sns.NotificationService" level="info" additivity="false">
         <appender-ref ref="sms"/>
+    </logger>
+
+    <!-- 이메일 전송 로그 -->
+    <logger name="ott.j4jg_be.application.service.email.EmailService" level="info" additivity="false">
+        <appender-ref ref="asyncEmail"/>
+        <appender-ref ref="console"/>
     </logger>
 
     <!-- 루트 로거 설정: 콘솔에만 로그 기록 -->
