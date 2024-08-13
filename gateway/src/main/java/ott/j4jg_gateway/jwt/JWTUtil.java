@@ -26,8 +26,8 @@ public class JWTUtil {
     private static final Logger logger = Logger.getLogger(JWTUtil.class.getName());
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret,
-                   @Value("${spring.jwt.access-token-expiration-time}") long accessTokenExpirationTime,
-                   @Value("${spring.jwt.refresh-token-expiration-time}") long refreshTokenExpirationTime) {
+                   @Value("${spring.jwt.accessTokenExpirationTime}") long accessTokenExpirationTime,
+                   @Value("${spring.jwt.refreshTokenExpirationTime}") long refreshTokenExpirationTime) {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpirationTime = accessTokenExpirationTime;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
