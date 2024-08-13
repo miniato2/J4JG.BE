@@ -16,7 +16,6 @@ import org.springframework.security.web.server.context.WebSessionServerSecurityC
 import ott.j4jg_gateway.jwt.JWTFilter;
 import ott.j4jg_gateway.oauth2.CustomLogoutSuccessHandler;
 import ott.j4jg_gateway.oauth2.CustomSuccessHandler;
-import ott.j4jg_gateway.service.CustomOAuth2UserService;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -71,7 +70,6 @@ public class SecurityConfig {
         this.customSuccessHandler = customSuccessHandler;
         this.jwtFilter = jwtFilter;
     }
-
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
