@@ -23,7 +23,7 @@ public class RefreshToken implements Serializable {
 
     @Id
     @JsonProperty("providerId")  // JSON에서 'providerId'로 직렬화/역직렬화
-    private String id; // Redis의 키 역할을 하는 필드
+    private String providerId; // Redis의 키 역할을 하는 필드
 
     @JsonProperty("token")
     private String token; // 실제 토큰 값
@@ -37,8 +37,4 @@ public class RefreshToken implements Serializable {
     @JsonProperty("expiration")
     private long expiration; // 만료 시간
 
-    // 만료 시간을 업데이트하는 메서드
-    public void updateExpiration(long newExpiration) {
-        this.expiration = newExpiration;
-    }
 }
