@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @Column(name = "user_id", nullable = false, unique = true)
-    private String userId; // provider에서 제공하는 ID 값을 기본 키로 사용 (String 타입으로 변경)
+    private String userId;
 
     @Column(name = "user_email", nullable = false, unique = true)
     private String userEmail;
