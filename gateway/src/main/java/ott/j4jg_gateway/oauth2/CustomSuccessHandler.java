@@ -12,7 +12,6 @@ import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ott.j4jg_gateway.domain.dto.CustomOAuth2User;
 import ott.j4jg_gateway.domain.dto.GoogleResponse;
 import ott.j4jg_gateway.domain.dto.KakaoResponse;
 import ott.j4jg_gateway.domain.dto.OAuth2Response;
@@ -106,7 +105,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
 
     private void saveRefreshTokenToRedis(String refreshTokenValue, String providerId, String email, String provider) {
         RefreshToken refreshToken = RefreshToken.builder()
-                .id(providerId) // Redis에서 사용할 키는 providerId
+                .providerId(providerId) // Redis에서 사용할 키는 providerId
                 .token(refreshTokenValue)
                 .userEmail(email)
                 .provider(provider)
