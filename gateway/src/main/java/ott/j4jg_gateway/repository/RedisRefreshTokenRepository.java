@@ -12,18 +12,22 @@ public class RedisRefreshTokenRepository {
     @Autowired
     private ReactiveRedisTemplate<String, RefreshToken> redisTemplate;
 
-    // Provider ID로 Refresh Token을 찾는 메서드
-    public Mono<RefreshToken> findByProviderId(String providerId) {
+    public Mono<RefreshToken> save(RefreshToken refreshToken) {
+        return redisTemplate.opsForValue()
+                .set(refreshToken.getProviderId(), refreshToken)
+                .thenReturn(refreshToken);
+    }
+
+    public Mono<RefreshToken> findById(String providerId) {
         return redisTemplate.opsForValue().get(providerId);
     }
 
-    // Provider ID로 Refresh Token을 삭제하는 메서드
-    public Mono<Void> deleteByProviderId(String providerId) {
-        return redisTemplate.opsForValue().delete(providerId).then();
+    public Mono<Boolean> deleteById(String providerId) {
+        return redisTemplate.opsForValue().delete(providerId);
     }
 
-    // Refresh Token을 Redis에 저장하는 메서드
-    public Mono<RefreshToken> save(RefreshToken refreshToken) {
-        return redisTemplate.opsForValue().set(refreshToken.getId(), refreshToken).thenReturn(refreshToken);
+    // 새로 추가된 메서드
+    public Mono<Boolean> deleteByProviderId(String providerId) {
+        return redisTemplate.opsForValue().delete(providerId);
     }
 }
