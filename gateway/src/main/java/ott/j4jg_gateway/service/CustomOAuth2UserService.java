@@ -10,13 +10,13 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ott.j4jg_gateway.domain.dto.CustomOAuth2User;
-import ott.j4jg_gateway.domain.dto.GoogleResponse;
-import ott.j4jg_gateway.domain.dto.KakaoResponse;
-import ott.j4jg_gateway.domain.dto.OAuth2Response;
-import ott.j4jg_gateway.domain.entity.User;
-import ott.j4jg_gateway.domain.entity.UserAddInfo;
-import ott.j4jg_gateway.domain.enums.USERROLE;
+import ott.j4jg_gateway.model.dto.CustomOAuth2User;
+import ott.j4jg_gateway.model.dto.GoogleResponse;
+import ott.j4jg_gateway.model.dto.KakaoResponse;
+import ott.j4jg_gateway.model.dto.OAuth2Response;
+import ott.j4jg_gateway.model.entity.User;
+import ott.j4jg_gateway.model.entity.UserAddInfo;
+import ott.j4jg_gateway.model.enums.USERROLE;
 import ott.j4jg_gateway.repository.UserRepository;
 import ott.j4jg_gateway.repository.UserAddInfoRepository;
 
@@ -85,7 +85,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return customOAuth2User;
     }
 
-    // Method visibility changed to public
     public User saveOrUpdateUser(OAuth2Response oAuth2Response) {
         logger.info("saveOrUpdateUser 메서드 시작");
 
