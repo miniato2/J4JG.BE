@@ -1,4 +1,4 @@
-package ott.j4jg_gateway.domain.dto;
+package ott.j4jg_gateway.model.dto;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,8 +1,8 @@
-package ott.j4jg_gateway.domain.entity;
+package ott.j4jg_gateway.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ott.j4jg_gateway.domain.enums.USERROLE;
+import ott.j4jg_gateway.model.enums.USERROLE;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package ott.j4jg_gateway.domain.entity;
+package ott.j4jg_gateway.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

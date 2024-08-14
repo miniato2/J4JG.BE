@@ -1,4 +1,4 @@
-package ott.j4jg_gateway.domain.enums;
+package ott.j4jg_gateway.model.enums;
 
 public enum USERROLE {
     ROLE_UNKNOWN,

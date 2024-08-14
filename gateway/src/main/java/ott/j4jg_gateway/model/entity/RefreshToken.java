@@ -1,8 +1,7 @@
-package ott.j4jg_gateway.domain.entity;
+package ott.j4jg_gateway.model.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.redis.core.RedisHash;
 import java.io.Serializable;
 

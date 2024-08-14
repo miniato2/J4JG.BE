@@ -1,25 +1,36 @@
-package ott.j4jg_gateway.domain.dto;
+package ott.j4jg_gateway.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ott.j4jg_gateway.domain.entity.User;
-import ott.j4jg_gateway.domain.entity.UserAddInfo;
+import ott.j4jg_gateway.model.entity.User;
+import ott.j4jg_gateway.model.entity.UserAddInfo;
+import ott.j4jg_gateway.model.enums.USERROLE;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserAddInfoDTO {
+    private String userId;
+    private String userEmail;
+    private String provider;
+    private String userPhoneNumber;
+    private USERROLE role;
     private String userNickname;
     private String surveyResponse;
 
-    public static UserAddInfoDTO fromEntity(UserAddInfo userAddInfo) {
-        if (userAddInfo == null) {
+    public static UserAddInfoDTO fromEntity(User user, UserAddInfo userAddInfo) {
+        if (user == null || userAddInfo == null) {
             return null;
         }
         return new UserAddInfoDTO(
+                user.getUserId(),
+                user.getUserEmail(),
+                user.getProvider(),
+                user.getUserPhoneNumber(),
+                user.getRole(),
                 userAddInfo.getUserNickname(),
                 userAddInfo.getSurveyResponse()
         );
