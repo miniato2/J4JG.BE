@@ -10,17 +10,21 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ott.j4jg_gateway.domain.dto.CustomOAuth2User;
-import ott.j4jg_gateway.domain.dto.GoogleResponse;
-import ott.j4jg_gateway.domain.dto.KakaoResponse;
-import ott.j4jg_gateway.domain.dto.OAuth2Response;
-import ott.j4jg_gateway.domain.entity.User;
+import ott.j4jg_gateway.model.dto.CustomOAuth2User;
+import ott.j4jg_gateway.model.dto.GoogleResponse;
+import ott.j4jg_gateway.model.dto.KakaoResponse;
+import ott.j4jg_gateway.model.dto.OAuth2Response;
+import ott.j4jg_gateway.model.entity.User;
+import ott.j4jg_gateway.model.entity.UserAddInfo;
+import ott.j4jg_gateway.model.enums.USERROLE;
 import ott.j4jg_gateway.repository.UserRepository;
+import ott.j4jg_gateway.repository.UserAddInfoRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -29,9 +33,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
 
     private final UserRepository userRepository;
+    private final UserAddInfoRepository userAddInfoRepository;
 
-    public CustomOAuth2UserService(UserRepository userRepository) {
+    public CustomOAuth2UserService(UserRepository userRepository, UserAddInfoRepository userAddInfoRepository) {
         this.userRepository = userRepository;
+        this.userAddInfoRepository = userAddInfoRepository;
     }
 
     @Override
@@ -61,7 +67,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         Collection<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(user.getRole())
+                new SimpleGrantedAuthority(user.getRole().name())
         );
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(
@@ -97,9 +103,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .provider(oAuth2Response.getProvider())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
-                    .role("ROLE_MENTEE")
+                    .role(USERROLE.ROLE_UNKNOWN) // 기본값으로 ROLE_UNKNOWN 설정
                     .build();
             logger.info("새 사용자 생성: {}", newUser);
+
+            // UserAddInfo 생성 및 랜덤 닉네임 부여
+            String randomNickname = generateUniqueRandomNickname();
+            UserAddInfo userAddInfo = UserAddInfo.builder()
+                    .user(newUser)
+                    .userNickname(randomNickname)
+                    .surveyResponse("") // 기본값
+                    .build();
+            userAddInfoRepository.save(userAddInfo);
+
             return newUser;
         });
 
@@ -127,5 +143,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             default:
                 throw new IllegalArgumentException("지원하지 않는 OAuth2 제공자: " + registrationId);
         }
+    }
+
+    private String generateUniqueRandomNickname() {
+        String[] prefixes = {"노력맨", "열정맨", "행복맨", "도전맨", "취업맨", "부정맨"};
+        String nickname;
+        do {
+            int randomNumber = new Random().nextInt(1000);
+            nickname = prefixes[new Random().nextInt(prefixes.length)] + randomNumber;
+        } while (userAddInfoRepository.findByUserNickname(nickname).isPresent());
+        return nickname;
     }
 }

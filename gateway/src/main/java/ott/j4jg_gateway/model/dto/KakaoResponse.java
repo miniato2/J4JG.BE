@@ -1,7 +1,6 @@
-package ott.j4jg_gateway.domain.dto;
+package ott.j4jg_gateway.model.dto;
 
 import java.util.Map;
-import java.util.Optional;
 
 public class KakaoResponse implements OAuth2Response {
 

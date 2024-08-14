@@ -47,6 +47,9 @@ public class JWTFilter implements WebFilter {
                     // 인증 객체 설정
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             email, null, jwtUtil.getAuthorities(role));
+
+                    // 기존 컨텍스트 지우기
+                    SecurityContextHolder.clearContext();
                     SecurityContextHolder.getContext().setAuthentication(authentication);
 
                     // null 값이 아닌 경우에만 요청 속성에 클레임 정보 저장

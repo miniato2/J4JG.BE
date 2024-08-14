@@ -9,7 +9,7 @@ import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
-import ott.j4jg_gateway.domain.entity.RefreshToken;
+import ott.j4jg_gateway.model.entity.RefreshToken;
 
 @Configuration
 public class RedisConfig {

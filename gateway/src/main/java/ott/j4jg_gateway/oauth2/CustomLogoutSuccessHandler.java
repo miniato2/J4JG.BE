@@ -10,6 +10,7 @@ import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+import ott.j4jg_gateway.jwt.JWTUtil;
 import ott.j4jg_gateway.repository.RedisRefreshTokenRepository;
 import reactor.core.publisher.Mono;
 
@@ -20,30 +21,44 @@ import java.util.Optional;
 public class CustomLogoutSuccessHandler implements ServerLogoutSuccessHandler {
 
     private static final Logger log = LoggerFactory.getLogger(CustomLogoutSuccessHandler.class);
-    private static final String REFRESH_TOKEN_COOKIE_NAME = "refreshToken";
     private static final String ACCESS_TOKEN_COOKIE_NAME = "accessToken";
     private static final String LOGOUT_SUCCESS_MESSAGE = "로그아웃 성공";
 
     private final RedisRefreshTokenRepository redisRefreshTokenRepository;
+    private final JWTUtil jwtUtil;
 
     @Autowired
-    public CustomLogoutSuccessHandler(RedisRefreshTokenRepository redisRefreshTokenRepository) {
+    public CustomLogoutSuccessHandler(RedisRefreshTokenRepository redisRefreshTokenRepository, JWTUtil jwtUtil) {
         this.redisRefreshTokenRepository = redisRefreshTokenRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
     public Mono<Void> onLogoutSuccess(WebFilterExchange webFilterExchange, Authentication authentication) {
         ServerWebExchange exchange = webFilterExchange.getExchange();
-        String refreshTokenValue = extractTokenFromCookie(exchange, REFRESH_TOKEN_COOKIE_NAME);
+        String accessTokenValue = extractTokenFromCookie(exchange, ACCESS_TOKEN_COOKIE_NAME);
 
         Mono<Void> deleteTokensMono = Mono.empty();
 
-        if (refreshTokenValue != null) {
-            deleteTokensMono = redisRefreshTokenRepository.deleteByProviderId(refreshTokenValue)
-                    .doOnSuccess(deleted -> log.info(deleted != null && deleted
-                            ? "리프레시 토큰이 Redis에서 삭제되었습니다: {}"
-                            : "리프레시 토큰이 Redis에서 삭제되지 않았습니다: {}", refreshTokenValue))
-                    .doOnError(e -> log.error("리프레시 토큰 삭제 중 오류 발생", e)).then();
+        if (accessTokenValue != null) {
+            String providerId = jwtUtil.getProviderId(accessTokenValue);
+            log.debug("Extracted providerId from access token: {}", providerId);
+
+            if (providerId != null) {
+                deleteTokensMono = redisRefreshTokenRepository.findById(providerId)
+                        .flatMap(refreshToken -> {
+                            log.info("Redis에서 리프레시 토큰을 찾았습니다: {}", refreshToken);
+                            return redisRefreshTokenRepository.deleteById(providerId);
+                        })
+                        .doOnSuccess(deleted -> log.info(deleted
+                                ? "리프레시 토큰이 Redis에서 삭제되었습니다: {}"
+                                : "리프레시 토큰이 Redis에서 삭제되지 않았습니다: {}", providerId))
+                        .doOnError(e -> log.error("리프레시 토큰 삭제 중 오류 발생", e)).then();
+            } else {
+                log.warn("providerId가 null입니다. 리프레시 토큰을 삭제할 수 없습니다.");
+            }
+        } else {
+            log.warn("액세스 토큰이 null입니다. 쿠키에서 액세스 토큰을 찾을 수 없습니다.");
         }
 
         deleteTokensMono = deleteTokensMono.then(Mono.fromRunnable(() -> {
