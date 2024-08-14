@@ -3,7 +3,7 @@ package ott.j4jg_gateway.repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.stereotype.Repository;
-import ott.j4jg_gateway.domain.entity.RefreshToken;
+import ott.j4jg_gateway.model.entity.RefreshToken;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
