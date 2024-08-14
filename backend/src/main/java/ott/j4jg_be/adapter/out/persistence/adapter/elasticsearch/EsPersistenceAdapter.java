@@ -13,20 +13,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EsPersistenceAdapter implements EsSamplePort {
 
-    private final EsSampleRepository esSampleRepository;
+//    private final EsSampleRepository esSampleRepository;
 
     @Override
     public EsSampleDTO saveEntity(EsSampleDTO dto) {
         SampleEntity entity = dto.toEntity();
-        SampleEntity savedEntity = esSampleRepository.save(entity);
-        return EsSampleDTO.fromEntity(savedEntity);
+//        SampleEntity savedEntity = esSampleRepository.save(entity);
+//        return EsSampleDTO.fromEntity(savedEntity);
+        return null;
     }
 
     @Override
     public List<EsSampleDTO> findByCompanyName(String companyName) {
-        return esSampleRepository.findAllByCompanyName(companyName)
-                .stream()
-                .map((Object entity) -> EsSampleDTO.fromEntity((SampleEntity) entity))
-                .toList();
+//        return esSampleRepository.findAllByCompanyName(companyName)
+//                .stream()
+//                .map((Object entity) -> EsSampleDTO.fromEntity((SampleEntity) entity))
+//                .toList();
+        return null;
     }
 }

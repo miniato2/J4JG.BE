@@ -4,9 +4,9 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.elasticsearch.annotations.Document;
+//import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "jobinfo")
+//@Document(indexName = "jobinfo")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

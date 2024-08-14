@@ -5,11 +5,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
+//import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.List;
 
-@Document(indexName = "sample")
+//@Document(indexName = "sample")
 @Builder
 @Getter
 @AllArgsConstructor

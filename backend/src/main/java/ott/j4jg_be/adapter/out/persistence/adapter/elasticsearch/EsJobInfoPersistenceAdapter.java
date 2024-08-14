@@ -16,18 +16,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EsJobInfoPersistenceAdapter implements JobInfoPort {
 
-    private final JobInfoEntityRepository jobInfoEntityRepository;
+//    private final JobInfoEntityRepository jobInfoEntityRepository;
 
     @Override
     public List<String> getCompanyNames(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<JobInfoEntity> jobInfoPage = jobInfoEntityRepository.findAll(pageable);
-        if (jobInfoPage.hasContent()) {
-            return jobInfoPage.stream()
-                    .map(JobInfoEntity::getCompanyName)
-                    .collect(Collectors.toList());
-        } else {
+//        Page<JobInfoEntity> jobInfoPage = jobInfoEntityRepository.findAll(pageable);
+//        if (jobInfoPage.hasContent()) {
+//            return jobInfoPage.stream()
+//                    .map(JobInfoEntity::getCompanyName)
+//                    .collect(Collectors.toList());
+//        } else {
             return List.of();
-        }
+//        }
     }
 }

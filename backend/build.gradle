@@ -35,7 +35,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     // Elasticsearch
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 
     // Web
 //    implementation 'org.springframework.boot:spring-boot-starter-web'

@@ -13,9 +13,9 @@ public class GatewayConfiguration {
         return builder.routes()
                 .route("backend_route", r -> r.path("/backend/**")
                         .filters(f -> f.rewritePath("/backend/(?<segment>.*)", "/${segment}"))
-                        .uri("http://localhost:8000"))  // 로컬 환경에서 실행 중인 백엔드 서비스의 주소
+                        .uri("http://localhost:8001"))  // 로컬 환경에서 실행 중인 백엔드 서비스의 주소
                 .route("notification_route", r -> r.path("/notification/**")
-                        .filters(f -> f.rewritePath("/notification/(?<segment>.*", "/${segment}"))
+                        .filters(f -> f.rewritePath("/notification/(?<segment>.*)", "/${segment}"))
                         .uri("http://localhost:8080"))
                 .build();
 
