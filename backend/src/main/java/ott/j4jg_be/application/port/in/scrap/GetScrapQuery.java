@@ -1,9 +1,9 @@
 package ott.j4jg_be.application.port.in.scrap;
 
-import ott.j4jg_be.domain.scrap.Scrap;
+import org.springframework.data.domain.Page;
+import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapDTO;
 
-import java.util.List;
 
 public interface GetScrapQuery {
-    List<Scrap> getScrapList(Long userId);
+    Page<ScrapDTO> getScrapList(String userId, int page);
 }

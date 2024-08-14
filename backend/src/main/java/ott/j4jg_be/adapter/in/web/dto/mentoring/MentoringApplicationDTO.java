@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class MentoringApplicationDTO {
     private int applicationId;
-    private Long userId;
+    private String userId;
     private String userName;
     private String surveyResponse;
     private LocalDateTime createdAt;
 //    private boolean status;
 
-    public MentoringApplicationDTO(int applicationId, Long userId, LocalDateTime createdAt){
+    public MentoringApplicationDTO(int applicationId, String userId, LocalDateTime createdAt){
         this.applicationId = applicationId;
         this.userId = userId;
         this.createdAt = createdAt;

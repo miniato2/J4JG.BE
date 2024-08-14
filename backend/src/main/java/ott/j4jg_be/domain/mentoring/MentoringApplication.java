@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 public class MentoringApplication {
     //멘토링 신청
     private int applicationId;
-    private Long userId;
+    private String userId;
     private String userName;
     private String surveyResponse;
     private LocalDateTime createdAt;
     private boolean status;
 
-    public MentoringApplication(int applicationId, Long userId,
+    public MentoringApplication(int applicationId, String userId,
                                 LocalDateTime createdAt, boolean status){
         this.applicationId = applicationId;
         this.userId = userId;

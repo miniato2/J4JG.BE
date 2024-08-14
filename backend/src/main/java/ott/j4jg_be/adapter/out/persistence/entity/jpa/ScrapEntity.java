@@ -16,7 +16,7 @@ public class ScrapEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int scrapId;
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
     @Column(name = "jobinfo_id")
     private int jobInfoId;
     @Column(name = "created_at")
@@ -26,7 +26,7 @@ public class ScrapEntity {
 
     protected ScrapEntity(){}
 
-    public ScrapEntity(Long userId,
+    public ScrapEntity(String userId,
                        int jobInfoId,
                        boolean status){
         this.userId = userId;

@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class MatchingRequestDTO {
-    private Long userId;
     private int mentoringId;
     private int applicationId;
 }

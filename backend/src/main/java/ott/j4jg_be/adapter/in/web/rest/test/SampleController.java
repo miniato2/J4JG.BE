@@ -40,7 +40,7 @@ public class SampleController {
     public String getUserProfile() {
         // 예제 UserInfo 객체 생성
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(1L);
+        userInfo.setId("1");
         userInfo.setUsername("johndoe");
         userInfo.setEmail("john.doe@example.com");
 

@@ -1,6 +1,10 @@
 package ott.j4jg_be.adapter.out.persistence.adapter.jpa.mentoring;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringEntity;
 import ott.j4jg_be.adapter.out.persistence.mapper.mentoring.MentoringEntityMapper;
@@ -19,18 +23,37 @@ public class GetMentoringAdapter implements GetMentoringPort {
     private final MentoringEntityMapper mapper;
 
     @Override
-    public List<Mentoring> getMentoringList() {
-        List<MentoringEntity> mentoringEntities = mentoringRepository.findAllByOrderByUpdatedAtDesc();
-        return mentoringEntities.stream().map(mapper::mapToDomain).collect(Collectors.toList());
+    public Page<Mentoring> getMentoringList(int page) {
+
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+        Page<MentoringEntity> mentoringEntities = mentoringRepository.findAllByOrderByUpdatedAtDesc(pageable);
+
+        return mentoringEntities.map(mapper::mapToDomain);
     }
 
     @Override
     public Mentoring getMentoring(int mentoringId) {
 
-        MentoringEntity entity = mentoringRepository.findById(mentoringId).orElse(null);
-        if(entity != null){
-            return mapper.mapToDomain(entity);
+        return mentoringRepository.findById(mentoringId)
+                .map(mapper::mapToDomain)
+                .orElse(null);
+    }
+
+    @Override
+    public Page<Mentoring> getMyMentoring(String userId, int page, String status) {
+
+        int size = 10;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<MentoringEntity> mentoringEntities = null;
+
+        if(status.equals("all")){
+            mentoringEntities = mentoringRepository.findByUserId(userId, pageable);
+        }else{
+            mentoringEntities = mentoringRepository.findByUserIdAndStatus(userId, Boolean.parseBoolean(status), pageable);
         }
-        return null;
+
+        return mentoringEntities.map(mapper::mapToDomain);
     }
 }

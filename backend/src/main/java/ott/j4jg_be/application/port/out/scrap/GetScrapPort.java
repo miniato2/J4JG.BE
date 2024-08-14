@@ -1,13 +1,12 @@
 package ott.j4jg_be.application.port.out.scrap;
 
+import org.springframework.data.domain.Page;
 import ott.j4jg_be.domain.scrap.Scrap;
-
-import java.util.List;
 
 public interface GetScrapPort {
 
-    Scrap getScrapByUserAndJobInfo(Long userId, int jobInfoId);
+    Scrap getScrapByUserAndJobInfo(String userId, int jobInfoId);
 
-    List<Scrap> getScrapList(Long userId);
+    Page<Scrap> getScrapList(String userId, int page);
 
 }
