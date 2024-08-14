@@ -109,7 +109,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             logger.info("새 사용자 생성: {}", newUser);
 
             // UserAddInfo 생성 및 랜덤 닉네임 부여
-            String randomNickname = generateRandomNickname();
+            String randomNickname = generateUniqueRandomNickname();
             UserAddInfo userAddInfo = UserAddInfo.builder()
                     .user(newUser)
                     .userNickname(randomNickname)
@@ -146,9 +146,13 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
     }
 
-    private String generateRandomNickname() {
-        String[] prefixes = {"노력파", "열정맨", "행복이", "도전왕"};
-        int randomNumber = new Random().nextInt(1000);
-        return prefixes[new Random().nextInt(prefixes.length)] + randomNumber;
+    private String generateUniqueRandomNickname() {
+        String[] prefixes = {"노력맨", "열정맨", "행복맨", "도전맨", "취업맨", "부정맨"};
+        String nickname;
+        do {
+            int randomNumber = new Random().nextInt(1000);
+            nickname = prefixes[new Random().nextInt(prefixes.length)] + randomNumber;
+        } while (userAddInfoRepository.findByUserNickname(nickname).isPresent());
+        return nickname;
     }
 }
