@@ -78,13 +78,6 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Set up Gradle 9.0
-        run: |
-          wget https://services.gradle.org/distributions/gradle-9.0-bin.zip
-          unzip gradle-9.0-bin.zip
-          export GRADLE_HOME=$PWD/gradle-9.0
-          export PATH=$GRADLE_HOME/bin:$PATH
-
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
@@ -234,7 +227,7 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
 
       - name: Build with Gradle
-        run: ./gradlew :gateway:clean :gateway:build --info
-
-      - name: Run tests
-        run: ./gradlew :gateway:test
+        run: ./gradlew clean build
+#
+#      - name: Run tests
+#        run: ./gradlew :gateway:test
