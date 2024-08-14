@@ -97,7 +97,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .provider(oAuth2Response.getProvider())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
-                    .role("ROLE_MENTEE")
+                    .role("ROLE_UNKOWNUSER")
                     .build();
             logger.info("새 사용자 생성: {}", newUser);
             return newUser;
