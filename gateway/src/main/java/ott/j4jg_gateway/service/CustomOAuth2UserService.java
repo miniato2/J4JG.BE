@@ -15,6 +15,7 @@ import ott.j4jg_gateway.domain.dto.GoogleResponse;
 import ott.j4jg_gateway.domain.dto.KakaoResponse;
 import ott.j4jg_gateway.domain.dto.OAuth2Response;
 import ott.j4jg_gateway.domain.entity.User;
+import ott.j4jg_gateway.domain.enums.USERROLE;
 import ott.j4jg_gateway.repository.UserRepository;
 
 import java.time.LocalDateTime;
@@ -61,7 +62,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         }
 
         Collection<GrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority(user.getRole())
+                new SimpleGrantedAuthority(user.getRole().name())
         );
 
         CustomOAuth2User customOAuth2User = new CustomOAuth2User(
@@ -97,7 +98,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .provider(oAuth2Response.getProvider())
                     .createdAt(LocalDateTime.now())
                     .updatedAt(LocalDateTime.now())
-                    .role("ROLE_UNKOWNUSER")
+                    .role(USERROLE.ROLE_UNKNOWN) // 기본값으로 ROLE_UNKNOWN 설정
                     .build();
             logger.info("새 사용자 생성: {}", newUser);
             return newUser;
