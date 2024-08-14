@@ -43,15 +43,15 @@ public class ReissueController {
                 authorizationHeader.substring(7) : authorizationHeader;
 
         if (refreshToken == null || refreshToken.trim().isEmpty()) {
-            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새로고침 토큰이 없습니다."));
+            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새로고친 토큰이 없습니다."));
         }
 
-        // 새로고침 토큰 검증
+        // 새로고친 토큰 검증
         if (jwtUtil.isExpired(refreshToken)) {
-            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새로고침 토큰이 만료되었습니다."));
+            return Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("새로고친 토큰이 만료되었습니다."));
         }
 
-        // 새로고침 토큰 존재 확인
+        // 새로고친 토큰 존재 확인
         String providerId = jwtUtil.getProviderId(refreshToken);
         return refreshRepository.findById(providerId)
                 .flatMap(existingToken -> {
@@ -66,7 +66,7 @@ public class ReissueController {
                     // 새로운 리프레시 토큰 생성
                     String newRefreshToken = jwtUtil.createJwt("refresh", userEmail, role, provider, "", providerId, refreshTokenExpirationTime);
 
-                    // 새로고침 토큰 저장 및 기존 토큰 삭제
+                    // 새로고친 토큰 저장 및 기존 토큰 삭제
                     return refreshRepository.deleteByProviderId(providerId)
                             .then(saveNewRefreshToken(providerId, newRefreshToken, userEmail, provider))
                             .then(Mono.defer(() -> {
@@ -81,7 +81,7 @@ public class ReissueController {
                                 );
                             }));
                 })
-                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 새로고침 토큰입니다.")));
+                .switchIfEmpty(Mono.just(ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 새로고친 토큰입니다.")));
     }
 
     private Mono<Void> saveNewRefreshToken(String providerId, String refreshToken, String userEmail, String provider) {
