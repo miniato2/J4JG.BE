@@ -35,12 +35,4 @@ public class UserAddInfoDTO {
                 userAddInfo.getSurveyResponse()
         );
     }
-
-    public UserAddInfo toEntity(User user) {
-        return UserAddInfo.builder()
-                .user(user)
-                .userNickname(this.userNickname)
-                .surveyResponse(this.surveyResponse)
-                .build();
-    }
 }
