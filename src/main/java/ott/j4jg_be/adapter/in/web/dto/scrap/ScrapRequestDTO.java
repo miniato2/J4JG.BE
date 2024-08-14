@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ScrapRequestDTO {
-    private Long userId;
+    private String userId;
     private int jobInfoId;
 }

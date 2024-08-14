@@ -7,7 +7,7 @@ import ott.j4jg_be.domain.point.PointHistory;
 @Component
 public class PointHistoryEntityMapper {
 
-  public PointHistoryEntity toEntity(Long userId, PointHistory pointHistory) {
+  public PointHistoryEntity toEntity(String userId, PointHistory pointHistory) {
     return PointHistoryEntity.builder()
         .userId(userId)
         .points(pointHistory.getPoints())

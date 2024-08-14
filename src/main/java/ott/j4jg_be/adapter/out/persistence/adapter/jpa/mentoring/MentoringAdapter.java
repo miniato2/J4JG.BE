@@ -11,7 +11,7 @@ import ott.j4jg_be.domain.mentoring.Mentoring;
 
 @Component
 @RequiredArgsConstructor
-public class MentoringAdapter implements CreateMentoringPort, UpdateMentoringPort {
+public class MentoringAdapter implements CreateMentoringPort, UpdateMentoringPort{
 
     private final MentoringRepository mentoringRepository;
     private final MentoringEntityMapper mapper;
@@ -23,8 +23,15 @@ public class MentoringAdapter implements CreateMentoringPort, UpdateMentoringPor
 
     @Override
     public void updateCurrentPerson(int mentoringId) {
-        MentoringEntity mentoring = mentoringRepository.findById(mentoringId).get();
+        MentoringEntity mentoring = mentoringRepository.findById(mentoringId).orElseThrow();
         mentoring.updateCurrentPerson();
     }
 
+    @Override
+    public void updateStatus(int mentoringId) {
+
+        MentoringEntity mentoring = mentoringRepository.findById(mentoringId).orElseThrow();
+
+        mentoring.updateStatusToFalse();
+    }
 }

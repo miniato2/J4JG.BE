@@ -8,4 +8,6 @@ import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringApplica
 
 public interface MentoringApplicationRepository extends JpaRepository<MentoringApplicationEntity, Integer> {
     Page<MentoringApplicationEntity> findByStatus(boolean b, Pageable pageable);
+
+    MentoringApplicationEntity findByUserId(String userId);
 }

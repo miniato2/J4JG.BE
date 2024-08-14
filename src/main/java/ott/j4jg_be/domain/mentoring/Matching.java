@@ -10,13 +10,13 @@ import java.time.LocalDateTime;
 public class Matching {
     private int applicationId;
     private int mentoringId;
-    private Long userId;
+    private String userId;
     private String userName;
     private String surveyResponse;
     private LocalDateTime createdAt;
     private boolean status;
 
-    public Matching(int applicationId, int mentoringId, Long userId,
+    public Matching(int applicationId, int mentoringId, String userId,
                                 LocalDateTime createdAt, boolean status){
         this.applicationId = applicationId;
         this.mentoringId = mentoringId;
