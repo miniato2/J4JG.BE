@@ -15,13 +15,16 @@ import ott.j4jg_gateway.domain.dto.GoogleResponse;
 import ott.j4jg_gateway.domain.dto.KakaoResponse;
 import ott.j4jg_gateway.domain.dto.OAuth2Response;
 import ott.j4jg_gateway.domain.entity.User;
+import ott.j4jg_gateway.domain.entity.UserAddInfo;
 import ott.j4jg_gateway.domain.enums.USERROLE;
 import ott.j4jg_gateway.repository.UserRepository;
+import ott.j4jg_gateway.repository.UserAddInfoRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.Random;
 
 @Service
 @Transactional
@@ -30,9 +33,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     private static final Logger logger = LoggerFactory.getLogger(CustomOAuth2UserService.class);
 
     private final UserRepository userRepository;
+    private final UserAddInfoRepository userAddInfoRepository;
 
-    public CustomOAuth2UserService(UserRepository userRepository) {
+    public CustomOAuth2UserService(UserRepository userRepository, UserAddInfoRepository userAddInfoRepository) {
         this.userRepository = userRepository;
+        this.userAddInfoRepository = userAddInfoRepository;
     }
 
     @Override
@@ -80,6 +85,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         return customOAuth2User;
     }
 
+    // Method visibility changed to public
     public User saveOrUpdateUser(OAuth2Response oAuth2Response) {
         logger.info("saveOrUpdateUser 메서드 시작");
 
@@ -101,6 +107,16 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .role(USERROLE.ROLE_UNKNOWN) // 기본값으로 ROLE_UNKNOWN 설정
                     .build();
             logger.info("새 사용자 생성: {}", newUser);
+
+            // UserAddInfo 생성 및 랜덤 닉네임 부여
+            String randomNickname = generateRandomNickname();
+            UserAddInfo userAddInfo = UserAddInfo.builder()
+                    .user(newUser)
+                    .userNickname(randomNickname)
+                    .surveyResponse("") // 기본값
+                    .build();
+            userAddInfoRepository.save(userAddInfo);
+
             return newUser;
         });
 
@@ -128,5 +144,11 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             default:
                 throw new IllegalArgumentException("지원하지 않는 OAuth2 제공자: " + registrationId);
         }
+    }
+
+    private String generateRandomNickname() {
+        String[] prefixes = {"노력파", "열정맨", "행복이", "도전왕"};
+        int randomNumber = new Random().nextInt(1000);
+        return prefixes[new Random().nextInt(prefixes.length)] + randomNumber;
     }
 }
