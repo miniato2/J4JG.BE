@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ott.j4jg_gateway.domain.entity.RefreshToken;
+import ott.j4jg_gateway.model.entity.RefreshToken;
 import ott.j4jg_gateway.jwt.JWTUtil;
 import ott.j4jg_gateway.repository.RedisRefreshTokenRepository;
 import reactor.core.publisher.Mono;
@@ -95,7 +95,6 @@ public class ReissueController {
                 .build();
         return refreshRepository.save(refreshTokenEntity)
                 .doOnError(e -> {
-                    // 로그를 출력하고 에러를 처리합니다.
                     System.err.println("Error saving refresh token to Redis: " + e.getMessage());
                 })
                 .then();
