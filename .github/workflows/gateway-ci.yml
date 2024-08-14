@@ -227,7 +227,7 @@ jobs:
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
 
       - name: Build with Gradle
-        run: ./gradlew :gateway:clean :gateway:build
+        run: ./gradlew :gateway:clean :gateway:build --info
 
       - name: Run tests
         run: ./gradlew :gateway:test
