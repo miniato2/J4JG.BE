@@ -2,6 +2,7 @@ package ott.j4jg_gateway.jwt;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,9 +20,7 @@ import java.util.logging.Logger;
 public class JWTUtil {
 
     private final SecretKey secretKey;
-    @Getter
     private final long accessTokenExpirationTime;
-    @Getter
     private final long refreshTokenExpirationTime;
     private static final Logger logger = Logger.getLogger(JWTUtil.class.getName());
 
@@ -31,6 +30,15 @@ public class JWTUtil {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.accessTokenExpirationTime = accessTokenExpirationTime;
         this.refreshTokenExpirationTime = refreshTokenExpirationTime;
+    }
+
+    // 직접 정의한 getter 메서드
+    public long getAccessTokenExpirationTime() {
+        return accessTokenExpirationTime;
+    }
+
+    public long getRefreshTokenExpirationTime() {
+        return refreshTokenExpirationTime;
     }
 
     // 토큰에서 모든 클레임을 추출하는 메서드
