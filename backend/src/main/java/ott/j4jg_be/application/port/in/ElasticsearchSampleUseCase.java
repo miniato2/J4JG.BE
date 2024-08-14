@@ -6,7 +6,6 @@ import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.SampleEntity;
 import java.util.List;
 
 public interface ElasticsearchSampleUseCase {
-    EsSampleDTO saveEntity(EsSampleDTO entity);
-
-    List<EsSampleDTO> findByField1(String field1);
+    EsSampleDTO saveEntity(EsSampleDTO dto);
+    List<EsSampleDTO> findByCompanyName(String companyName);
 }

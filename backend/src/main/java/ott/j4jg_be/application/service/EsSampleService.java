@@ -14,16 +14,16 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EsSampleService implements ElasticsearchSampleUseCase {
 
-    private final EsSamplePort samplePort;
-
+    private final EsSamplePort esSamplePort;
 
     @Override
-    public EsSampleDTO saveEntity(EsSampleDTO entity) {
-        return samplePort.saveEntity(entity);
+    public EsSampleDTO saveEntity(EsSampleDTO dto) {
+        return esSamplePort.saveEntity(dto);
     }
 
     @Override
-    public List<EsSampleDTO> findByField1(String field1) {
-        return samplePort.findByField1(field1);
+    public List<EsSampleDTO> findByCompanyName(String companyName) {
+        return esSamplePort.findByCompanyName(companyName);
     }
+
 }
