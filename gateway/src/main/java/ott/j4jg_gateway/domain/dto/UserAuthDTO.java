@@ -2,6 +2,7 @@ package ott.j4jg_gateway.domain.dto;
 
 import lombok.*;
 import ott.j4jg_gateway.domain.entity.User;
+import ott.j4jg_gateway.domain.enums.USERROLE;
 
 import java.time.LocalDateTime;
 
@@ -17,7 +18,7 @@ public class UserAuthDTO {
     private String userPhoneNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private String role;
+    private USERROLE role;
 
     public static UserAuthDTO fromEntity(User user) {
         if (user == null) {

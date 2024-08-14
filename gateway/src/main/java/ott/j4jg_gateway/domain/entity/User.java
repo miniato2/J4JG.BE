@@ -2,6 +2,7 @@ package ott.j4jg_gateway.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ott.j4jg_gateway.domain.enums.USERROLE;
 
 import java.time.LocalDateTime;
 
@@ -32,8 +33,9 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
-    private String role;
+    private USERROLE role;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserAddInfo userAddInfo;
