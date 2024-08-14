@@ -1,0 +1,11 @@
+# .gitattributes 파일 내용
+
+# 모든 Gradle 파일에 대해 줄바꿈을 LF로 설정
+*.gradle text eol=lf
+
+# 모든 Java 파일에 대해 줄바꿈을 LF로 설정
+*.java text eol=lf
+
+# 모든 YAML 파일에 대해 줄바꿈을 LF로 설정
+*.yml text eol=lf
+*.yaml text eol=lf

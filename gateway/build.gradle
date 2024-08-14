@@ -1,22 +1,13 @@
 plugins {
     id 'org.springframework.boot' version '3.3.2'
-    id 'io.spring.dependency-management' version '1.1.6'
+    id 'io.spring.dependency-management'
     id 'java'
 }
 
 jar {
-    archiveBaseName = 'gateway'
-    archiveVersion = '0.0.1-SNAPSHOT'
+    archiveBaseName.set('gateway')
+    archiveVersion.set('0.0.1-SNAPSHOT')
 }
-
-ext {
-    springCloudVersion = "2023.0.3"
-}
-
-group = 'ott'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '17'
-targetCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -32,23 +23,49 @@ dependencies {
     // Spring Boot starter for WebFlux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // Spring Boot starter for Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+    // Spring Boot starter for OAuth2 Client
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+    // Spring Boot starter for Data JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // MySQL Connector
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
     // Actuator and Tracing
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
 
+    // JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
+    implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+    // Redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
+    // MapStruct
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // Testing
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
+    // Jakarta Servlet API
+    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
-    }
+    // assertj
+    testImplementation 'org.assertj:assertj-core:3.24.2'
+
+    // Mockito
+    testImplementation 'org.mockito:mockito-core:5.4.0'
+    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
+
 }
 
 tasks.named('bootJar') {
