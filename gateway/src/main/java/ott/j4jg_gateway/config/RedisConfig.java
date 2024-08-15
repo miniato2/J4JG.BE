@@ -1,7 +1,6 @@
 package ott.j4jg_gateway.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -20,11 +19,8 @@ public class RedisConfig {
 
         // Jackson2JsonRedisSerializer 설정
         Jackson2JsonRedisSerializer<RefreshToken> jsonSerializer = new Jackson2JsonRedisSerializer<>(RefreshToken.class);
-
-        // ObjectMapper에 JavaTimeModule 모듈 추가
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule()); // 시간 관련 모듈 추가
-//        jsonSerializer.setObjectMapper(objectMapper);
+        jsonSerializer.setObjectMapper(objectMapper);
 
         // RedisSerializationContext 설정
         RedisSerializationContext<String, RefreshToken> serializationContext = RedisSerializationContext

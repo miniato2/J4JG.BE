@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import ott.j4jg_gateway.model.enums.USERROLE;
 
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class User {
     @Id
@@ -39,80 +39,4 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserAddInfo userAddInfo;
-
-
-    public User(String userId, String userEmail, String provider, String userPhoneNumber, LocalDateTime createdAt, LocalDateTime updatedAt, String role, UserAddInfo userAddInfo) {
-        this.userId = userId;
-        this.userEmail = userEmail;
-        this.provider = provider;
-        this.userPhoneNumber = userPhoneNumber;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.role = role;
-        this.userAddInfo = userAddInfo;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public String getUserPhoneNumber() {
-        return userPhoneNumber;
-    }
-
-    public void setUserPhoneNumber(String userPhoneNumber) {
-        this.userPhoneNumber = userPhoneNumber;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public UserAddInfo getUserAddInfo() {
-        return userAddInfo;
-    }
-
-    public void setUserAddInfo(UserAddInfo userAddInfo) {
-        this.userAddInfo = userAddInfo;
-    }
 }
