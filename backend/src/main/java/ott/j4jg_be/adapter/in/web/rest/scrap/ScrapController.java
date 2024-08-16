@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapDTO;
-import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapRequestDTO;
 import ott.j4jg_be.application.port.in.scrap.CancelScrapUsecase;
 import ott.j4jg_be.application.port.in.scrap.GetScrapQuery;
 import ott.j4jg_be.application.port.in.scrap.ScrapUsecase;
@@ -22,8 +21,8 @@ public class ScrapController {
     private final GetScrapQuery getScrapQuery;
 
     @PostMapping("/scrap")
-    public void scrapJobInfo(@ModelAttribute ScrapRequestDTO scrapRequestDTO) {
-        scrapUsecase.scrapJobInfo(scrapRequestDTO);
+    public void scrapJobInfo(@CurrentUser User user, int jobInfoId) {
+        scrapUsecase.scrapJobInfo(user.getId(), jobInfoId);
     }
 
     @PutMapping("/scrap")

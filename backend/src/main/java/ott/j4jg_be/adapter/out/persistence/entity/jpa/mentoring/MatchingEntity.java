@@ -18,11 +18,20 @@ public class MatchingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "matching_id")
     private int matchingId;
+
+    @Column(name = "user_id")
     private String userId;
+
+    @Column(name = "mentoring_id", nullable = false)
     private int mentoringId;
+
+    @Column(name = "status")
     private boolean status;
+
     @CreatedDate
+    @Column(name = "crated_at")
     private LocalDateTime createdAt;
 
     protected MatchingEntity(){}

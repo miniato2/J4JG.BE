@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringApplicationDTO;
-import ott.j4jg_be.adapter.in.web.mapper.Mentoring.MentoringApplicationMapper;
+import ott.j4jg_be.adapter.in.web.mapper.mentoring.MentoringApplicationMapper;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringApplicationQuery;
 import ott.j4jg_be.application.port.out.mentoring.GetMentoringApplicationPort;
 import ott.j4jg_be.domain.mentoring.MentoringApplication;

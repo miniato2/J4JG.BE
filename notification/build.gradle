@@ -21,7 +21,13 @@ repositories {
     mavenCentral()
 }
 
+tasks.named('bootJar').configure {
+    enabled = false
+}
+
 dependencies {
+
+
 
     // Lombok
     implementation 'org.projectlombok:lombok'

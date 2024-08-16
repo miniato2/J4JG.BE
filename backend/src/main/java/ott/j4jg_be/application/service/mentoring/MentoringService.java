@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringDTO;
-import ott.j4jg_be.adapter.in.web.mapper.Mentoring.MentoringMapper;
+import ott.j4jg_be.adapter.in.web.mapper.mentoring.MentoringMapper;
 import ott.j4jg_be.application.port.in.mentoring.CreateMentoringUsecase;
 import ott.j4jg_be.application.port.in.mentoring.UpdateMentoringUsecase;
 import ott.j4jg_be.application.port.out.mentoring.CreateMentoringPort;

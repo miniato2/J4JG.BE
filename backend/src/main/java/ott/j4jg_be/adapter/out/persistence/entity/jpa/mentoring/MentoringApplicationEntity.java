@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.user.UserEntity;
 
 import java.time.LocalDateTime;
 
@@ -17,11 +18,21 @@ public class MentoringApplicationEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "application_id")
     private int applicationId;
-    //연관관계 필요
+
+    @Column(name = "user_id", nullable = false)
     private String userId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private UserEntity user;
+
+    @Column(name = "status")
     private boolean status; //초기 true, 신청됬을때 false
+
     @CreatedDate
+    @Column(name = "create_at")
     private LocalDateTime createAt;
 
     protected MentoringApplicationEntity(){}

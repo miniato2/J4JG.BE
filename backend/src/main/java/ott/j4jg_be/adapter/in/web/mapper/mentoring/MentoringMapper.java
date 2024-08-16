@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.mapper.Mentoring;
+package ott.j4jg_be.adapter.in.web.mapper.mentoring;
 
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringDTO;
@@ -11,6 +11,7 @@ public class MentoringMapper {
         return new Mentoring(
                 mentoringDTO.getMentoringId(),
                 mentoringDTO.getUserId(),
+                mentoringDTO.getUserName(),
                 mentoringDTO.getDescription(),
                 mentoringDTO.getTitle(),
                 mentoringDTO.getCreatedAt(),
@@ -32,6 +33,7 @@ public class MentoringMapper {
         return new MentoringDTO(
                 mentoring.getMentoringId(),
                 mentoring.getUserId(),
+                mentoring.getUserName(),
                 mentoring.getDescription(),
                 mentoring.getTitle(),
                 mentoring.getCreatedAt(),

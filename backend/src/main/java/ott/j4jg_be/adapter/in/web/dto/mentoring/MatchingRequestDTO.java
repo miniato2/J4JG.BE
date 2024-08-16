@@ -9,5 +9,6 @@ import lombok.*;
 @ToString
 public class MatchingRequestDTO {
     private int mentoringId;
+    private String userId;
     private int applicationId;
 }

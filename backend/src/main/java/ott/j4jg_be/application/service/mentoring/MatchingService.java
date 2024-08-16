@@ -24,7 +24,7 @@ public class MatchingService implements MatchingUsecase {
 
     @Transactional
     @Override
-    public void matching(MatchingRequestDTO matchingRequestDTO, String userId) {
+    public void matching(MatchingRequestDTO matchingRequestDTO) {
 
         //동시성 문제 해결필요, 멘토링 방인원, 신청내역에 회원 상태
 
@@ -33,7 +33,7 @@ public class MatchingService implements MatchingUsecase {
 
         if(mentoring.isNotFull(mentoring.getMaxPerson(), mentoring.getCurrentPerson())){
             //매칭
-            matchingPort.matching(userId, matchingRequestDTO.getMentoringId());
+            matchingPort.matching(matchingRequestDTO.getUserId(), matchingRequestDTO.getMentoringId());
 
             //멘토링 currentPerson 업데이트
             updateMentoringPort.updateCurrentPerson(matchingRequestDTO.getMentoringId());
@@ -42,7 +42,7 @@ public class MatchingService implements MatchingUsecase {
             updateMentoringApplicationPort.updateStatus(matchingRequestDTO.getApplicationId());
 
             //포인트 차감
-            pointUseCase.usePoints(userId, 100, "멘토링 신청");
+            pointUseCase.usePoints(matchingRequestDTO.getUserId(), 100, "멘토링 신청");
         }
     }
 }

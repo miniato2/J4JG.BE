@@ -11,6 +11,14 @@ ext {
 group = 'ott'
 version = '0.0.1-SNAPSHOT'
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)

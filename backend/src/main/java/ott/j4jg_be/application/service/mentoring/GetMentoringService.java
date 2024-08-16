@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringDTO;
-import ott.j4jg_be.adapter.in.web.mapper.Mentoring.MentoringMapper;
+import ott.j4jg_be.adapter.in.web.mapper.mentoring.MentoringMapper;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringQuery;
 import ott.j4jg_be.application.port.out.mentoring.GetMentoringPort;
 import ott.j4jg_be.domain.mentoring.Mentoring;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
