@@ -1,13 +1,6 @@
-server:
-  tomcat:
-    threads:
-      max: 62
-      min-spare: 20
-    accept-count: 20
-    max-connections: 10000
-  port: 5001
-
 spring:
+  config:
+    import: "optional:envfile:.env"
   cache:
     type: simple
   datasource:
@@ -28,13 +21,21 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
   elasticsearch:
     uris: ${SPRING_ELASTICSEARCH_URIS}
-
   profiles:
     active: master
   data:
     redis:
       host: ${SPRING_REDIS_HOST}
       port: ${SPRING_REDIS_PORT}
+
+server:
+  tomcat:
+    threads:
+      max: 62
+      min-spare: 20
+    accept-count: 20
+    max-connections: 10000
+  port: 5001
 
 datasource:
   master:

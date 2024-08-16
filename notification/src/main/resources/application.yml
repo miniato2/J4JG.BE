@@ -2,6 +2,10 @@ server:
   port: 8002
 
 spring:
+  config:
+    import: "optional:envfile:.env"
+  devtools:
+    add-properties: false
   mail:
     host: ${SPRING_MAIL_HOST}
     port: ${SPRING_MAIL_PORT}
