@@ -1,6 +1,5 @@
 ### SETTINGS ###
 .env
-application.yml
 HELP.md
 
 ### GRADLE ###

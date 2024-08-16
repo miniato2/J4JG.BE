@@ -1,0 +1,117 @@
+server:
+  tomcat:
+    threads:
+      max: 62
+      min-spare: 20
+    accept-count: 20
+    max-connections: 10000
+  port: 8000
+
+spring:
+  application:
+    name: j4jg_gateway
+  cache:
+    type: redis
+  zipkin:
+    base-url: http://localhost:9411
+    sender:
+      type: web
+      compression: true
+    sampler:
+      probability: 1.0  # Adjust the sampling rate as needed (0.0 - 1.0)
+  main:
+    web-application-type: reactive
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    hikari:
+      maximum-pool-size: 62
+      minimum-idle: 20
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  elasticsearch:
+    uris: ${ELASTICSEARCH_URIS}
+
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-name: kakao
+            client-id: ${OAUTH2_CLIENT_KAKAO_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_KAKAO_CLIENT_SECRET}
+            redirect-uri: ${OAUTH2_CLIENT_KAKAO_REDIRECT_URI}
+            authorization-grant-type: authorization_code
+            client-authentication-method: client_secret_post
+            provider: kakao
+            scope:
+              - account_email
+              - phone_number
+          google:
+            client-name: google
+            client-id: ${OAUTH2_CLIENT_GOOGLE_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_GOOGLE_CLIENT_SECRET}
+            redirect-uri: ${OAUTH2_CLIENT_GOOGLE_REDIRECT_URI}
+            authorization-grant-type: post
+            provider: google
+            scope:
+              - profile
+              - email
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+          google:
+            authorization-uri: https://accounts.google.com/o/oauth2/auth
+            token-uri: https://oauth2.googleapis.com/token
+            user-info-uri: https://www.googleapis.com/oauth2/v3/userinfo
+            user-name-attribute: sub
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST}
+      port: ${SPRING_REDIS_PORT}
+
+datasource:
+  master:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  slave:
+    url: jdbc:mysql://localhost:3307/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
+    username: 5tt
+    password: 5tt
+
+routing:
+  datasource:
+    default-target-datasource: master
+    target-datasources:
+      slave: slave
+
+aws:
+  access-key: ${AWS_ACCESS_KEY}
+  secret-key: ${AWS_SECRET_KEY}
+  region: ${AWS_REGION}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    org.springframework.security: DEBUG
+
+jwt:
+  secret: ${JWT_SECRET}
+  accessTokenExpirationTime: ${JWT_ACCESS_TOKEN_EXPIRATION_TIME} # 30분(ms 단위)
+  refreshTokenExpirationTime: ${JWT_REFRESH_TOKEN_EXPIRATION_TIME} # 3일(ms 단위)
