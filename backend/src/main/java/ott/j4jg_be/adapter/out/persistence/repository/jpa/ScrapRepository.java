@@ -3,7 +3,7 @@ package ott.j4jg_be.adapter.out.persistence.repository.jpa;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.scrap.ScrapEntity;
 
 public interface ScrapRepository extends JpaRepository<ScrapEntity, Integer> {
 

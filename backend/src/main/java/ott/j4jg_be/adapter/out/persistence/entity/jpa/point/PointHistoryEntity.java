@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.out.persistence.entity.jpa;
+package ott.j4jg_be.adapter.out.persistence.entity.jpa.point;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.mapper.Mentoring;
+package ott.j4jg_be.adapter.in.web.mapper.mentoring;
 
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringDTO;

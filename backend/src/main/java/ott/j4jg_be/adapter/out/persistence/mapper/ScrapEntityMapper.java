@@ -1,7 +1,7 @@
 package ott.j4jg_be.adapter.out.persistence.mapper;
 
 import org.springframework.stereotype.Component;
-import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.scrap.ScrapEntity;
 import ott.j4jg_be.domain.scrap.Scrap;
 
 @Component

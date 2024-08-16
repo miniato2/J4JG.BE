@@ -16,8 +16,8 @@ public class MatchingController {
     private final MatchingUsecase matchingUsecase;
 
     @PostMapping("/matching")
-    public void mentoringMatching(@ModelAttribute MatchingRequestDTO matchingRequestDTO, @CurrentUser User user){
-        matchingUsecase.matching(matchingRequestDTO, user.getId());
+    public void mentoringMatching(@ModelAttribute MatchingRequestDTO matchingRequestDTO){
+        matchingUsecase.matching(matchingRequestDTO);
     }
 
     //매칭 조회

@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.scrap.ScrapEntity;
 import ott.j4jg_be.adapter.out.persistence.mapper.ScrapEntityMapper;
 import ott.j4jg_be.adapter.out.persistence.repository.jpa.ScrapRepository;
 import ott.j4jg_be.application.port.out.scrap.UpdateScrapPort;

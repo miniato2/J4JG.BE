@@ -3,9 +3,8 @@ package ott.j4jg_be.application.service.scrap;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ott.j4jg_be.adapter.in.web.dto.scrap.ScrapRequestDTO;
-import ott.j4jg_be.application.port.in.scrap.CancelScrapUsecase;
 import ott.j4jg_be.application.port.in.point.PointUseCase;
+import ott.j4jg_be.application.port.in.scrap.CancelScrapUsecase;
 import ott.j4jg_be.application.port.in.scrap.ScrapUsecase;
 import ott.j4jg_be.application.port.out.scrap.CreateScrapPort;
 import ott.j4jg_be.application.port.out.scrap.GetScrapPort;
@@ -18,21 +17,22 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
 
     private final CreateScrapPort createScrapPort;
     private final GetScrapPort getScrapPort;
-    private final UpdateScrapPort cancelScrapPort;
+    private final UpdateScrapPort updateScrapPort;
     private final PointUseCase pointUseCase;
 
     @Transactional(readOnly = false, rollbackFor = Throwable.class)
     @Override
-    public void scrapJobInfo(ScrapRequestDTO requestDTO) {
+    public void scrapJobInfo(String userId,
+                             int jobInfoId) {
 
-        Scrap scrap = getScrapPort.getScrapByUserAndJobInfo(requestDTO.getUserId(), requestDTO.getJobInfoId());
+        Scrap scrap = getScrapPort.getScrapByUserAndJobInfo(userId, jobInfoId);
 
         if(scrap != null && !scrap.isStatus()){
-            cancelScrapPort.updateScrap(scrap, true);
+            updateScrapPort.updateScrap(scrap, true);
 
         } else if(scrap == null){
-            createScrapPort.createScrap(new Scrap(requestDTO.getUserId(), requestDTO.getJobInfoId(), true));
-            pointUseCase.addPoints(requestDTO.getUserId(), 50, "스크랩");
+            createScrapPort.createScrap(new Scrap(userId, jobInfoId, true));
+            pointUseCase.addPoints(userId, 50, "스크랩");
         }
     }
 
@@ -40,6 +40,6 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
     @Override
     public void cancelScrap(int scrapId) {
 
-        cancelScrapPort.cancelScrap(scrapId);
+        updateScrapPort.cancelScrap(scrapId);
     }
 }
