@@ -1,0 +1,108 @@
+version: '3.8'
+
+services:
+  elasticsearch-master:
+    container_name: elasticsearch-master
+    build:
+      context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    environment:
+      - node.name=elasticsearch-master
+      - cluster.name=elasticsearch-cluster
+      - discovery.seed_hosts=elasticsearch-node1,elasticsearch-node2
+      - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=zen
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch-master:/usr/share/elasticsearch/data:z
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    networks:
+      - elk
+
+  elasticsearch-node1:
+    container_name: elasticsearch-node1
+    build:
+      context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    environment:
+      - node.name=elasticsearch-node1
+      - cluster.name=elasticsearch-cluster
+      - discovery.seed_hosts=elasticsearch-master,elasticsearch-node2
+      - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=zen
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch-node1:/usr/share/elasticsearch/data:z
+    ports:
+      - "9201:9200"
+      - "9301:9300"
+    networks:
+      - elk
+
+  elasticsearch-node2:
+    container_name: elasticsearch-node2
+    build:
+      context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    environment:
+      - node.name=elasticsearch-node2
+      - cluster.name=elasticsearch-cluster
+      - discovery.seed_hosts=elasticsearch-master,elasticsearch-node1
+      - cluster.initial_master_nodes=elasticsearch-master,elasticsearch-node1,elasticsearch-node2
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - discovery.type=zen
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,z
+      - elasticsearch-node2:/usr/share/elasticsearch/data:z
+    ports:
+      - "9202:9200"
+      - "9302:9300"
+    networks:
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.14.1
+    container_name: logstash
+    volumes:
+      - ../logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ../logstash/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ${LOGSTASH_JOBINFO_LOGFILE}:/usr/share/logstash/logdata/jobinfo/jobinfo.log:ro
+      - ${LOGSTASH_NEWS_LOGFILE}:/usr/share/logstash/logdata/news/news.log:ro
+    environment:
+      - ELASTICSEARCH_HOST=elasticsearch-master
+      - ELASTICSEARCH_PORT=9200
+    ports:
+      - "9600:9600"
+    networks:
+      - elk
+
+networks:
+  elk:
+    driver: bridge
+
+volumes:
+  elasticsearch-master:
+  elasticsearch-node1:
+  elasticsearch-node2:

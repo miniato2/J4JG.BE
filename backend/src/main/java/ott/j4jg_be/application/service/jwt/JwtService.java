@@ -1,0 +1,62 @@
+package ott.j4jg_be.application.service.jwt;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import ott.j4jg_be.domain.user.UserInfo;
+
+import java.util.Date;
+
+@Service
+public class JwtService {
+
+    @Value("${jwt.secret-key}")
+    private String secretKey;
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
+    // JWT 토큰의 유효성을 검증
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    // JWT에서 UserInfo 객체를 추출
+    public UserInfo getUserInfoFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+
+        String userInfoJson = claims.get("userInfo", String.class);
+        try {
+            return objectMapper.readValue(userInfoJson, UserInfo.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Could not convert JSON to UserInfo", e);
+        }
+    }
+
+    public String createToken(UserInfo userInfo) {
+        try {
+            String userInfoJson = objectMapper.writeValueAsString(userInfo);
+
+            return Jwts.builder()
+                    .setSubject(userInfo.getUsername())
+                    .claim("userInfo", userInfoJson)
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
+                    .signWith(SignatureAlgorithm.HS256, secretKey)
+                    .compact();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("Could not convert UserInfo to JSON", e);
+        }
+    }
+}

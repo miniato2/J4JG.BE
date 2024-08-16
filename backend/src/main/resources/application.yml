@@ -1,0 +1,57 @@
+spring:
+  config:
+    import: "optional:envfile:.env"
+  cache:
+    type: simple
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 62
+      minimum-idle: 20
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      connection-timeout: 30000
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  elasticsearch:
+    uris: ${SPRING_ELASTICSEARCH_URIS}
+  profiles:
+    active: master
+  data:
+    redis:
+      host: ${SPRING_REDIS_HOST}
+      port: ${SPRING_REDIS_PORT}
+
+server:
+  tomcat:
+    threads:
+      max: 62
+      min-spare: 20
+    accept-count: 20
+    max-connections: 10000
+  port: 5001
+
+datasource:
+  master:
+    url: ${SPRING_DATASOURCE_URL_MASTER}
+    username: ${SPRING_DATASOURCE_USERNAME_MASTER}
+    password: ${SPRING_DATASOURCE_PASSWORD_MASTER}
+  slave:
+    url: ${SPRING_DATASOURCE_URL_SLAVE}
+    username: ${SPRING_DATASOURCE_USERNAME_SLAVE}
+    password: ${SPRING_DATASOURCE_PASSWORD_SLAVE}
+
+routing:
+  datasource:
+    default-target-datasource: master
+    target-datasources:
+      slave: slave
+
+jwt:
+  secret-key: ${JWT_SECRET_KEY}

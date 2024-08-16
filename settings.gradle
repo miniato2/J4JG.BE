@@ -1,1 +1,2 @@
-rootProject.name = 'J4JG_BE'
+rootProject.name = 'J4JG_Backend'
+include 'backend', 'notification', 'gateway'
