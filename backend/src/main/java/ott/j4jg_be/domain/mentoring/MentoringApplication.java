@@ -3,6 +3,7 @@ package ott.j4jg_be.domain.mentoring;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter

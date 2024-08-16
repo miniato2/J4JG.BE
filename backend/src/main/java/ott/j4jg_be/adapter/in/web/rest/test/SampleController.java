@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ott.j4jg_be.adapter.in.web.dto.SampleDTO;
-import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 import ott.j4jg_be.application.port.in.test.SampleUseCase;
+import ott.j4jg_be.adapter.out.persistence.entity.jpa.SampleEntity;
 import ott.j4jg_be.application.service.jwt.JwtService;
 import ott.j4jg_be.common.annotation.CurrentUser;
+import ott.j4jg_be.domain.user.User;
 import ott.j4jg_be.domain.user.UserInfo;
 
 import java.util.List;

@@ -4,8 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ott.j4jg_be.adapter.out.api.dto.JobInfoDTO;
 import ott.j4jg_be.adapter.out.api.mapper.JobInfoMapper;
+import ott.j4jg_be.adapter.out.api.dto.JobInfoDTO;
 import ott.j4jg_be.application.port.out.collection.CallJobInfoAPIPort;
 
 import java.util.ArrayList;

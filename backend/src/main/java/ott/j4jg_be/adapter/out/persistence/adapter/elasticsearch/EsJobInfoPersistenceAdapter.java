@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.JobInfoEntity;
 import ott.j4jg_be.adapter.out.persistence.repository.elasticsearch.JobInfoEntityRepository;
 import ott.j4jg_be.application.port.out.collection.JobInfoPort;
+import ott.j4jg_be.domain.collection.JobInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,18 +18,18 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EsJobInfoPersistenceAdapter implements JobInfoPort {
 
-//    private final JobInfoEntityRepository jobInfoEntityRepository;
+    private final JobInfoEntityRepository jobInfoEntityRepository;
 
     @Override
     public List<String> getCompanyNames(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-//        Page<JobInfoEntity> jobInfoPage = jobInfoEntityRepository.findAll(pageable);
-//        if (jobInfoPage.hasContent()) {
-//            return jobInfoPage.stream()
-//                    .map(JobInfoEntity::getCompanyName)
-//                    .collect(Collectors.toList());
-//        } else {
+        Page<JobInfoEntity> jobInfoPage = jobInfoEntityRepository.findAll(pageable);
+        if (jobInfoPage.hasContent()) {
+            return jobInfoPage.stream()
+                    .map(JobInfoEntity::getCompanyName)
+                    .collect(Collectors.toList());
+        } else {
             return List.of();
-//        }
+        }
     }
 }

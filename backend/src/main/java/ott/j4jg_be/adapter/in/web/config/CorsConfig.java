@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.config;//package ott.j4jg_be.adapter.in.web.config;
+//package ott.j4jg_be.adapter.in.web.config;
 //
 //import org.apache.catalina.filters.CorsFilter;
 //import org.springframework.context.annotation.Bean;

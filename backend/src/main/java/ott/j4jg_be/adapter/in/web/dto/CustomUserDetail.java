@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.in.web.dto;//package ott.j4jg_be.adapter.in.web.dto;
+//package ott.j4jg_be.adapter.in.web.dto;
 //
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;

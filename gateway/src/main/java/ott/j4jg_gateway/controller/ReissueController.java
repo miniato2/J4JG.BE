@@ -28,8 +28,8 @@ public class ReissueController {
 
     @Autowired
     public ReissueController(JWTUtil jwtUtil, RedisRefreshTokenRepository refreshRepository,
-                             @Value("${spring.jwt.accessTokenExpirationTime}") long accessTokenExpirationTime,
-                             @Value("${spring.jwt.refreshTokenExpirationTime}") long refreshTokenExpirationTime) {
+                             @Value("${jwt.accessTokenExpirationTime}") long accessTokenExpirationTime,
+                             @Value("${jwt.refreshTokenExpirationTime}") long refreshTokenExpirationTime) {
         this.jwtUtil = jwtUtil;
         this.refreshRepository = refreshRepository;
         this.accessTokenExpirationTime = accessTokenExpirationTime;

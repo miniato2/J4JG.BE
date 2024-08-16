@@ -8,13 +8,20 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.crawler.dto.NewsDTO;
+import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.JobInfoEntity;
+import ott.j4jg_be.adapter.out.persistence.repository.elasticsearch.JobInfoEntityRepository;
 import ott.j4jg_be.application.port.out.collection.CrawlingNewsPort;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Component

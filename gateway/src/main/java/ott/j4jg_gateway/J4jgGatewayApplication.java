@@ -5,9 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
+
 @SpringBootApplication
 @EnableCaching
-@EnableFeignClients // 간단한 서비스간 통신, 선언적 방식으로 쉽게 RESTful API를 호출
+@EnableFeignClients
 public class J4jgGatewayApplication {
 
     public static void main(String[] args) {

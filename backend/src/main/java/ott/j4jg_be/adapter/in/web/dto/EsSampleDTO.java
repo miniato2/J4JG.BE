@@ -1,9 +1,6 @@
 package ott.j4jg_be.adapter.in.web.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ott.j4jg_be.adapter.out.persistence.entity.elasticsearch.SampleEntity;
 
 import java.util.List;
