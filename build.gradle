@@ -11,23 +11,14 @@ ext {
 group = 'ott'
 version = '0.0.1-SNAPSHOT'
 
-bootJar {
-    enabled = false
-}
+subprojects {
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'java'
 
-jar {
-    enabled = true
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+    repositories {
+        mavenCentral()
     }
-}
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
     // JPA
@@ -92,7 +83,13 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
-}
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
 
 dependencyManagement {
     imports {
@@ -102,4 +99,21 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+    bootJar {
+        enabled = true
+    }
+
+    jar {
+        enabled = false
+    }
+}
+
+// 루트 프로젝트에서는 bootJar를 비활성화
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
 }
