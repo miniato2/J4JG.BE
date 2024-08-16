@@ -12,15 +12,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ScrapEntity {
     @Id
-    @Column(name = "scrap_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "scrap_id")
     private int scrapId;
+
     @Column(name = "user_id")
     private String userId;
+
     @Column(name = "jobinfo_id")
     private int jobInfoId;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
     @Column(name = "status")
     private Boolean status;
 

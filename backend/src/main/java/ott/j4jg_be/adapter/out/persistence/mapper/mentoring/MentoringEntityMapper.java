@@ -7,8 +7,6 @@ import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.mentoring.MentoringEntity;
 import ott.j4jg_be.domain.mentoring.Mentoring;
 
-import java.util.List;
-
 @Component
 @RequiredArgsConstructor
 public class MentoringEntityMapper {
@@ -17,25 +15,25 @@ public class MentoringEntityMapper {
     public MentoringEntity mapToEntity(Mentoring mentoring){
 
         try {
-            return new MentoringEntity(
-                    mentoring.getMentoringId(),
-                    mentoring.getUserId(),
-                    mentoring.getDescription(),
-                    mentoring.getTitle(),
-                    mentoring.getCreatedAt(),
-                    mentoring.getUpdatedAt(),
-                    mentoring.getStartDate(),
-                    mentoring.getEndDate(),
-                    mentoring.getLevel(),
-                    mentoring.getPoint(),
-                    objectMapper.writeValueAsString(mentoring.getSkillStack()),
-                    objectMapper.writeValueAsString(mentoring.getWeek()),
-                    mentoring.getType(),
-                    mentoring.getMaxPerson(),
-                    mentoring.getCurrentPerson(),
-                    mentoring.isStatus()
-            );
-        } catch (JsonProcessingException e) {
+            return MentoringEntity.builder()
+                    .mentoringId(mentoring.getMentoringId())
+                    .userId(mentoring.getUserId())
+                    .description(mentoring.getDescription())
+                    .title(mentoring.getTitle())
+                    .createdAt(mentoring.getCreatedAt())
+                    .updatedAt(mentoring.getUpdatedAt())
+                    .startDate(mentoring.getStartDate())
+                    .endDate(mentoring.getEndDate())
+                    .level(mentoring.getLevel())
+                    .point(mentoring.getPoint())
+                    .skillStack(objectMapper.writeValueAsString(mentoring.getSkillStack()))
+                    .week(objectMapper.writeValueAsString(mentoring.getWeek()))
+                    .type(mentoring.getType())
+                    .maxPerson(mentoring.getMaxPerson())
+                    .currentPerson(mentoring.getCurrentPerson())
+                    .status(mentoring.isStatus())
+                    .build();
+        }catch (Exception e){
             throw new RuntimeException(e);
         }
     }
@@ -44,7 +42,8 @@ public class MentoringEntityMapper {
         try {
             return new Mentoring(
                     entity.getMentoringId(),
-                    entity.getUserId(),
+                    entity.getUser().getUserId(),
+                    entity.getUser().getUserAddInfo().getUserNickname(),
                     entity.getDescription(),
                     entity.getTitle(),
                     entity.getCreatedAt(),

@@ -33,14 +33,14 @@ public class MentoringController {
     //멘토링 리스트 조회 -> 관리자
     @GetMapping("/mentoring/all")
     public ResponseEntity<Page<MentoringDTO>> getMentoringList(int page){
-//        return getMentoringQuery.getMentoringList();
+
         return ResponseEntity.ok().body(getMentoringQuery.getMentoringList(page));
     }
 
     //멘토링 상세 조회 -> 관리자,
     @GetMapping("/mentoring/{mentoringId}")
     public ResponseEntity<MentoringDTO> getMentoring(@PathVariable int mentoringId){
-//        return getMentoringQuery.getMentoring(mentoringId);
+
         return ResponseEntity.ok().body(getMentoringQuery.getMentoring(mentoringId));
     }
 

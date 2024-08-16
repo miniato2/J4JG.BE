@@ -11,8 +11,8 @@ public class MentoringApplicationEntityMapper {
         return new MentoringApplication(
                 entity.getApplicationId(),
                 entity.getUserId(),
-//                "d",
-//                "d",
+                entity.getUser().getUserAddInfo().getUserNickname(),
+                entity.getUser().getUserAddInfo().getSurveyResponse(),
                 entity.getCreateAt(),
                 entity.isStatus()
         );

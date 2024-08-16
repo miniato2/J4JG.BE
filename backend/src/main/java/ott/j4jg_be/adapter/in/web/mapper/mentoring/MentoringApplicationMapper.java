@@ -12,6 +12,8 @@ public class MentoringApplicationMapper {
         return new MentoringApplicationDTO(
                 domain.getApplicationId(),
                 domain.getUserId(),
+                domain.getUserName(),
+                domain.getSurveyResponse(),
                 domain.getCreatedAt()
         );
     }
