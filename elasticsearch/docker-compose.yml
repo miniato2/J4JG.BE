@@ -5,6 +5,8 @@ services:
     container_name: elasticsearch-master
     build:
       context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
     environment:
       - node.name=elasticsearch-master
       - cluster.name=elasticsearch-cluster
@@ -30,6 +32,8 @@ services:
     container_name: elasticsearch-node1
     build:
       context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
     environment:
       - node.name=elasticsearch-node1
       - cluster.name=elasticsearch-cluster
@@ -55,6 +59,8 @@ services:
     container_name: elasticsearch-node2
     build:
       context: ./elasticsearch/.
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
     environment:
       - node.name=elasticsearch-node2
       - cluster.name=elasticsearch-cluster
