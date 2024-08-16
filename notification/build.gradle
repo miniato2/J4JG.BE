@@ -17,6 +17,10 @@ java {
     }
 }
 
+springBoot {
+    mainClass.set('ott.j4jg_be.NotificationServiceApplication')
+}
+
 repositories {
     mavenCentral()
 }
