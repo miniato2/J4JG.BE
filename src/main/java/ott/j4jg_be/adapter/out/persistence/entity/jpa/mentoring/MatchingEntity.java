@@ -19,7 +19,7 @@ public class MatchingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int matchingId;
-    private Long userId;
+    private String userId;
     private int mentoringId;
     private boolean status;
     @CreatedDate
@@ -27,7 +27,7 @@ public class MatchingEntity {
 
     protected MatchingEntity(){}
 
-    public MatchingEntity(Long userId, int mentoringId){
+    public MatchingEntity(String userId, int mentoringId){
         this.userId = userId;
         this.mentoringId = mentoringId;
         this.status = true;

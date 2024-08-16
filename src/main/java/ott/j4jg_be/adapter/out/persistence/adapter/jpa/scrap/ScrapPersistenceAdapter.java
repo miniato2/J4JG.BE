@@ -1,17 +1,18 @@
 package ott.j4jg_be.adapter.out.persistence.adapter.jpa.scrap;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
 import ott.j4jg_be.adapter.out.persistence.mapper.ScrapEntityMapper;
 import ott.j4jg_be.adapter.out.persistence.repository.jpa.ScrapRepository;
-import ott.j4jg_be.application.port.out.scrap.updateScrapPort;
+import ott.j4jg_be.application.port.out.scrap.UpdateScrapPort;
 import ott.j4jg_be.application.port.out.scrap.CreateScrapPort;
 import ott.j4jg_be.application.port.out.scrap.GetScrapPort;
 import ott.j4jg_be.domain.scrap.Scrap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,14 +20,14 @@ import java.util.Optional;
 public class ScrapPersistenceAdapter implements
         GetScrapPort,
         CreateScrapPort,
-        updateScrapPort {
+        UpdateScrapPort {
 
     private final ScrapEntityMapper scrapEntityMapper;
     private final ScrapRepository scrapRepository;
 
 
     @Override
-    public Scrap getScrapByUserAndJobInfo(Long userId, int jobInfoId) {
+    public Scrap getScrapByUserAndJobInfo(String userId, int jobInfoId) {
 
         ScrapEntity scrapEntity = scrapRepository.findByUserIdAndJobInfoId(userId, jobInfoId);
 
@@ -38,15 +39,15 @@ public class ScrapPersistenceAdapter implements
     }
 
     @Override
-    public List<Scrap> getScrapList(Long userId) {
+    public Page<Scrap> getScrapList(String userId, int page) {
 
-        List<ScrapEntity> entityList = scrapRepository.findByUserIdAndStatus(userId, true);
+        int size = 10;
 
-        List<Scrap> scrapList = new ArrayList<>();
-        for (ScrapEntity entity : entityList) {
-            scrapList.add(scrapEntityMapper.mapToDomain(entity));
-        }
-        return scrapList;
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<ScrapEntity> entityList = scrapRepository.findByUserIdAndStatus(userId, true, pageable);
+
+        return entityList.map(scrapEntityMapper::mapToDomain);
     }
 
     @Override

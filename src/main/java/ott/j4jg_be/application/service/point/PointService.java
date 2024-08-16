@@ -19,23 +19,23 @@ public class PointService implements PointUseCase {
 
   @Transactional(readOnly = false, rollbackFor = Throwable.class)
   @Override
-  public void usePoints(Long userId, int points, String reason) {
+  public void usePoints(String userId, int points, String reason) {
     executePointTransaction(userId, points, reason, PointTransactionType.USE);
   }
 
   @Transactional(readOnly = false, rollbackFor = Throwable.class)
   @Override
-  public void refundPoints(Long userId, int points, String reason) {
+  public void refundPoints(String userId, int points, String reason) {
     executePointTransaction(userId, points, reason, PointTransactionType.REFUND);
   }
 
   @Transactional(readOnly = false, rollbackFor = Throwable.class)
   @Override
-  public void addPoints(Long userId, int points, String reason) {
+  public void addPoints(String userId, int points, String reason) {
     executePointTransaction(userId, points, reason, PointTransactionType.ADD);
   }
 
-  private void executePointTransaction(Long userId, int points, String reason, PointTransactionType type) {
+  private void executePointTransaction(String userId, int points, String reason, PointTransactionType type) {
     Point point = pointPersistencePort.findByUserId(userId)
         .orElseThrow(() -> new EntityNotFoundException("User points not found"));
 

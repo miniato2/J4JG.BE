@@ -15,13 +15,14 @@ public class MentoringApplicationAdapter implements MentoringApplicationPort, Up
     private final MentoringApplicationRepository mentoringApplicationRepository;
 
     @Override
-    public void mentoringApplication(Long userId) {
+    public void mentoringApplication(String userId) {
+
         mentoringApplicationRepository.save(new MentoringApplicationEntity(userId));
     }
 
     @Override
     public void updateStatus(int applicationId) {
         MentoringApplicationEntity entity = mentoringApplicationRepository.findById(applicationId).get();
-        entity.updateStatusToTrue();
+        entity.updateStatus(entity.isStatus());
     }
 }

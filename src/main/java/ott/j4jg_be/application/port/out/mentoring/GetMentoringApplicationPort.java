@@ -6,4 +6,7 @@ import ott.j4jg_be.domain.mentoring.MentoringApplication;
 public interface GetMentoringApplicationPort {
 
     Page<MentoringApplication> getApplicationList(int page);
+
+    MentoringApplication getApplication(String userId);
+
 }

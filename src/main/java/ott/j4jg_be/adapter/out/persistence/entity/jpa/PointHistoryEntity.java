@@ -20,7 +20,7 @@ public class PointHistoryEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private Long userId;
+  private String userId;
   private long points;
   private String reason;
   private long finalBalance;

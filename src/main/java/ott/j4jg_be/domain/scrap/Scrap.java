@@ -8,11 +8,11 @@ import lombok.Getter;
 public class Scrap {
 
     private int scrapId;
-    private Long userId;
+    private String userId;
     private int jobInfoId;
     private boolean status;
 
-    public Scrap(Long userId, int jobInfoId, boolean status){
+    public Scrap(String userId, int jobInfoId, boolean status){
         this.userId = userId;
         this.jobInfoId = jobInfoId;
         this.status = status;

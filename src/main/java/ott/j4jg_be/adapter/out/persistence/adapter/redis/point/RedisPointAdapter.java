@@ -17,7 +17,7 @@ public class RedisPointAdapter implements PointPersistencePort {
   private final ObjectMapper objectMapper;
 
   @Override
-  public Optional<Point> findByUserId(Long userId) {
+  public Optional<Point> findByUserId(String userId) {
     String key = "points:" + userId;
     Object pointValue = redisTemplate.opsForValue().get(key);
     Point point = objectMapper.convertValue(pointValue, Point.class);
@@ -26,14 +26,14 @@ public class RedisPointAdapter implements PointPersistencePort {
 
   @Transactional
   @Override
-  public void save(Long userId, Point point) {
+  public void save(String userId, Point point) {
     String key = "points:" + userId;
     redisTemplate.opsForValue().set(key, point);
   }
 
   @Transactional
   @Override
-  public void deleteByUserId(Long userId) {
+  public void deleteByUserId(String userId) {
     String key = "points:" + userId;
     redisTemplate.delete(key);
   }

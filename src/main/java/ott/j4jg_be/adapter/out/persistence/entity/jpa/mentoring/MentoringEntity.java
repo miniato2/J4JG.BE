@@ -18,7 +18,7 @@ public class MentoringEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int mentoringId;
-    private Long userId;
+    private String userId;
     private String description;
     private String title;
     @CreatedDate
@@ -42,5 +42,9 @@ public class MentoringEntity {
 
     public void updateCurrentPerson(){
         this.currentPerson += 1;
+    }
+
+    public void updateStatusToFalse(){
+        this.status = false;
     }
 }

@@ -26,7 +26,15 @@ public class GetMentoringApplicationAdapter implements GetMentoringApplicationPo
         int size = 10;
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createAt"));
 
-        Page<MentoringApplicationEntity> entities = mentoringApplicationRepository.findByStatus(false, pageable);
+        Page<MentoringApplicationEntity> entities = mentoringApplicationRepository.findByStatus(true, pageable);
         return entities.map(mapper::mapToDomain);
     }
+
+    @Override
+    public MentoringApplication getApplication(String userId) {
+
+        MentoringApplicationEntity entity = mentoringApplicationRepository.findByUserId(userId);
+        return mapper.mapToDomain(entity);
+    }
+
 }

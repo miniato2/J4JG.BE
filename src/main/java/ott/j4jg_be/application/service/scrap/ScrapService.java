@@ -9,7 +9,7 @@ import ott.j4jg_be.application.port.in.point.PointUseCase;
 import ott.j4jg_be.application.port.in.scrap.ScrapUsecase;
 import ott.j4jg_be.application.port.out.scrap.CreateScrapPort;
 import ott.j4jg_be.application.port.out.scrap.GetScrapPort;
-import ott.j4jg_be.application.port.out.scrap.updateScrapPort;
+import ott.j4jg_be.application.port.out.scrap.UpdateScrapPort;
 import ott.j4jg_be.domain.scrap.Scrap;
 
 @Service
@@ -18,7 +18,7 @@ public class ScrapService implements ScrapUsecase, CancelScrapUsecase {
 
     private final CreateScrapPort createScrapPort;
     private final GetScrapPort getScrapPort;
-    private final updateScrapPort cancelScrapPort;
+    private final UpdateScrapPort cancelScrapPort;
     private final PointUseCase pointUseCase;
 
     @Transactional(readOnly = false, rollbackFor = Throwable.class)

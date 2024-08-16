@@ -6,7 +6,6 @@ import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,19 +19,19 @@ public class MentoringApplicationEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int applicationId;
     //연관관계 필요
-    private Long userId;
-    private boolean status;
+    private String userId;
+    private boolean status; //초기 true, 신청됬을때 false
     @CreatedDate
     private LocalDateTime createAt;
 
     protected MentoringApplicationEntity(){}
 
-    public MentoringApplicationEntity(Long userId){
+    public MentoringApplicationEntity(String userId){
         this.userId = userId;
-        this.status = false;
+        this.status = true;
     }
 
-    public void updateStatusToTrue(){
-        this.status = true;
+    public void updateStatus(boolean status){
+        this.status = !status;
     }
 }

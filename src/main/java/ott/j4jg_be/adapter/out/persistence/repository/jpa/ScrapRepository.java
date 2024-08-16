@@ -1,13 +1,13 @@
 package ott.j4jg_be.adapter.out.persistence.repository.jpa;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.ScrapEntity;
 
-import java.util.List;
-
 public interface ScrapRepository extends JpaRepository<ScrapEntity, Integer> {
 
-    ScrapEntity findByUserIdAndJobInfoId(Long userId, int jobInfoId);
+    ScrapEntity findByUserIdAndJobInfoId(String userId, int jobInfoId);
 
-    List<ScrapEntity> findByUserIdAndStatus(Long userId, boolean status);
+    Page<ScrapEntity> findByUserIdAndStatus(String userId, boolean b, Pageable pageable);
 }

@@ -10,11 +10,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Point {
-  private Long userId;
+  private String userId;
   private long balance;
   private PointHistory currentHistory;
 
-  public Point(Long userId, long balance) {
+  public Point(String userId, long balance) {
     this.userId = userId;
     this.balance = balance;
   }

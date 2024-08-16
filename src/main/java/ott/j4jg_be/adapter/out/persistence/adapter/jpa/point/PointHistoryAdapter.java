@@ -15,7 +15,7 @@ public class PointHistoryAdapter implements PointHistoryPersistencePort {
   private final PointHistoryRepository pointHistoryRepository;
   private final PointHistoryEntityMapper pointHistoryEntityMapper;
 
-  public void saveHistory(Long userId, PointHistory pointHistory) {
+  public void saveHistory(String userId, PointHistory pointHistory) {
     PointHistoryEntity entity = pointHistoryEntityMapper.toEntity(userId, pointHistory);
     pointHistoryRepository.save(entity);
   }

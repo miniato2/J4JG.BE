@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @ToString
 public class MentoringDTO {
     private int mentoringId;
-    private Long userId;
+    private String userId;
     private String description;
     private String title;
     private LocalDateTime createdAt;

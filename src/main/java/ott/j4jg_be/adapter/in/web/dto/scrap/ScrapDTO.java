@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ScrapDTO {
     private int scrapId;
-    private Long userId;
+    private String userId;
     private int jobInfoId;
     private boolean status;
 }
