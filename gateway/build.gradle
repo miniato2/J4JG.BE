@@ -21,7 +21,12 @@ springBoot {
     mainClass.set('ott.j4jg_gateway.J4jgGatewayApplication')
 }
 
+
 dependencies {
+
+//    implementation project(':backend')
+//    implementation project(':notification')
+
     // Spring Cloud Gateway
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
 

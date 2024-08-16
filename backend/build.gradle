@@ -17,12 +17,12 @@ java {
     }
 }
 
-springBoot {
-    mainClass.set('ott.j4jg_be.J4JGBeApplication')
-}
-
 repositories {
     mavenCentral()
+}
+
+tasks.named('bootJar').configure {
+    enabled = false
 }
 
 dependencies {
