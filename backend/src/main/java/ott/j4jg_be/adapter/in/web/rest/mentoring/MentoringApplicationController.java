@@ -10,6 +10,7 @@ import ott.j4jg_be.adapter.in.web.dto.mentoring.MentoringApplicationDTO;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringApplicationQuery;
 import ott.j4jg_be.application.port.in.mentoring.MentoringApplicationUsecase;
 import ott.j4jg_be.common.annotation.CurrentUser;
+import ott.j4jg_be.domain.user.TokenInfo;
 import ott.j4jg_be.domain.user.User;
 
 
@@ -22,10 +23,8 @@ public class MentoringApplicationController {
 
     //멘토링신청 -> 멘티가
     @PostMapping("/application")
-    public void mentoringApplication(@CurrentUser User user){
-
-
-        mentoringApplicationUsecase.mentoringApplication(user.getId());
+    public void mentoringApplication(@CurrentUser TokenInfo tokenInfo){
+        mentoringApplicationUsecase.mentoringApplication(tokenInfo.getUserId());
     }
 
     //신청 조회 -> 관리자가

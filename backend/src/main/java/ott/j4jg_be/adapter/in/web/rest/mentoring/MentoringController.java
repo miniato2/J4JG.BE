@@ -9,6 +9,7 @@ import ott.j4jg_be.application.port.in.mentoring.CreateMentoringUsecase;
 import ott.j4jg_be.application.port.in.mentoring.GetMentoringQuery;
 import ott.j4jg_be.application.port.in.mentoring.UpdateMentoringUsecase;
 import ott.j4jg_be.common.annotation.CurrentUser;
+import ott.j4jg_be.domain.user.TokenInfo;
 import ott.j4jg_be.domain.user.User;
 
 
@@ -47,10 +48,10 @@ public class MentoringController {
 
     //자신의 멘토링 조회
     @GetMapping("/mentoring")
-    public ResponseEntity<Page<MentoringDTO>> getMyMentoring(@CurrentUser User user, int page, String status) {
+    public ResponseEntity<Page<MentoringDTO>> getMyMentoring(@CurrentUser TokenInfo tokenInfo, int page, String status) {
         //status -> false, true, all
 
-        return ResponseEntity.ok().body(getMentoringQuery.getMyMentoring(user.getId(), page, status));
+        return ResponseEntity.ok().body(getMentoringQuery.getMyMentoring(tokenInfo.getUserId(), page, status));
     }
 
     //멘토링 방 삭제

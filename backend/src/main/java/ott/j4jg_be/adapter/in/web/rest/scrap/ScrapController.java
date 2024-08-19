@@ -9,6 +9,7 @@ import ott.j4jg_be.application.port.in.scrap.CancelScrapUsecase;
 import ott.j4jg_be.application.port.in.scrap.GetScrapQuery;
 import ott.j4jg_be.application.port.in.scrap.ScrapUsecase;
 import ott.j4jg_be.common.annotation.CurrentUser;
+import ott.j4jg_be.domain.user.TokenInfo;
 import ott.j4jg_be.domain.user.User;
 
 
@@ -21,8 +22,8 @@ public class ScrapController {
     private final GetScrapQuery getScrapQuery;
 
     @PostMapping("/scrap")
-    public void scrapJobInfo(@CurrentUser User user, int jobInfoId) {
-        scrapUsecase.scrapJobInfo(user.getId(), jobInfoId);
+    public void scrapJobInfo(@CurrentUser TokenInfo tokenInfo, int jobInfoId) {
+        scrapUsecase.scrapJobInfo(tokenInfo.getUserId(), jobInfoId);
     }
 
     @PutMapping("/scrap")
@@ -32,9 +33,9 @@ public class ScrapController {
     }
 
     @GetMapping("/scrap")
-    public ResponseEntity<Page<ScrapDTO>> getScrapList(@CurrentUser User user, int page){
+    public ResponseEntity<Page<ScrapDTO>> getScrapList(@CurrentUser TokenInfo tokenInfo, int page){
 
-        return ResponseEntity.ok().body(getScrapQuery.getScrapList(user.getId(), page));
+        return ResponseEntity.ok().body(getScrapQuery.getScrapList(tokenInfo.getUserId(), page));
     }
 
 }
