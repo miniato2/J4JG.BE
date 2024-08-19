@@ -8,6 +8,10 @@ ext {
     springCloudVersion = "2023.0.3"
 }
 
+bootJar {
+    enabled = false
+}
+
 group = 'ott'
 version = '0.0.1-SNAPSHOT'
 

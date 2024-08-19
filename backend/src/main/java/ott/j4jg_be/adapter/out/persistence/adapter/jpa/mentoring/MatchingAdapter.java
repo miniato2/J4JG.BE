@@ -14,9 +14,11 @@ public class MatchingAdapter implements MatchingPort, GetMatchingPort {
     private final MatchingRepository matchingRepository;
 
     @Override
-    public void matching(String userId, int mentoringId) {
+    public int matching(String userId, int mentoringId) {
 
-        matchingRepository.save(new MatchingEntity(userId, mentoringId));
+        MatchingEntity matchingEntity = matchingRepository.save(new MatchingEntity(userId, mentoringId));
+
+        return matchingEntity.getMatchingId();
     }
 
     @Override

@@ -49,6 +49,8 @@ public class DataSourceConfig {
         Map<String, Object> properties = new HashMap<>();
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+        properties.put("hibernate.show_sql", true);           // SQL 로그 출력 설정
+        properties.put("hibernate.format_sql", true);         // 포맷팅된 SQL 로그 출력 설정
 
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(routingDataSource);
