@@ -7,7 +7,9 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "scrap")
+@Table(name = "scrap", indexes = {
+        @Index(name = "idx_user_job", columnList = "user_id, jobinfo_id")
+})
 @Getter
 @AllArgsConstructor
 public class ScrapEntity {

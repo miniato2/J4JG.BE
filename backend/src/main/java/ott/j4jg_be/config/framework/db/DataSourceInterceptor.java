@@ -24,7 +24,7 @@ public class DataSourceInterceptor {
         if (transactional != null) {
             if (transactional.readOnly()) {
                 DataSourceContextHolder.setDataSourceType("SLAVE");
-                log.info("Using SLAVE data source for read-only transaction on method: {}", joinPoint.getSignature());
+//                log.info("Using SLAVE data source for read-only transaction on method: {}", joinPoint.getSignature());
             } else {
                 MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
                 Method method = methodSignature.getMethod();
@@ -32,11 +32,11 @@ public class DataSourceInterceptor {
                 if (isReadOperation(method) && !transactional.readOnly()) {
                     throw new IllegalStateException("읽기 작업에서 readOnly=false로 설정된 트랜잭션이 사용되었습니다.");
                 }
-                log.info("Using MASTER data source for non-read-only transaction on method: {}", joinPoint.getSignature());
+//                log.info("Using MASTER data source for non-read-only transaction on method: {}", joinPoint.getSignature());
                 DataSourceContextHolder.setDataSourceType("MASTER");
             }
         } else {
-            log.info("Using MASTER data source transaction on method: {}", joinPoint.getSignature());
+//            log.info("Using MASTER data source transaction on method: {}", joinPoint.getSignature());
             DataSourceContextHolder.setDataSourceType("MASTER");
         }
 
