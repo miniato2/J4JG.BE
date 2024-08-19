@@ -69,9 +69,6 @@ dependencies {
     // Devtools
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-    // Jakarta Servlet API
-    implementation 'jakarta.servlet:jakarta.servlet-api:5.0.0'
-
     // assertj
     testImplementation 'org.assertj:assertj-core:3.24.2'
 

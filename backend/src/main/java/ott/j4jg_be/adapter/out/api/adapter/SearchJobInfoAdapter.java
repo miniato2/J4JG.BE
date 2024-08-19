@@ -61,7 +61,7 @@ public class SearchJobInfoAdapter implements SearchJobInfoPort {
                 })
         );
 
-        Pageable pageable = PageRequest.of(page, 10);
+        Pageable pageable = PageRequest.of(page, 15);
 
         queryBuilder.withPageable(pageable);
         NativeQuery query = queryBuilder.build();

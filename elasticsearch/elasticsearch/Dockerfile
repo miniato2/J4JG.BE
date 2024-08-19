@@ -12,5 +12,5 @@ WORKDIR /usr/share/elasticsearch/bin
 
 RUN elasticsearch-plugin install --batch analysis-nori
 
-COPY initialize-templates.sh /usr/share/elasticsearch/config/
-ENTRYPOINT ["sh", "/usr/share/elasticsearch/config/initialize-templates.sh"]
+#COPY initialize-templates.sh /usr/share/elasticsearch/config/
+#ENTRYPOINT ["sh", "/usr/share/elasticsearch/config/initialize-templates.sh"]

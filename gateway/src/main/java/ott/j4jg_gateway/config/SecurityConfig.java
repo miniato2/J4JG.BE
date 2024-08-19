@@ -13,9 +13,14 @@ import org.springframework.security.oauth2.client.registration.InMemoryReactiveC
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import ott.j4jg_gateway.jwt.JWTFilter;
 import ott.j4jg_gateway.oauth2.CustomLogoutSuccessHandler;
 import ott.j4jg_gateway.oauth2.CustomSuccessHandler;
+
+import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -74,14 +79,19 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+                .exceptionHandling(httpSecurityExceptionHandlingConfigurer -> {})
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .oauth2Login(oauth2 -> oauth2
                         .authenticationSuccessHandler(customSuccessHandler)
                         .clientRegistrationRepository(clientRegistrationRepository()))
+//                .authorizeExchange(authorize -> authorize
+//                        .pathMatchers("/**").permitAll()
+//                        .anyExchange().authenticated())
                 .authorizeExchange(authorize -> authorize
-                        .pathMatchers("/**").permitAll()
-                        .anyExchange().authenticated())
+                        .pathMatchers("/**","/backend/**").permitAll()
+                        .anyExchange().permitAll())
                 .addFilterBefore(jwtFilter, SecurityWebFiltersOrder.AUTHENTICATION)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -120,6 +130,23 @@ public class SecurityConfig {
 
         return new InMemoryReactiveClientRegistrationRepository(googleClientRegistration, kakaoClientRegistration);
     }
+
+    CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.addExposedHeader("Authorization");
+            config.addExposedHeader("Origin");
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(
+                    List.of("http://localhost:5173"));
+            config.setAllowCredentials(true);
+
+            return config;
+        };
+
+    }
+
 
     @Bean
     public WebSessionServerSecurityContextRepository securityContextRepository() {

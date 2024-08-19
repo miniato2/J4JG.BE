@@ -15,12 +15,16 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(false); // 자격 증명 사용 안 함
-        config.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
+//        config.setAllowCredentials(false); // 자격 증명 사용 안 함
+//        config.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
+        config.setAllowCredentials(true); // 자격 증명 사용
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8000"));
+
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setExposedHeaders(Arrays.asList("Authorization", "Set-Cookie", "Cookie"));
         source.registerCorsConfiguration("/**", config);
+
         return new CorsFilter(source);
     }
 }
