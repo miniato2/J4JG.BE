@@ -147,11 +147,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private String generateUniqueRandomNickname() {
         String[] prefixes = {"노력맨", "열정맨", "행복맨", "도전맨", "취업맨", "부정맨"};
-        String nickname;
-        do {
+        String nickname = "";
+        boolean isUnique = false;
+
+        for (int i = 0; i < 1000 && !isUnique; i++) {
             int randomNumber = new Random().nextInt(1000);
             nickname = prefixes[new Random().nextInt(prefixes.length)] + randomNumber;
-        } while (userAddInfoRepository.findByUserNickname(nickname).isPresent());
+            isUnique = !userAddInfoRepository.findByUserNickname(nickname).isPresent();
+        }
+
+        if (!isUnique) {
+            throw new RuntimeException("Unique nickname could not be generated");
+        }
+
         return nickname;
     }
 }
