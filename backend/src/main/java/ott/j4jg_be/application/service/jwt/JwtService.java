@@ -45,12 +45,12 @@ public class JwtService {
         }
     }
 
-    public String createToken(UserInfo userInfo) {
+    public String createToken(TokenInfo tokenInfo) {
         try {
-            String tokenInfoJson = objectMapper.writeValueAsString(userInfo);
+            String tokenInfoJson = objectMapper.writeValueAsString(tokenInfo);
 
             return Jwts.builder()
-                    .setSubject(userInfo.getUsername())
+                    .setSubject(tokenInfo.getUserId())
                     .claim("TokenInfo", tokenInfoJson)
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
