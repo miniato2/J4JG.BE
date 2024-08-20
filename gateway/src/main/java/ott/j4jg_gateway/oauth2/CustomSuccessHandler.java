@@ -72,9 +72,10 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
 
             setResponseHeaders(webFilterExchange, accessToken);
 
-            URI redirectUri = URI.create("http://localhost:5173/");
+            // 모든 사용자에 대해 동일한 리다이렉트 URL 설정
+            URI redirectUri = URI.create("http://api.gateway.j4jg.shop/good");
             webFilterExchange.getExchange().getResponse().getHeaders().setLocation(redirectUri);
-
+            webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.FOUND);
             return webFilterExchange.getExchange().getResponse().setComplete();
 
         } catch (Exception e) {
@@ -123,7 +124,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         return ResponseCookie.from(name, value)
                 .path("/")
                 .maxAge(Duration.ofSeconds(maxAge))
-//                .httpOnly(true)
+                .httpOnly(false)
                 .secure(false)
                 .build();
     }

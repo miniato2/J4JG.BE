@@ -2,6 +2,7 @@ package ott.j4jg_gateway.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ott.j4jg_gateway.model.converter.PhoneNumberEncryptor;
 import ott.j4jg_gateway.model.enums.USERROLE;
 
 import java.time.LocalDateTime;
@@ -24,6 +25,7 @@ public class User {
     @Column(name = "provider", nullable = false)
     private String provider;
 
+    @Convert(converter = PhoneNumberEncryptor.class)
     @Column(name = "user_phone_number")
     private String userPhoneNumber;
 
