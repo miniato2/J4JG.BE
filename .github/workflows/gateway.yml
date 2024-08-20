@@ -33,7 +33,7 @@ jobs:
           echo "ELASTICSEARCH_PORT=${{ secrets.ELASTICSEARCH_PORT }}"
         env:
           ELASTICSEARCH_HOST: ${{ secrets.ELASTICSEARCH_HOST }}
-          ELASTICSEARCH_PORT: ${{ secrets.ELASTICSEARCH_PORT }}
+          ELASTICSEARCH_PORT: ${{ secrets.ELASTICSEARCH.PORT }}
 
       - name: application.yml.template 생성
         run: |
@@ -202,7 +202,7 @@ jobs:
       - name: 배포 패키지 생성
         run: |
           mkdir -p deploy
-          JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+          JAR_FILE=$(ls gateway/build/libs/*.jar | head -n 1) # JAR 파일 경로 수정
           if [ -f "$JAR_FILE" ]; then
             cp "$JAR_FILE" deploy/application.jar
           else
@@ -236,7 +236,7 @@ jobs:
 
       - name: S3에 애플리케이션 버전 업로드
         run: |
-          aws s3 cp deploy/deploy.zip s3://elasticbeanstalk-ap-northeast-2-730335325274/deploy/deploy.zip
+          aws s3 cp deploy/deploy.zip s3://elasticbeanstalk-ap-northeast-2-637423222552/deploy/deploy.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
