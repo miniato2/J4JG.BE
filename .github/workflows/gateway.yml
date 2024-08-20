@@ -239,7 +239,7 @@ jobs:
       - name: 새로운 Elastic Beanstalk 애플리케이션 버전 생성
         run: |
           aws elasticbeanstalk create-application-version \
-            --application-name gateway \
+            --application-name J4jggateway \
             --version-label github-action-${{steps.current-time.outputs.formattedTime}} \
             --source-bundle S3Bucket=5ttbuket,S3Key=deploy/deploy.zip
         env:
@@ -250,7 +250,7 @@ jobs:
       - name: Elastic Beanstalk 환경 업데이트
         run: |
           aws elasticbeanstalk update-environment \
-            --environment-name Gateway-env \
+            --environment-name J4jggateway-env \
             --version-label github-action-${{steps.current-time.outputs.formattedTime}}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
