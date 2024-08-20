@@ -67,10 +67,6 @@ dependencies {
     testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
 }
 
-tasks.named('bootJar') {
-    archiveFileName.set("gateway.jar")
-}
-
 springBoot {
     mainClass.set('ott.j4jg_gateway.J4jgGatewayApplication')
 }
