@@ -23,6 +23,7 @@ public class ScrapController {
 
     @PostMapping("/scrap")
     public void scrapJobInfo(@CurrentUser TokenInfo tokenInfo, int jobInfoId) {
+        System.out.println(tokenInfo.getUserId());
         scrapUsecase.scrapJobInfo(tokenInfo.getUserId(), jobInfoId);
     }
 

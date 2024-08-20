@@ -34,7 +34,7 @@ public class SampleController {
 
     @GetMapping("/sample/user")
     public String getUserProfile(@CurrentUser TokenInfo tokenInfo) {
-        return "User profile for: " + tokenInfo.getUserId() + " with email: " + tokenInfo.getRole();
+        return "User profile for: " + tokenInfo.getUserId() + " with role: " + tokenInfo.getRole();
     }
 
     @GetMapping("/sample/createJwt")
