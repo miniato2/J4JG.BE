@@ -35,7 +35,7 @@ jobs:
           SPRING_REDIS_HOST: ${{ secrets.SPRING_REDIS_HOST }}
           SPRING_REDIS_PORT: ${{ secrets.SPRING_REDIS_PORT }}
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AES_SECRET_KEY: ${{ secrets.AES_SECRET_KEY }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_ACCESS_TOKEN_EXPIRATION_TIME: ${{ secrets.JWT_ACCESS_TOKEN_EXPIRATION_TIME }}
           JWT_REFRESH_TOKEN_EXPIRATION_TIME: ${{ secrets.JWT_REFRESH_TOKEN_EXPIRATION_TIME }}
@@ -54,4 +54,4 @@ jobs:
           region: ${{ secrets.AWS_REGION }}  # AWS 리전 설정
         env:
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}  # AWS Access Key
-          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}  # AWS Secret Access Key
+          AWS_SECRET_KEY: ${{ secrets.AES_SECRET_KEY }}  # AWS Secret Access Key
