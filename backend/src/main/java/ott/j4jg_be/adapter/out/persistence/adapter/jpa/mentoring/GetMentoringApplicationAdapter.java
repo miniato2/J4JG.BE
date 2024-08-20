@@ -39,6 +39,7 @@ public class GetMentoringApplicationAdapter implements GetMentoringApplicationPo
             return null;
         }
 
+        //userInfo가 null이면 error
         return mapper.mapToDomain(entity);
     }
 

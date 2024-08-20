@@ -17,10 +17,10 @@ public class MatchingAdapter implements MatchingPort, GetMatchingPort {
     private final MatchingEntityMapper mapper;
 
     @Override
-    public Matching matching(String userId, int mentoringId) {
+    public int matching(String userId, int mentoringId) {
 
         MatchingEntity matchingEntity = matchingRepository.save(new MatchingEntity(userId, mentoringId));
-        return mapper.mapToDomain(matchingEntity);
+        return matchingEntity.getMatchingId();
     }
 
     @Override

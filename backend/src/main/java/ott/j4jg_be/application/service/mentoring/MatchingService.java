@@ -37,7 +37,7 @@ public class MatchingService implements MatchingUsecase {
 
         if(mentoring.isNotFull(mentoring.getMaxPerson(), mentoring.getCurrentPerson())){
             //매칭
-            Matching matching = matchingPort.matching(matchingRequestDTO.getUserId(), matchingRequestDTO.getMentoringId());
+            int matchingId = matchingPort.matching(matchingRequestDTO.getUserId(), matchingRequestDTO.getMentoringId());
 
             //멘토링 currentPerson 업데이트
             updateMentoringPort.updateCurrentPerson(matchingRequestDTO.getMentoringId());
@@ -49,7 +49,7 @@ public class MatchingService implements MatchingUsecase {
             pointUseCase.usePoints(matchingRequestDTO.getUserId(), 100, "멘토링 신청");
 
             //알림
-            createNotificationPort.createNotification(new Notification("멘토링이 매칭 되었습니다.", matching.getMatchingId()));
+            createNotificationPort.createNotification(new Notification("멘토링이 매칭 되었습니다.", matchingId));
 
         }
     }

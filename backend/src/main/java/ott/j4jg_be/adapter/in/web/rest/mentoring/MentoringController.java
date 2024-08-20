@@ -33,7 +33,7 @@ public class MentoringController {
 
     //멘토링 리스트 조회 -> 관리자
     @GetMapping("/mentoring/all")
-    public ResponseEntity<Page<MentoringDTO>> getMentoringList(int page){
+    public ResponseEntity<Page<MentoringDTO>> getMentoringList(@RequestParam(defaultValue = "0") int page){
 
         return ResponseEntity.ok().body(getMentoringQuery.getMentoringList(page));
     }
