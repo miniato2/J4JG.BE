@@ -8,21 +8,15 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 public class Matching {
-    private int applicationId;
+    private int matchingId;
     private int mentoringId;
     private String userId;
     private String userName;
+    private String email;
+    private String phone;
     private String surveyResponse;
     private LocalDateTime createdAt;
     private boolean status;
 
-    public Matching(int applicationId, int mentoringId, String userId,
-                                LocalDateTime createdAt, boolean status){
-        this.applicationId = applicationId;
-        this.mentoringId = mentoringId;
-        this.userId = userId;
-        this.createdAt = createdAt;
-        this.status = status;
-    }
 
 }

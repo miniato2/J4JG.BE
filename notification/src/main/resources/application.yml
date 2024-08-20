@@ -17,6 +17,33 @@ spring:
           auth: true
           starttls:
             enable: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  profiles:
+    active: master
+
+
+datasource:
+  master:
+    url: ${SPRING_DATASOURCE_URL_MASTER}
+    username: ${SPRING_DATASOURCE_USERNAME_MASTER}
+    password: ${SPRING_DATASOURCE_PASSWORD_MASTER}
+  slave:
+    url: ${SPRING_DATASOURCE_URL_SLAVE}
+    username: ${SPRING_DATASOURCE_USERNAME_SLAVE}
+    password: ${SPRING_DATASOURCE_PASSWORD_SLAVE}
+
+routing:
+  datasource:
+    default-target-datasource: master
+    target-datasources:
+      slave: slave
 
 cloud:
   aws:

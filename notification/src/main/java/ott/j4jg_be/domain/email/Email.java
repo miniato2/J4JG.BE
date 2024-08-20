@@ -1,9 +1,9 @@
 package ott.j4jg_be.domain.email;
 
 public class Email {
-    private String recipient;
-    private String subject;
-    private String body;
+    private String recipient; //이메일주소
+    private String subject; //제목
+    private String body; //내용
 
     public Email(String recipient, String subject, String body) {
         this.recipient = recipient;
