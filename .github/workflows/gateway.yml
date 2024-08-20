@@ -211,8 +211,8 @@ jobs:
             exit 1
           fi
           
-          if [ -f Procfile ]; then
-            cp Procfile deploy/Procfile
+          if [ -f gateway/Procfile ]; then
+            cp gateway/Procfile deploy/Procfile
           else
             echo "Procfile이 없습니다!"
             exit 1
