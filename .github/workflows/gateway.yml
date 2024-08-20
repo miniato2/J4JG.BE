@@ -211,15 +211,15 @@ jobs:
             exit 1
           fi
           
-          if [ -d .ebextensions ]; then
-            cp -r .ebextensions deploy/.ebextensions
+          if [ -d gateway/.ebextensions ]; then
+            cp -r gateway/.ebextensions deploy/.ebextensions
           else
             echo ".ebextensions 디렉토리가 없습니다!"
             exit 1
           fi
           
-          if [ -d .platform ]; then
-            cp -r .platform deploy/.platform
+          if [ -d gateway/.platform ]; then
+            cp -r gateway/.platform deploy/.platform
           else
             echo ".platform 디렉토리가 없습니다!"
             exit 1
