@@ -33,7 +33,7 @@ jobs:
           echo "ELASTICSEARCH_PORT=${{ secrets.ELASTICSEARCH_PORT }}"
         env:
           ELASTICSEARCH_HOST: ${{ secrets.ELASTICSEARCH_HOST }}
-          ELASTICSEARCH_PORT: ${{ secrets.ELASTICSEARCH.PORT }}
+          ELASTICSEARCH_PORT: ${{ secrets.ELASTICSEARCH_PORT }}
 
       - name: application.yml.template 생성
         run: |
@@ -66,7 +66,7 @@ jobs:
               allow-bean-definition-overriding: true
             datasource:
               driver-class-name: com.mysql.cj.jdbc.Driver
-              url: jdbc:mysql://localhost:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
+              url: jdbc:mysql://${{ secrets.DB_HOST }}:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
               username: \${MYSQL_USER}
               password: \${MYSQL_PASSWORD}
               hikari:
@@ -138,11 +138,11 @@ jobs:
 
           datasource:
             master:
-              url: jdbc:mysql://localhost:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
+              url: jdbc:mysql://${{ secrets.DB_HOST }}:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
               username: \${MYSQL_USER}
               password: \${MYSQL_PASSWORD}
             slave:
-              url: jdbc:mysql://localhost:3307/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
+              url: jdbc:mysql://${{ secrets.DB_HOST }}:3307/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
               username: \${MYSQL_USER}
               password: \${MYSQL_PASSWORD}
 
@@ -180,6 +180,7 @@ jobs:
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          DB_HOST: ${{ secrets.DB_HOST }}
 
       - name: Gradle로 gateway 모듈만 빌드
         run: ./gradlew :gateway:clean :gateway:bootJar
@@ -202,7 +203,7 @@ jobs:
       - name: 배포 패키지 생성
         run: |
           mkdir -p deploy
-          JAR_FILE=$(ls gateway/build/libs/*.jar | head -n 1) # JAR 파일 경로 수정
+          JAR_FILE=$(ls gateway/build/libs/*.jar | head -n 1)
           if [ -f "$JAR_FILE" ]; then
             cp "$JAR_FILE" deploy/application.jar
           else
