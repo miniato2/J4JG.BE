@@ -17,6 +17,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '17'
+          distribution: 'temurin'  # Java 배포판 설정
 
       - name: Build with Gradle
         run: ./gradlew build -p gateway  # gateway 디렉토리에서 빌드
