@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ott.j4jg_be.domain.user.TokenInfo;
 import ott.j4jg_be.domain.user.UserInfo;
 
 import java.util.Date;
@@ -30,27 +31,27 @@ public class JwtService {
     }
 
     // JWT에서 UserInfo 객체를 추출
-    public UserInfo getUserInfoFromToken(String token) {
+    public TokenInfo getUserInfoFromToken(String token) {
         Claims claims = Jwts.parser()
                 .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
 
-        String userInfoJson = claims.get("userInfo", String.class);
+        String tokenInfoJson = claims.get("TokenInfo", String.class);
         try {
-            return objectMapper.readValue(userInfoJson, UserInfo.class);
+            return objectMapper.readValue(tokenInfoJson, TokenInfo.class);
         } catch (JsonProcessingException e) {
             throw new RuntimeException("Could not convert JSON to UserInfo", e);
         }
     }
 
-    public String createToken(UserInfo userInfo) {
+    public String createToken(TokenInfo tokenInfo) {
         try {
-            String userInfoJson = objectMapper.writeValueAsString(userInfo);
+            String tokenInfoJson = objectMapper.writeValueAsString(tokenInfo);
 
             return Jwts.builder()
-                    .setSubject(userInfo.getUsername())
-                    .claim("userInfo", userInfoJson)
+                    .setSubject(tokenInfo.getUserId())
+                    .claim("TokenInfo", tokenInfoJson)
                     .setIssuedAt(new Date())
                     .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
                     .signWith(SignatureAlgorithm.HS256, secretKey)
