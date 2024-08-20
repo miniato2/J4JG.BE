@@ -176,7 +176,7 @@ jobs:
           DB_HOST: ${{ secrets.DB_HOST }}
 
       - name: Gradle로 gateway 모듈만 빌드
-        run: ./gradlew :gateway:clean :gateway:bootJar
+        run: ./gradlew :gateway:clean :gateway:build
         shell: bash
 
       - name: 현재 시간 가져오기
