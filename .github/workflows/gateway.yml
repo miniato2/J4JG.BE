@@ -207,19 +207,22 @@ jobs:
           if [ -f gateway/Procfile ]; then
             cp gateway/Procfile deploy/Procfile
           else
-            echo "경고: Procfile이 없습니다!"
+            echo "Procfile이 없습니다!"
+            exit 1
           fi
           
           if [ -d gateway/.ebextensions ]; then
             cp -r gateway/.ebextensions deploy/.ebextensions
           else
-            echo "경고: .ebextensions 디렉토리가 없습니다!"
+            echo ".ebextensions 디렉토리가 없습니다!"
+            exit 1
           fi
           
           if [ -d gateway/.platform ]; then
             cp -r gateway/.platform deploy/.platform
           else
-            echo "경고: .platform 디렉토리가 없습니다!"
+            echo ".platform 디렉토리가 없습니다!"
+            exit 1
           fi
           
           cd deploy && zip -r deploy.zip .
