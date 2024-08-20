@@ -96,27 +96,39 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             logger.info("기존 사용자 업데이트: {}", existingUser);
             return existingUser;
         }).orElseGet(() -> {
-            User newUser = User.builder()
-                    .userId(oAuth2Response.getProviderId())
-                    .userEmail(oAuth2Response.getEmail())
-                    .userPhoneNumber(oAuth2Response.getPhoneNumber() != null ? oAuth2Response.getPhoneNumber() : "")
-                    .provider(oAuth2Response.getProvider())
-                    .createdAt(LocalDateTime.now())
-                    .updatedAt(LocalDateTime.now())
-                    .role(USERROLE.ROLE_UNKNOWN) // 기본값으로 ROLE_UNKNOWN 설정
-                    .build();
-            logger.info("새 사용자 생성: {}", newUser);
+            // 새로운 사용자를 추가할 때 user_id가 이미 존재하는 경우를 방지
+            Optional<User> userById = userRepository.findById(oAuth2Response.getProviderId());
+            if (userById.isPresent()) {
+                // 이미 존재하는 user_id라면 기존 사용자의 정보를 업데이트하도록 함
+                logger.info("기존 사용자 정보로 업데이트: {}", userById.get());
+                User existingUser = userById.get();
+                existingUser.setUserEmail(oAuth2Response.getEmail());
+                existingUser.setUserPhoneNumber(oAuth2Response.getPhoneNumber() != null ? oAuth2Response.getPhoneNumber() : "");
+                existingUser.setUpdatedAt(LocalDateTime.now());
+                return existingUser;
+            } else {
+                User newUser = User.builder()
+                        .userId(oAuth2Response.getProviderId())
+                        .userEmail(oAuth2Response.getEmail())
+                        .userPhoneNumber(oAuth2Response.getPhoneNumber() != null ? oAuth2Response.getPhoneNumber() : "")
+                        .provider(oAuth2Response.getProvider())
+                        .createdAt(LocalDateTime.now())
+                        .updatedAt(LocalDateTime.now())
+                        .role(USERROLE.ROLE_UNKNOWN) // 기본값으로 ROLE_UNKNOWN 설정
+                        .build();
+                logger.info("새 사용자 생성: {}", newUser);
 
-            // UserAddInfo 생성 및 랜덤 닉네임 부여
-            String randomNickname = generateUniqueRandomNickname();
-            UserAddInfo userAddInfo = UserAddInfo.builder()
-                    .user(newUser)
-                    .userNickname(randomNickname)
-                    .surveyResponse("") // 기본값
-                    .build();
-            userAddInfoRepository.save(userAddInfo);
+                // UserAddInfo 생성 및 랜덤 닉네임 부여
+                String randomNickname = generateUniqueRandomNickname();
+                UserAddInfo userAddInfo = UserAddInfo.builder()
+                        .user(newUser)
+                        .userNickname(randomNickname)
+                        .surveyResponse("") // 기본값
+                        .build();
+                userAddInfoRepository.save(userAddInfo);
 
-            return newUser;
+                return newUser;
+            }
         });
 
         User savedUser = userRepository.save(user);

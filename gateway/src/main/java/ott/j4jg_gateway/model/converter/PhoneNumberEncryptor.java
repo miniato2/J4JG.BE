@@ -13,7 +13,6 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 @Component
-@Converter(autoApply = true)
 public class PhoneNumberEncryptor implements AttributeConverter<String, String> {
 
     @Value("${aes.secret-key:defaultSecretKey}")
