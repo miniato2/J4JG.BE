@@ -1,1 +1,0 @@
-web: /sbin/appstart
