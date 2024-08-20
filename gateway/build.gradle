@@ -75,6 +75,10 @@ springBoot {
     mainClass.set('ott.j4jg_gateway.J4jgGatewayApplication')
 }
 
+tasks.named('jar') {
+    enabled = false
+}
+
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
