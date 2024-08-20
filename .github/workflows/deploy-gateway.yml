@@ -47,11 +47,10 @@ jobs:
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v20
         with:
-          application_name: 'J4jggateway'  # Elastic Beanstalk 애플리케이션 이름
-          environment_name: 'J4jggateway-env'  # Elastic Beanstalk 환경 이름
-          version_label: ${{ github.run_id }}  # GitHub Actions의 실행 ID를 버전 레이블로 사용
-          deployment_package: gateway.zip  # 배포할 zip 파일
-          region: ${{ secrets.AWS_REGION }}  # AWS 리전 설정
-        env:
-          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}  # AWS Access Key
-          AWS_SECRET_KEY: ${{ secrets.AES_SECRET_KEY }}  # AWS Secret Access Key
+          application_name: 'J4jggateway'
+          environment_name: 'J4jggateway-env'
+          version_label: ${{ github.run_id }}
+          deployment_package: gateway.zip
+          region: ${{ secrets.AWS_REGION }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}  # Access Key
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}  # Secret Key
