@@ -236,7 +236,7 @@ jobs:
 
       - name: S3에 애플리케이션 버전 업로드
         run: |
-          aws s3 cp deploy/deploy.zip s3://elasticbeanstalk-ap-northeast-2-637423222552/deploy/deploy.zip
+          aws s3 cp deploy/deploy.zip s3://5ttbuket/deploy/deploy.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -247,7 +247,7 @@ jobs:
           aws elasticbeanstalk create-application-version \
             --application-name gateway \
             --version-label github-action-${{steps.current-time.outputs.formattedTime}} \
-            --source-bundle S3Bucket=elasticbeanstalk-ap-northeast-2-637423222552,S3Key=deploy/deploy.zip
+            --source-bundle S3Bucket=5ttbuket,S3Key=deploy/deploy.zip
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
