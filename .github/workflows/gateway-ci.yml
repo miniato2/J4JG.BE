@@ -1,4 +1,4 @@
-name: J4JG_BE Gateway
+name: 빌드 및 배포
 
 on:
   push:
@@ -6,97 +6,36 @@ on:
   pull_request:
     branches: ["main", "develop"]
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build:
-    name: Build Gateway
     runs-on: ubuntu-latest
-
-    services:
-      mysql-master:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_REPLICATION_USER: ${{ secrets.MYSQL_REPLICATION_USER }}
-          MYSQL_REPLICATION_PASSWORD: ${{ secrets.MYSQL_REPLICATION_PASSWORD }}
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-      mysql-slave:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_USER: ${{ secrets.MYSQL_USER }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
-          MYSQL_REPLICATION_USER: ${{ secrets.MYSQL_REPLICATION_USER }}
-          MYSQL_REPLICATION_PASSWORD: ${{ secrets.MYSQL_REPLICATION_PASSWORD }}
-        ports:
-          - 3307:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-      redis:
-        image: redis:latest
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd="redis-cli ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
-      elasticsearch:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-        env:
-          discovery.type: single-node
-        ports:
-          - 9200:9200
-        options: >-
-          --health-cmd="curl -s http://localhost:9200/_cluster/health | grep '\"status\":\"green\"'"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: 체크아웃
+        uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - name: JDK 17 설정
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'adopt'
+          distribution: 'corretto'
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
+      - name: gradlew 실행 권한 부여
+        run: chmod +x ./gradlew
+        shell: bash
 
-      - name: Set up environment variables
+      - name: 환경 변수 출력
         run: |
-          echo MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }} >> .env
-          echo MYSQL_DATABASE=${{ secrets.MYSQL_DATABASE }} >> .env
-          echo MYSQL_USER=${{ secrets.MYSQL_USER }} >> .env
-          echo MYSQL_PASSWORD=${{ secrets.MYSQL_PASSWORD }} >> .env
-          echo MYSQL_REPLICATION_USER=${{ secrets.MYSQL_REPLICATION_USER }} >> .env
-          echo MYSQL_REPLICATION_PASSWORD=${{ secrets.MYSQL_REPLICATION_PASSWORD }} >> .env
-          echo REDIS_HOST=${{ secrets.REDIS_HOST }} >> .env
-          echo REDIS_PORT=${{ secrets.REDIS_PORT }} >> .env
-          echo JWT_SECRET=${{ secrets.JWT_SECRET }} >> .env
-          echo KAKAO_ID=${{ secrets.KAKAO_ID }} >> .env
-          echo GOOGLE_ID=${{ secrets.GOOGLE_ID }} >> .env
-          echo GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} >> .env
+          echo "ELASTICSEARCH_HOST=${{ secrets.ELASTICSEARCH_HOST }}"
+          echo "ELASTICSEARCH_PORT=${{ secrets.ELASTICSEARCH_PORT }}"
+        env:
+          ELASTICSEARCH_HOST: ${{ secrets.ELASTICSEARCH_HOST }}
+          ELASTICSEARCH_PORT: ${{ secrets.ELASTICSEARCH_PORT }}
 
-      - name: Create application.yml template
+      - name: application.yml.template 생성
         run: |
           mkdir -p gateway/src/main/resources
           cat > gateway/src/main/resources/application.yml.template <<EOL
@@ -114,14 +53,22 @@ jobs:
               name: j4jg_gateway
             cache:
               type: redis
+            zipkin:
+              base-url: http://localhost:9411
+              sender:
+                type: web
+                compression: true
+              sampler:
+                probability: 1.0
+
             main:
               web-application-type: reactive
               allow-bean-definition-overriding: true
             datasource:
               driver-class-name: com.mysql.cj.jdbc.Driver
               url: jdbc:mysql://localhost:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
-              username: ${MYSQL_USER}
-              password: ${MYSQL_PASSWORD}
+              username: \${MYSQL_USER}
+              password: \${MYSQL_PASSWORD}
               hikari:
                 maximum-pool-size: 62
                 minimum-idle: 20
@@ -141,17 +88,20 @@ jobs:
               uris:
                 - http://localhost:9200
             jwt:
-              secret: ${JWT_SECRET}
+              secret: \${JWT_SECRET}
               accessTokenExpirationTime: 1800000
               refreshTokenExpirationTime: 259200000
 
             security:
+              aes:
+                secret-key: \${AES_SECRET_KEY}
               oauth2:
                 client:
                   registration:
                     kakao:
                       client-name: kakao
-                      client-id: ${KAKAO_ID}
+                      client-id: \${KAKAO_CLIENT_ID}
+                      client-secret: \${KAKAO_CLIENT_SECRET}
                       redirect-uri: http://localhost:8000/login/oauth2/code/kakao
                       authorization-grant-type: authorization_code
                       client-authentication-method: client_secret_post
@@ -159,25 +109,22 @@ jobs:
                       scope:
                         - account_email
                         - phone_number
-
                     google:
                       client-name: google
-                      client-id: ${GOOGLE_ID}
-                      client-secret: ${GOOGLE_SECRET}
+                      client-id: \${GOOGLE_CLIENT_ID}
+                      client-secret: \${GOOGLE_CLIENT_SECRET}
                       redirect-uri: http://localhost:8000/login/oauth2/code/google
                       authorization-grant-type: post
                       provider: google
                       scope:
                         - profile
                         - email
-
                   provider:
                     kakao:
                       authorization-uri: https://kauth.kakao.com/oauth/authorize
                       token-uri: https://kauth.kakao.com/oauth/token
                       user-info-uri: https://kapi.kakao.com/v2/user/me
                       user-name-attribute: id
-
                     google:
                       authorization-uri: https://accounts.google.com/o/oauth2/auth
                       token-uri: https://oauth2.googleapis.com/token
@@ -186,18 +133,18 @@ jobs:
 
             data:
               redis:
-                host: ${REDIS_HOST}
-                port: ${REDIS_PORT}
+                host: \${REDIS_HOST}
+                port: \${REDIS_PORT}
 
           datasource:
             master:
               url: jdbc:mysql://localhost:3306/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
-              username: ${MYSQL_USER}
-              password: ${MYSQL_PASSWORD}
+              username: \${MYSQL_USER}
+              password: \${MYSQL_PASSWORD}
             slave:
               url: jdbc:mysql://localhost:3307/j4jg?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true&failOverReadOnly=false
-              username: ${MYSQL_USER}
-              password: ${MYSQL_PASSWORD}
+              username: \${MYSQL_USER}
+              password: \${MYSQL_PASSWORD}
 
           routing:
             datasource:
@@ -206,8 +153,8 @@ jobs:
                 slave: slave
 
           aws:
-            access-key: ${{ secrets.AWS_ACCESS_KEY }}
-            secret-key: ${{ secrets.AWS_SECRET_KEY }}
+            access-key: \${AWS_ACCESS_KEY}
+            secret-key: \${AWS_SECRET_KEY}
             region: ap-northeast-2
 
           logging:
@@ -216,7 +163,7 @@ jobs:
               org.springframework.security: DEBUG
           EOL
 
-      - name: Configure application.yml
+      - name: Yaml 설정
         run: |
           envsubst < gateway/src/main/resources/application.yml.template > gateway/src/main/resources/application.yml
           cat gateway/src/main/resources/application.yml
@@ -225,9 +172,93 @@ jobs:
           MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
           REDIS_HOST: ${{ secrets.REDIS_HOST }}
           REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AES_SECRET_KEY: ${{ secrets.AES_SECRET_KEY }}
+          KAKAO_CLIENT_ID: ${{ secrets.KAKAO_CLIENT_ID }}
+          KAKAO_CLIENT_SECRET: ${{ secrets.KAKAO_CLIENT_SECRET }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
-      - name: Build with Gradle
-        run: ./gradlew clean build
-#
-#      - name: Run tests
-#        run: ./gradlew :gateway:test
+      - name: Gradle로 빌드
+        run: ./gradlew clean build --info
+        shell: bash
+
+      - name: 현재 시간 가져오기
+        uses: 1466587594/get-current-time@v2
+        id: current-time
+        with:
+          format: YYYY-MM-DDTHH-mm-ss
+          utcOffset: "+09:00"
+
+      - name: 현재 시간 출력
+        run: echo "CurrentTime=${{steps.current-time.outputs.formattedTime}}"
+        shell: bash
+
+      - name: Install envsubst
+        run: sudo apt-get install -y gettext
+
+      - name: 배포 패키지 생성
+        run: |
+          mkdir -p deploy
+          JAR_FILE=$(ls build/libs/*.jar | head -n 1)
+          if [ -f "$JAR_FILE" ]; then
+            cp "$JAR_FILE" deploy/application.jar
+          else
+            echo "JAR 파일이 없습니다!"
+            exit 1
+          fi
+          
+          if [ -f Procfile ]; then
+            cp Procfile deploy/Procfile
+          else
+            echo "Procfile이 없습니다!"
+            exit 1
+          fi
+          
+          if [ -d .ebextensions ]; then
+            cp -r .ebextensions deploy/.ebextensions
+          else
+            echo ".ebextensions 디렉토리가 없습니다!"
+            exit 1
+          fi
+          
+          if [ -d .platform ]; then
+            cp -r .platform deploy/.platform
+          else
+            echo ".platform 디렉토리가 없습니다!"
+            exit 1
+          fi
+          
+          cd deploy && zip -r deploy.zip .
+        shell: bash
+
+      - name: S3에 애플리케이션 버전 업로드
+        run: |
+          aws s3 cp deploy/deploy.zip s3://elasticbeanstalk-ap-northeast-2-730335325274/deploy/deploy.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-2
+
+      - name: 새로운 Elastic Beanstalk 애플리케이션 버전 생성
+        run: |
+          aws elasticbeanstalk create-application-version \
+            --application-name j4jg_gateway \
+            --version-label github-action-${{steps.current-time.outputs.formattedTime}} \
+            --source-bundle S3Bucket=elasticbeanstalk-ap-northeast-2-730335325274,S3Key=deploy/deploy.zip
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-2
+
+      - name: Elastic Beanstalk 환경 업데이트
+        run: |
+          aws elasticbeanstalk update-environment \
+            --environment-name j4jg_gateway-env \
+            --version-label github-action-${{steps.current-time.outputs.formattedTime}}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ap-northeast-2
