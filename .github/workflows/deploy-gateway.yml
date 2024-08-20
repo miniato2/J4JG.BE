@@ -42,7 +42,9 @@ jobs:
           AWS_REGION: ${{ secrets.AWS_REGION }}
 
       - name: Zip artifact
-        run: zip -r gateway.zip gateway/build/libs/*.jar  # 빌드된 JAR 파일을 zip으로 압축
+        run: |
+          cd gateway/build/libs  # JAR 파일이 있는 디렉토리로 이동
+          zip -r ../gateway.zip *.jar ../Procfile  # JAR 파일과 Procfile을 압축
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v20
