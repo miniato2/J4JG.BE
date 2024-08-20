@@ -181,8 +181,8 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-      - name: Gradle로 빌드
-        run: ./gradlew clean build --info
+      - name: Gradle로 gateway 모듈만 빌드
+        run: ./gradlew :gateway:clean :gateway:build --info
         shell: bash
 
       - name: 현재 시간 가져오기
