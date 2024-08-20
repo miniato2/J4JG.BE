@@ -35,7 +35,7 @@ jobs:
           SPRING_REDIS_HOST: ${{ secrets.SPRING_REDIS_HOST }}
           SPRING_REDIS_PORT: ${{ secrets.SPRING_REDIS_PORT }}
           AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-          AES_SECRET_KEY: ${{ secrets.AES_SECRET_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}  # Secret Key
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           JWT_ACCESS_TOKEN_EXPIRATION_TIME: ${{ secrets.JWT_ACCESS_TOKEN_EXPIRATION_TIME }}
           JWT_REFRESH_TOKEN_EXPIRATION_TIME: ${{ secrets.JWT_REFRESH_TOKEN_EXPIRATION_TIME }}
@@ -47,8 +47,8 @@ jobs:
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v20
         with:
-          application_name: 'J4jggateway'
-          environment_name: 'J4jggateway-env'
+          application_name: '1-Gateway'
+          environment_name: '1-Gateway-env'
           version_label: ${{ github.run_id }}
           deployment_package: gateway.zip
           region: ${{ secrets.AWS_REGION }}
