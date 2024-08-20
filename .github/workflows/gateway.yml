@@ -225,7 +225,6 @@ jobs:
           cd deploy && zip -r deploy.zip .
         shell: bash
 
-
       - name: S3에 애플리케이션 버전 업로드
         run: |
           aws s3 cp deploy/deploy.zip s3://5ttbuket/deploy/deploy.zip
