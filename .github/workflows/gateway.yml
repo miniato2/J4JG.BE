@@ -86,7 +86,7 @@ jobs:
 
             elasticsearch:
               uris:
-                - http://localhost:9200
+                - \${ELASTICSEARCH_HOST}:9200
             jwt:
               secret: \${JWT_SECRET}
               accessTokenExpirationTime: 1800000
@@ -102,7 +102,7 @@ jobs:
                       client-name: kakao
                       client-id: \${KAKAO_CLIENT_ID}
                       client-secret: \${KAKAO_CLIENT_SECRET}
-                      redirect-uri: http://localhost:8000/login/oauth2/code/kakao
+                      redirect-uri: http://api.gateway.j4jg.shop/login/oauth2/code/kakao
                       authorization-grant-type: authorization_code
                       client-authentication-method: client_secret_post
                       provider: kakao
@@ -113,7 +113,7 @@ jobs:
                       client-name: google
                       client-id: \${GOOGLE_CLIENT_ID}
                       client-secret: \${GOOGLE_CLIENT_SECRET}
-                      redirect-uri: http://localhost:8000/login/oauth2/code/google
+                      redirect-uri: http://api.gateway.j4jg.shop/login/oauth2/code/google
                       authorization-grant-type: post
                       provider: google
                       scope:
@@ -182,7 +182,7 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Gradle로 gateway 모듈만 빌드
-        run: ./gradlew :gateway:clean :gateway:build
+        run: ./gradlew :gateway:clean :gateway:bootJar
         shell: bash
 
       - name: 현재 시간 가져오기
