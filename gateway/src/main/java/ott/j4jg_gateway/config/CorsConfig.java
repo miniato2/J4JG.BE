@@ -18,7 +18,7 @@ public class CorsConfig {
 //        config.setAllowCredentials(false); // 자격 증명 사용 안 함
 //        config.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
         config.setAllowCredentials(true); // 자격 증명 사용
-        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8000"));
+        config.setAllowedOrigins(Arrays.asList("http://localhost:5173", "http://localhost:8000", "http://localhost:8000/backend"));
 
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
