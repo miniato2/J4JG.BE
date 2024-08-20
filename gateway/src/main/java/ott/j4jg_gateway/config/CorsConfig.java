@@ -15,7 +15,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(false); // 자격 증명 사용 안 함
+        config.setAllowCredentials(true); // 자격 증명 사용 안 함
         config.setAllowedOrigins(Arrays.asList("*")); // 모든 출처 허용
         config.setAllowedHeaders(Arrays.asList("Origin", "Content-Type", "Accept", "Authorization"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
