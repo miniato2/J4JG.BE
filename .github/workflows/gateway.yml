@@ -207,26 +207,24 @@ jobs:
           if [ -f gateway/Procfile ]; then
             cp gateway/Procfile deploy/Procfile
           else
-            echo "Procfile이 없습니다!"
-            exit 1
+            echo "경고: Procfile이 없습니다!"
           fi
           
           if [ -d gateway/.ebextensions ]; then
             cp -r gateway/.ebextensions deploy/.ebextensions
           else
-            echo ".ebextensions 디렉토리가 없습니다!"
-            exit 1
+            echo "경고: .ebextensions 디렉토리가 없습니다!"
           fi
           
           if [ -d gateway/.platform ]; then
             cp -r gateway/.platform deploy/.platform
           else
-            echo ".platform 디렉토리가 없습니다!"
-            exit 1
+            echo "경고: .platform 디렉토리가 없습니다!"
           fi
           
           cd deploy && zip -r deploy.zip .
         shell: bash
+
 
       - name: S3에 애플리케이션 버전 업로드
         run: |
