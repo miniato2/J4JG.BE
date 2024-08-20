@@ -32,6 +32,7 @@ public class UserController {
         this.userAddInfoService = userAddInfoService;
     }
 
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/userinfo")
     public ResponseEntity<?> getUserInfo(@RequestHeader("Authorization") String authorizationHeader) {
         String token = extractTokenFromHeader(authorizationHeader);

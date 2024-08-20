@@ -18,17 +18,28 @@ public class MentoringApplicationService implements MentoringApplicationUsecase{
     private final UpdateMentoringApplicationPort updateMentoringApplicationPort;
 
     @Override
-    public void mentoringApplication(String userId) {
+    public String mentoringApplication(String userId) {
         MentoringApplication application = getMentoringApplicationPort.getApplication(userId);
 
+        String response = "";
         if(application == null){
+
             //신청 내역이 없을때
             mentoringApplicationPort.mentoringApplication(userId);
+            response = "신청이 완료되었습니다.";
 
         }else if(!application.isStatus()){
-            //신청시 신청내역에서 status 가 false 상태인게 있을때
+
+            //신청시 신청내역 존재, status = false
             updateMentoringApplicationPort.updateStatus(application.getApplicationId());
+            response = "신청이 완료되었습니다.";
+
+        }else {
+
+            //이미 매칭신청이력있음
+            response = "이미 신청이 되었습니다.";
+
         }
-        //이미 매칭신청이력있음
+        return response;
     }
 }

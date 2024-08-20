@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ott.j4jg_be.adapter.out.persistence.entity.jpa.point.PointHistoryEntity;
 import ott.j4jg_be.adapter.out.persistence.mapper.PointHistoryEntityMapper;
-import ott.j4jg_be.adapter.out.persistence.repository.jpa.PointHistoryRepository;
+import ott.j4jg_be.adapter.out.persistence.repository.jpa.point.PointHistoryRepository;
 import ott.j4jg_be.application.port.out.point.PointHistoryPersistencePort;
 import ott.j4jg_be.domain.point.PointHistory;
 

@@ -10,7 +10,9 @@ import ott.j4jg_be.application.port.out.mentoring.GetMentoringPort;
 import ott.j4jg_be.application.port.out.mentoring.MatchingPort;
 import ott.j4jg_be.application.port.out.mentoring.UpdateMentoringApplicationPort;
 import ott.j4jg_be.application.port.out.mentoring.UpdateMentoringPort;
+import ott.j4jg_be.application.port.out.notification.CreateNotificationPort;
 import ott.j4jg_be.domain.mentoring.Mentoring;
+import ott.j4jg_be.domain.notification.Notification;
 
 @Service
 @RequiredArgsConstructor
@@ -21,11 +23,11 @@ public class MatchingService implements MatchingUsecase {
     private final GetMentoringPort getMentoringPort;
     private final UpdateMentoringApplicationPort updateMentoringApplicationPort;
     private final PointUseCase pointUseCase;
+    private final CreateNotificationPort createNotificationPort;
 
     @Transactional
     @Override
     public void matching(MatchingRequestDTO matchingRequestDTO) {
-
         //동시성 문제 해결필요, 멘토링 방인원, 신청내역에 회원 상태
 
         //멘토링 방먼저 조회 -> 정원 확인위해
@@ -33,7 +35,7 @@ public class MatchingService implements MatchingUsecase {
 
         if(mentoring.isNotFull(mentoring.getMaxPerson(), mentoring.getCurrentPerson())){
             //매칭
-            matchingPort.matching(matchingRequestDTO.getUserId(), matchingRequestDTO.getMentoringId());
+            int matchingId = matchingPort.matching(matchingRequestDTO.getUserId(), matchingRequestDTO.getMentoringId());
 
             //멘토링 currentPerson 업데이트
             updateMentoringPort.updateCurrentPerson(matchingRequestDTO.getMentoringId());
@@ -43,6 +45,9 @@ public class MatchingService implements MatchingUsecase {
 
             //포인트 차감
             pointUseCase.usePoints(matchingRequestDTO.getUserId(), 100, "멘토링 신청");
+
+            //알림
+            createNotificationPort.createNotification(new Notification("멘토링이 매칭 되었습니다.", matchingId));
         }
     }
 }

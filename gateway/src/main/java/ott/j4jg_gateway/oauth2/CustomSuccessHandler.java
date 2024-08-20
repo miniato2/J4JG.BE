@@ -72,7 +72,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
 
             setResponseHeaders(webFilterExchange, accessToken);
 
-            URI redirectUri = URI.create("http://localhost:8000/good");
+            URI redirectUri = URI.create("http://localhost:5173/");
             webFilterExchange.getExchange().getResponse().getHeaders().setLocation(redirectUri);
 
             return webFilterExchange.getExchange().getResponse().setComplete();
@@ -123,8 +123,8 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
         return ResponseCookie.from(name, value)
                 .path("/")
                 .maxAge(Duration.ofSeconds(maxAge))
-                .httpOnly(true)
-                .secure(true)
+//                .httpOnly(true)
+                .secure(false)
                 .build();
     }
 

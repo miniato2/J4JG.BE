@@ -1,4 +1,4 @@
-package ott.j4jg_be.adapter.out.persistence.repository.jpa;
+package ott.j4jg_be.adapter.out.persistence.repository.jpa.scrap;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

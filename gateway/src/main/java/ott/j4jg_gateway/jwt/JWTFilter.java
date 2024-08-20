@@ -13,6 +13,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 @Component
@@ -30,9 +31,20 @@ public class JWTFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String authorizationHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
 
+        String requestUri = exchange.getRequest().getURI().getPath();
+
+        Predicate<String> isLoginOrOauth2Path = uri ->
+                uri.matches("^/backend/(?:/.*)?$");
+
+        if (isLoginOrOauth2Path.test(requestUri)) {
+            return chain.filter(exchange);
+        }
+
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String accessToken = authorizationHeader.substring(7);
+
             try {
+
                 // 토큰 유효성 검사 및 클레임 추출
                 if (jwtUtil.validateToken(accessToken)) {
                     Jws<Claims> claimsJws = jwtUtil.parseClaims(accessToken);
@@ -64,11 +76,16 @@ public class JWTFilter implements WebFilter {
                     }
                 }
             } catch (JwtException e) {
+
+                System.out.println("JWT Catch");
+
                 // JWT 관련 예외 처리
                 logger.warning("JWT 예외 발생: " + e.getMessage());
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
             } catch (Exception e) {
+
+                System.out.println("Exception Catch");
                 // 기타 예외 처리
                 logger.severe("기타 예외 발생: " + e.getMessage());
                 exchange.getResponse().setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR);

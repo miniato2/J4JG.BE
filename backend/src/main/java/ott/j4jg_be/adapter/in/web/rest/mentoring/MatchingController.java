@@ -13,6 +13,15 @@ public class MatchingController {
 
     private final MatchingUsecase matchingUsecase;
 
+    /**
+     * @api {post} /matching 멘토링 매칭
+     * @apiName mentoringMatching
+     * @apiGroup Mentoring Matching
+     *
+     * @apiBody {Number} mentoringId 멘토링 ID.
+     * @apiBody {String} userId 사용자 ID.
+     * @apiBody {Number} applicationId 지원서 ID.
+     */
     @PostMapping("/matching")
     public void mentoringMatching(@ModelAttribute MatchingRequestDTO matchingRequestDTO){
         matchingUsecase.matching(matchingRequestDTO);

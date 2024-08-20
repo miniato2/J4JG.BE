@@ -103,7 +103,7 @@ public class ReissueController {
     private ResponseCookie createCookie(String name, String value, long expirationTimeMs) {
         return ResponseCookie.from(name, value)
                 .maxAge(Duration.ofMillis(expirationTimeMs)) // Refresh token 만료 시간
-                .httpOnly(true) // 보안을 위해 HTTP 전용 설정
+//                .httpOnly(true) // 보안을 위해 HTTP 전용 설정
                 .secure(true) // HTTPS 환경에서만 쿠키 전송
                 .path("/") // 쿠키가 유효한 경로 설정
                 .build();
