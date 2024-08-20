@@ -36,6 +36,7 @@ public class NotificationAdapter implements NotificationPort {
 
         if(entity != null){
             entity.updateStatusToTrue();
+            notificationRepository.save(entity);
         }
     }
 }

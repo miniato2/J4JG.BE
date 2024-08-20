@@ -48,9 +48,11 @@ public class MentoringController {
 
     //자신의 멘토링 조회
     @GetMapping("/mentoring")
-    public ResponseEntity<Page<MentoringDTO>> getMyMentoring(@CurrentUser TokenInfo tokenInfo, int page, String status) {
-        //status -> false, true, all
+    public ResponseEntity<Page<MentoringDTO>> getMyMentoring(@CurrentUser TokenInfo tokenInfo,
+                                                             @RequestParam(defaultValue = "0") int page,
+                                                             @RequestParam(defaultValue = "all") String status) {
 
+        //status -> false, true, all
         return ResponseEntity.ok().body(getMentoringQuery.getMyMentoring(tokenInfo.getUserId(), page, status));
     }
 

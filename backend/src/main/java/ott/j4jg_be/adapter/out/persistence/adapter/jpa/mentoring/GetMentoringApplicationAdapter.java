@@ -34,6 +34,11 @@ public class GetMentoringApplicationAdapter implements GetMentoringApplicationPo
     public MentoringApplication getApplication(String userId) {
 
         MentoringApplicationEntity entity = mentoringApplicationRepository.findByUserId(userId);
+
+        if (entity == null) {
+            return null;
+        }
+
         return mapper.mapToDomain(entity);
     }
 

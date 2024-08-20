@@ -23,7 +23,7 @@ public class ScrapController {
 
     @PostMapping("/scrap")
     public void scrapJobInfo(@CurrentUser TokenInfo tokenInfo, int jobInfoId) {
-        System.out.println(tokenInfo.getUserId());
+
         scrapUsecase.scrapJobInfo(tokenInfo.getUserId(), jobInfoId);
     }
 
@@ -34,7 +34,8 @@ public class ScrapController {
     }
 
     @GetMapping("/scrap")
-    public ResponseEntity<Page<ScrapDTO>> getScrapList(@CurrentUser TokenInfo tokenInfo, int page){
+    public ResponseEntity<Page<ScrapDTO>> getScrapList(@CurrentUser TokenInfo tokenInfo,
+                                                       @RequestParam(defaultValue = "0") int page){
 
         return ResponseEntity.ok().body(getScrapQuery.getScrapList(tokenInfo.getUserId(), page));
     }
