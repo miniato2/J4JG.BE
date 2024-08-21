@@ -73,7 +73,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
             setResponseHeaders(webFilterExchange, accessToken);
 
             // 모든 사용자에 대해 동일한 리다이렉트 URL 설정
-            URI redirectUri = URI.create("http://api.j4jg.shop/");
+            URI redirectUri = URI.create("http://www.j4jg.shop/");
             webFilterExchange.getExchange().getResponse().getHeaders().setLocation(redirectUri);
             webFilterExchange.getExchange().getResponse().setStatusCode(HttpStatus.FOUND);
             return webFilterExchange.getExchange().getResponse().setComplete();
