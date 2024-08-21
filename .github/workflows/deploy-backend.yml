@@ -1,0 +1,51 @@
+name: Deploy Backend to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시할 때마다 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'  # 필요한 Java 버전
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew build -p backend  # backend 디렉토리에서 빌드
+        env:
+          SPRING_DATASOURCE_URL_MASTER: ${{ secrets.SPRING_DATASOURCE_URL_MASTER }}
+          SPRING_DATASOURCE_USERNAME_MASTER: ${{ secrets.SPRING_DATASOURCE_USERNAME_MASTER }}
+          SPRING_DATASOURCE_PASSWORD_MASTER: ${{ secrets.SPRING_DATASOURCE_PASSWORD_MASTER }}
+          SPRING_DATASOURCE_URL_SLAVE: ${{ secrets.SPRING_DATASOURCE_URL_SLAVE }}
+          SPRING_DATASOURCE_USERNAME_SLAVE: ${{ secrets.SPRING_DATASOURCE_USERNAME_SLAVE }}
+          SPRING_DATASOURCE_PASSWORD_SLAVE: ${{ secrets.SPRING_DATASOURCE_PASSWORD_SLAVE }}
+          SPRING_REDIS_HOST: ${{ secrets.SPRING_REDIS_HOST }}
+          SPRING_REDIS_PORT: ${{ secrets.SPRING_REDIS_PORT }}
+          SPRING_ELASTICSEARCH_URIS: ${{ secrets.SPRING_ELASTICSEARCH_URIS }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+
+      - name: Zip artifact
+        run: zip -r backend.zip backend/build/libs/*.jar  # 빌드된 JAR 파일을 zip으로 압축
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          application_name: '1-Backend'  # Elastic Beanstalk 애플리케이션 이름
+          environment_name: '1-Backend-env'  # Elastic Beanstalk 환경 이름
+          version_label: ${{ github.run_id }}  # 배포 버전 라벨
+          deployment_package: backend.zip  # 배포할 zip 파일
+          region: ${{ secrets.AWS_REGION }}  # AWS 리전
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}  # AWS Access Key
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}  # AWS Secret Key
