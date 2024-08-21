@@ -47,7 +47,7 @@ jobs:
           application_name: '1-Backend'
           environment_name: '1-Backend-env'
           version_label: ${{ github.run_id }}
-          deployment_package: backend.zip
+          deployment_package: backend/build/backend.zip
           region: ${{ secrets.AWS_REGION }}
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}  # Access Key
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}  # Secret Key
