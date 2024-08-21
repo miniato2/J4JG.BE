@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main  # main 브랜치에 푸시할 때마다 실행
+    paths:
+      - 'backend/**'  # backend 디렉토리의 파일이 변경되었을 때만 실행
 
 jobs:
   deploy:
