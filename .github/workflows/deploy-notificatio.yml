@@ -1,0 +1,48 @@
+name: Deploy Notification to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 푸시할 때마다 실행
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Build with Gradle
+        run: ./gradlew build -p notification  # notification 디렉토리에서 빌드
+        env:
+          SPRING_MAIL_HOST: ${{ secrets.SPRING_MAIL_HOST }}
+          SPRING_MAIL_PORT: ${{ secrets.SPRING_MAIL_PORT }}
+          SPRING_MAIL_USERNAME: ${{ secrets.SPRING_MAIL_USERNAME }}
+          SPRING_MAIL_PASSWORD: ${{ secrets.SPRING_MAIL_PASSWORD }}
+          CLOUD_AWS_CREDENTIALS_ACCESS_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_ACCESS_KEY }}
+          CLOUD_AWS_CREDENTIALS_SECRET_KEY: ${{ secrets.CLOUD_AWS_CREDENTIALS_SECRET_KEY }}
+          CLOUD_AWS_REGION_STATIC: ${{ secrets.CLOUD_AWS_REGION_STATIC }}
+
+      - name: Zip artifact
+        run: |
+          cd notification/build/libs  # JAR 파일이 있는 디렉토리로 이동
+          zip -r ../notification.zip *.jar ../Procfile  # JAR 파일과 Procfile을 압축
+          cd ../..  # 원래 디렉토리로 돌아감
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v20
+        with:
+          application_name: '1-notification'
+          environment_name: '1-notification-env'
+          version_label: ${{ github.run_id }}
+          deployment_package: notification/build/notification.zip
+          region: ${{ secrets.AWS_REGION }}
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}  # Access Key
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}  # Secret Key
