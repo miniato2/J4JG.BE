@@ -123,6 +123,7 @@ public class CustomSuccessHandler implements ServerAuthenticationSuccessHandler 
     private ResponseCookie createCookie(String name, String value, int maxAge) {
         return ResponseCookie.from(name, value)
                 .path("/")
+                .domain("www.j4jg.shop")
                 .maxAge(Duration.ofSeconds(maxAge))
                 .httpOnly(false)
                 .secure(false)

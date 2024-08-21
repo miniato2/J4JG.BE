@@ -139,7 +139,7 @@ public class SecurityConfig {
             config.addExposedHeader("Origin");
             config.setAllowedMethods(Collections.singletonList("*"));
             config.setAllowedOriginPatterns(
-                    List.of("http://localhost:5173"));
+                    List.of("http://j4jg.shop"));
             config.setAllowCredentials(true);
 
             return config;
