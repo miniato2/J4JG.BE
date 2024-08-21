@@ -45,6 +45,7 @@ jobs:
         run: |
           cd gateway/build/libs  # JAR 파일이 있는 디렉토리로 이동
           zip -r ../gateway.zip *.jar ../Procfile  # JAR 파일과 Procfile을 압축
+          cd ../..  # 원래 디렉토리로 돌아감
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v20
@@ -52,7 +53,7 @@ jobs:
           application_name: '1-Gateway'
           environment_name: '1-Gateway-env'
           version_label: ${{ github.run_id }}
-          deployment_package: gateway.zip
+          deployment_package: gateway/build/gateway.zip  # Zip 파일 경로 수정
           region: ${{ secrets.AWS_REGION }}
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}  # Access Key
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}  # Secret Key
