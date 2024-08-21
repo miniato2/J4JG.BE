@@ -35,7 +35,7 @@ server:
       min-spare: 20
     accept-count: 20
     max-connections: 10000
-  port: 5001
+  port: 5000
 
 datasource:
   master:
